@@ -18,6 +18,7 @@ export default {
         postcss({
             extract: false,
             minimize: true,
+            use:['sass']
         }),
         babel({
             exclude: "node_modules/**",

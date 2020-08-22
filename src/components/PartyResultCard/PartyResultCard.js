@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types"
-import "./PartyResultCard.css"
+import "./PartyResultCard.scss"
 import NameWithColor from "../NameWithColor/NameWithColor";
 
 const PartyResultCard = ({name, color, percentage, rightAligned}) => {
