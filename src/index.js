@@ -1,0 +1,1 @@
+export NameWithColor from "./components/NameWithColor/NameWithColor.js"

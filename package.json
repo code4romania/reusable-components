@@ -1,0 +1,39 @@
+{
+  "name": "@code4ro/reusable-components",
+  "version": "1.0.0",
+  "description": "Component library for code4ro",
+  "private": false,
+  "sideEffects": false,
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@rollup/plugin-image": "^2.0.5",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.1.0",
+    "babel-plugin-inline-react-svg": "1.1.1",
+    "rollup": "^2.21.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-postcss": "^3.1.2"
+  },
+  "scripts": {
+    "build": "npm run clean && rollup -c",
+    "clean": "rm -rf dist"
+  },
+  "module": "dist/index.js",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/code4romania/reusable-components.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/code4romania/reusable-components/issues"
+  },
+  "homepage": "https://github.com/code4romania/reusable-components#readme"
+}
