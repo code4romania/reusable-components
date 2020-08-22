@@ -1,7 +1,5 @@
 import React from 'react';
 import PartyResultCard from "./PartyResultCard";
-import {Result} from "../../domain/Result";
-import {PoliticalParty} from "../../domain/Party";
 
 import {number, text, boolean, withKnobs} from "@storybook/addon-knobs";
 
@@ -12,11 +10,12 @@ export default {
 };
 
 export const SimpleCard = () => {
-    const party = new PoliticalParty(text("Party Name", "PNL"), "#0000ff");
-    const result = new Result(party, 1000, number("Percentage", 32));
+    const color = "#0000ff";
     const rightAligned = boolean("rightAligned", false);
+    const name = text("Party Name", "PNL");
+    const percentage = number("Percentage", 32);
 
-    return <PartyResultCard result={result} rightAligned={rightAligned}/>;
+    return <PartyResultCard color={color} name={name} percentage={percentage} rightAligned={rightAligned}/>;
 };
 
 SimpleCard.story = {

@@ -5,21 +5,38 @@
   "private": false,
   "sideEffects": false,
   "devDependencies": {
+    "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-export-default-from": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@rollup/plugin-image": "^2.0.5",
+    "@storybook/addon-actions": "^6.0.16",
+    "@storybook/addon-console": "^1.2.1",
+    "@storybook/addon-docs": "^6.0.16",
+    "@storybook/addon-essentials": "^6.0.16",
+    "@storybook/addon-links": "^6.0.16",
+    "@storybook/addon-storysource": "^6.0.16",
+    "@storybook/addon-viewport": "^6.0.16",
+    "@storybook/preset-scss": "^1.0.2",
+    "@storybook/react": "^6.0.16",
+    "@storybook/addon-knobs": "^6.0.16",
+    "node-sass": "^4.14.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
+    "babel-loader": "^8.1.0",
     "babel-plugin-inline-react-svg": "1.1.1",
+    "react-is": "^16.13.1",
     "rollup": "^2.21.0",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-postcss": "^3.1.2"
+    "rollup-plugin-postcss": "^3.1.2",
+    "sass-loader": "^9.0.3"
   },
   "scripts": {
     "build": "npm run clean && rollup -c",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "module": "dist/index.js",
   "style": "dist/index.css",
@@ -37,7 +54,6 @@
   },
   "homepage": "https://github.com/code4romania/reusable-components#readme",
   "dependencies": {
-    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1"
   }
