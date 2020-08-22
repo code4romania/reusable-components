@@ -16,7 +16,7 @@ export default {
     plugins: [
         image(),
         postcss({
-            extract: true,
+            extract: false,
             minimize: true,
         }),
         babel({
