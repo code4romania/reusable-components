@@ -1,5 +1,5 @@
 import React from "react";
-import "./PartyResultInline.css"
+import "./PartyResultInline.scss"
 import NameWithColor from "../NameWithColor/NameWithColor";
 import PropTypes from "prop-types";
 import PartyResultCard from "../PartyResultCard/PartyResultCard";
