@@ -1,21 +1,22 @@
 import React from "react";
-import "./PartyResultInline.scss"
+import "./PartyResultInline.scss";
 import NameWithColor from "../NameWithColor/NameWithColor";
 import PropTypes from "prop-types";
-import PartyResultCard from "../PartyResultCard/PartyResultCard";
 
-const PartyResultInline = ({name, color, percentage, votesCount}) => {
-    return <div className={"party-result-inline"}>
-        <NameWithColor color={color} text={name}/>
-        <div className={"votes"}>{percentage}% ({votesCount})</div>
+const PartyResultInline = ({ name, color, percentage, votesCount }) => (
+  <div className={"party-result-inline"}>
+    <NameWithColor color={color} text={name} />
+    <div className={"votes"}>
+      {percentage}% ({votesCount})
     </div>
-};
+  </div>
+);
 
 export default PartyResultInline;
 
-PartyResultCard.propTypes = {
-    name: PropTypes.string.required,
-    color: PropTypes.string.required,
-    percentage: PropTypes.number.required,
-    votesCount: PropTypes.number.required
+PartyResultInline.propTypes = {
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  percentage: PropTypes.number.isRequired,
+  votesCount: PropTypes.number.isRequired,
 };
