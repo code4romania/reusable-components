@@ -8,9 +8,7 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/react",
     "@storybook/preset-scss",
-    "@storybook/addon-docs",
     "@storybook/addon-storysource",
     "@storybook/addon-knobs/register",
-    "@storybook/addon-viewport/register"
   ]
 };
