@@ -46,6 +46,8 @@ npm install
 npm run-script storybook
 ```
 
+Preview environments available automatically on each PR powered by [Vercel](https://vercel.com/). Preview environment for `master` branch: https://reusable-components-peach.vercel.app/
+
 ## Feedback
 
 * Request a new feature on GitHub.
