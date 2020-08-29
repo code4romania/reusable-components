@@ -1,32 +1,28 @@
-# Code4Romania Reusable Components
+# Code4Romania React Reusable Components
 
-[![GitHub contributors](https://img.shields.io/github/contributors/code4romania/standard-repo-template.svg?style=for-the-badge)](https://github.com/code4romania/standard-repo-template/graphs/contributors) [![GitHub last commit](https://img.shields.io/github/last-commit/code4romania/standard-repo-template.svg?style=for-the-badge)](https://github.com/code4romania/standard-repo-template/commits/master) [![License: MPL 2.0](https://img.shields.io/badge/license-MPL%202.0-brightgreen.svg?style=for-the-badge)](https://opensource.org/licenses/MPL-2.0)
+[![GitHub contributors](https://img.shields.io/github/contributors/code4romania/reusable-components.svg?style=for-the-badge)](https://github.com/code4romania/reusable-components/graphs/contributors) [![GitHub last commit](https://img.shields.io/github/last-commit/code4romania/reusable-components.svg?style=for-the-badge)](https://github.com/code4romania/reusable-components/commits/master) [![License: MPL 2.0](https://img.shields.io/badge/license-MPL%202.0-brightgreen.svg?style=for-the-badge)](https://opensource.org/licenses/MPL-2.0)
 
 The aim of the project is to publish a distribution of reusable frontend components that can be imported, customized and used in any Code4Romania project that would require them.
 
-[See the project live](insert_link_here)
+[See the project live](https://reusable-components-peach.vercel.app/)
 
-As part of our ongoing development, we discovered that it is a lot simpler to develop frontend components that we can later customize and import in other projects, rather then reinventing and redeveloping the same components all over again in every project. This also helps us to aim for the same look and feel accross projects.
+As part of our ongoing development, we discovered that it is a lot simpler to develop frontend components that we can later customize and import in other projects, rather then reinventing and redeveloping the same components all over again in every project. This also helps us to aim for the same look and feel across projects.
 
-[Contributing](#contributing) | [Built with](#built-with) | [Repos and projects](#repos-and-projects) | [Deployment](#deployment) | [Feedback](#feedback) | [License](#license) | [About Code4Ro](#about-code4ro)
+[Contributing](#contributing) | [Built with](#built-with) | [Repos and projects](#repos-and-projects) | [Development](#development) | [Feedback](#feedback) | [License](#license) | [About Code4Ro](#about-code4ro)
 
 ## Contributing
 
-This project is built by amazing volunteers and you can be one of them! Here's a list of ways in [which you can contribute to this project](.github/CONTRIBUTING.md). If you want to make any change to this repository, please **make a fork first**.
+This project is built by amazing volunteers and you can be one of them! Here's a list of ways in [which you can contribute to this project](https://github.com/code4romania/.github/blob/master/CONTRIBUTING.md). If you want to make any change to this repository, please **make a fork first**.
 
-Help us out by testing this project in the [staging environment](INSERT_LINK_HERE). If you see something that doesn't quite work the way you expect it to, open an Issue. Make sure to describe what you _expect to happen_ and _what is actually happening_ in detail.
+Help us out by testing this project in the [staging environment](https://reusable-components-peach.vercel.app/). If you see something that doesn't quite work the way you expect it to, open an Issue. Make sure to describe what you _expect to happen_ and _what is actually happening_ in detail.
 
-If you would like to suggest new functionality, open an Issue and mark it as a __[Feature request]__. Please be specific about why you think this functionality will be of use. If you can, please include some visual description of what you would like the UI to look like, if you are suggesting new UI elements. 
+If you would like to suggest new functionality, open an Issue and mark it as a __[Feature request]__. Please be specific about why you think this functionality will be of use. If you can, please include some visual description of what you would like the UI to look like, if you are suggesting new UI elements.
 
 ## Built With
-
-npm
 
 ### Programming languages
 
 JavaScript
-
-### Platforms
 
 ### Frontend framework
 
@@ -36,21 +32,19 @@ ReactJS
 
 npm
 
-### Database technology & provider
+## Development
 
-## Repos and projects
+1. Install dependencies
 
-Mention all related repos and projects.
+```
+npm install
+```
 
-## Deployment
+2. Run storybook
 
-Guide users through getting your code up and running on their own system. In this section you can talk about:
-1. Installation process
-2. Software dependencies
-3. Latest releases
-4. API references
-
-Describe and show how to build your code and run the tests.
+```
+npm run-script storybook
+```
 
 ## Feedback
 
