@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./PartyResultCard.scss";
+import classes from "./PartyResultCard.module.scss";
 import NameWithColor from "../NameWithColor/NameWithColor";
 
 const PartyResultCard = ({ name, color, percentage, rightAligned }) => (
   <div
-    className={"party-result-card"}
+    className={classes.partyResultCard}
     style={{ alignItems: rightAligned ? "flex-end" : "flex-start" }}
   >
     <NameWithColor color={color} text={name} rightAligned={rightAligned} />
-    <div className={"percentage"}>{percentage}%</div>
+    <div className={classes.percentage}>{percentage}%</div>
   </div>
 );
 

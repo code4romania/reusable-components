@@ -1,12 +1,12 @@
 import React from "react";
-import "./PartyResultInline.scss";
+import classes from "./PartyResultInline.module.scss";
 import NameWithColor from "../NameWithColor/NameWithColor";
 import PropTypes from "prop-types";
 
 const PartyResultInline = ({ name, color, percentage, votesCount }) => (
-  <div className={"party-result-inline"}>
+  <div className={classes.partyResultInline}>
     <NameWithColor color={color} text={name} />
-    <div className={"votes"}>
+    <div className={classes.votes}>
       {percentage}% ({votesCount})
     </div>
   </div>

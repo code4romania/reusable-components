@@ -1,9 +1,9 @@
 import React from "react";
-import "./NameWithColor.scss";
+import classes from "./NameWithColor.module.scss";
 import PropTypes from "prop-types";
 
 const NameWithColor = ({ text, color, rightAligned }) => (
-  <div className={"name-with-color"}>
+  <div className={classes.nameWithColor}>
     <div
       className={"color-marker"}
       style={{ backgroundColor: color, float: rightAligned ? "right" : "left" }}
