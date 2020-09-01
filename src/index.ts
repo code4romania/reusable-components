@@ -1,5 +1,5 @@
 export * from "./components/NameWithColor/NameWithColor.js";
-// export PartyResultCard from "./components/PartyResultCard/PartyResultCard.js";
-// export PartyResultInline from "./components/PartyResultInline/PartyResultInline.js";
-// export HorizontalStackedBar from "./components/HorizontalStackedBar/HorizontalStackedBar.js";
-// export PercentageAsBar from "./components/PercentageAsBar/PercentageAsBar.js";
+export * from "./components/PartyResultCard/PartyResultCard.js";
+export * from "./components/PartyResultInline/PartyResultInline.js";
+export * from "./components/HorizontalStackedBar/HorizontalStackedBar.js";
+export * from "./components/PercentageAsBar/PercentageAsBar.js";
