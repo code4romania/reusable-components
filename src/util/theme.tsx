@@ -35,10 +35,9 @@ export function useThemeClasses(
 }
 
 type PropsObject = Record<string, unknown>;
-type ThemablePublicProps<P> = P & { classes: IClassNames };
-type ThemableHOC<P extends PropsObject> = (
-  Component: React.ComponentType<P>,
-) => React.ComponentType<ThemablePublicProps<P>>;
+
+export type ThemableComponent<P extends PropsObject> = React.ComponentType<P & { classes: IClassNames }>;
+export type ThemableHOC<P extends PropsObject> = (Component: React.ComponentType<P>) => ThemableComponent<P>;
 
 // This function has this arity so that it can also be used as a decorator,
 // whenever those might become mainstream
@@ -55,6 +54,6 @@ export const themable = <P extends PropsObject>(
           ref={ref}
         />
       );
-    }) as unknown) as React.ComponentType<ThemablePublicProps<P>>;
+    }) as unknown) as ThemableComponent<P>;
   };
 };
