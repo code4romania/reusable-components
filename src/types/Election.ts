@@ -71,6 +71,8 @@ export type ElectionResults = {
     // These still refer to parties in the context of local_council and county_council
     name: string; // eg. "Uniunea Salvați România",
     shortName?: string; // eg. "USR"
+    partyColor?: string;
+    partyLogo?: string; // A URL to a party logo image (square, with transparency, preferably SVG)
     votes: number;
     seats?: number;
     seatsGained?: number | "new";
