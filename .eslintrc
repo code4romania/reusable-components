@@ -44,6 +44,15 @@
     "no-trailing-spaces": "warn",
     "no-unused-expressions": "error",
     "no-var": "error",
-    "max-len": ["error", { "code": 120 }]
-  }
+    "max-len": ["error", { "code": 120 }],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": ["error"]
+      }
+    }
+  ]
 }
