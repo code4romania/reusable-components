@@ -1,10 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import * as d3Select from "d3-selection";
 import * as d3Scale from "d3-scale";
 import classes from "./PercentageAsBar.module.scss";
 
-const PercentageAsBar = ({ value, totalColor, turnoutColor }) => {
+type Props = {
+  value: number;
+  totalColor?: string;
+  turnoutColor?: string;
+};
+
+export const PercentageAsBar: React.FC<Props> = ({ value, totalColor, turnoutColor }) => {
   const ref = useRef(null);
   useEffect(() => {
     if (!ref.current) {
@@ -18,10 +23,7 @@ const PercentageAsBar = ({ value, totalColor, turnoutColor }) => {
       .attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
-    const xScale = d3Scale
-      .scaleLinear()
-      .domain([0, 100])
-      .range([0, chartWidth]);
+    const xScale = d3Scale.scaleLinear().domain([0, 100]).range([0, chartWidth]);
 
     svg
       .append("rect")
@@ -64,12 +66,4 @@ const PercentageAsBar = ({ value, totalColor, turnoutColor }) => {
   const barY = barHeight - overlap;
 
   return <div ref={ref} />;
-};
-
-export default PercentageAsBar;
-
-PercentageAsBar.propTypes = {
-  value: PropTypes.number.isRequired,
-  totalColor: PropTypes.string,
-  turnoutColor: PropTypes.string,
 };

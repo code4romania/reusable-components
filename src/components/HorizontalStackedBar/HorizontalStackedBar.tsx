@@ -1,10 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import * as d3Select from "d3-selection";
 import * as d3Scale from "d3-scale";
 import classes from "./HorizontalStackedBar.module.scss";
 
-const HorizontalStackedBar = ({ results }) => {
+type Props = {
+  results: {
+    votes: number;
+    color: string;
+  };
+};
+
+export const HorizontalStackedBar: React.FC<Props> = ({ results }) => {
   const ref = useRef(null);
   useEffect(() => {
     drawBar();
@@ -64,10 +70,7 @@ const HorizontalStackedBar = ({ results }) => {
 
     const { stackedBarData, total } = stackResults(results);
 
-    const xScale = d3Scale
-      .scaleLinear()
-      .domain([0, total])
-      .range([0, chartWidth]);
+    const xScale = d3Scale.scaleLinear().domain([0, total]).range([0, chartWidth]);
 
     svg
       .selectAll("rect")
@@ -100,17 +103,6 @@ const stackResults = (results) => {
       });
       return { stackedBarData: stackedBarData, total: total + result.votes };
     },
-    { stackedBarData: [], total: 0 }
+    { stackedBarData: [], total: 0 },
   );
-};
-
-export default HorizontalStackedBar;
-
-HorizontalStackedBar.propTypes = {
-  results: PropTypes.arrayOf(
-    PropTypes.shape({
-      votes: PropTypes.number,
-      color: PropTypes.string,
-    })
-  ).isRequired,
 };
