@@ -26,6 +26,13 @@ export const mockPresidentialElectionMeta: ElectionMeta = {
   ballot: "Turul 2",
 };
 
+export const mockLocalCouncilElectionMeta: ElectionMeta = {
+  type: "local_council",
+  date: "2016-06-05",
+  title: "Alegeri locale",
+  ballot: "Consiliul Local",
+};
+
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
   eligibleVoters: 18217411,
   totalVotes: 9086696,
