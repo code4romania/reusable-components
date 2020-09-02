@@ -9,15 +9,15 @@ export type ElectionScope =
       county: string; // 2-letter county codes? "DI" for diaspora
     }
   | {
-      type: "city";
-      county: string; // 2-letter county codes?
-      city: string; // Do we have IDs for each town? In case of diaspora, they can be countries.
-    }
-  | {
       type: "uat";
       county: string; // 2-letter county codes?
-      city: string; // Do we have IDs for each town?
+      uat: string; // I remember UATs had IDs. In case of diaspora, they can be countries.
+    }
+  | {
+      type: "city";
+      county: string; // 2-letter county codes?
       uat: string; // I remember UATs had IDs
+      city: string; // Do we have IDs for each town?
     };
 
 export type ElectionMeta = {
