@@ -1,15 +1,17 @@
+export const DIASPORA = "DI";
+
 export type ElectionScope =
   | {
       type: "national";
     }
   | {
       type: "county";
-      county: string; // 2-letter county codes?
+      county: string; // 2-letter county codes? "DI" for diaspora
     }
   | {
       type: "city";
       county: string; // 2-letter county codes?
-      city: string; // Do we have IDs for each town?
+      city: string; // Do we have IDs for each town? In case of diaspora, they can be countries.
     }
   | {
       type: "uat";
@@ -18,7 +20,7 @@ export type ElectionScope =
       uat: string; // I remember UATs had IDs
     };
 
-type ElectionMeta = {
+export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
   // This is just for extra visual customisation like splitting local council results in two tables,
   // showing the parliament seats widget or showing disapora next to the map or not
@@ -40,13 +42,13 @@ export type Election = {
 };
 
 export type ElectionTurnout = {
-  eligibleVoters: number; // Cetățeni cu drept de vot
+  eligibleVoters?: number; // Cetățeni cu drept de vot. Nu se aplică pentru diaspora
   totalVotes: number;
   breakdown?: {
-    type: "national" | "diaspora"; // Open to extensions
+    type: "national" | "diaspora" | "all"; // Open to extensions. "all" means this chart applies to the whole scope
     total?: number;
     categories: {
-      type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box"; // Open to extensions
+      type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box" | "vote_by_post"; // Open to extensions
       votes: number;
     }[];
   }[];
@@ -61,7 +63,7 @@ export type ElectionObservation = {
 };
 
 export type ElectionResults = {
-  eligibleVoters: number; // We are duplicating these two values from ElectionTurnout. Should we?
+  eligibleVoters?: number; // We are duplicating these two values from ElectionTurnout. Should we?
   totalVotes: number; // We are duplicating these two values from ElectionTurnout. Should we?
   validVotes: number;
   nullVotes: number;
