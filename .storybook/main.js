@@ -6,7 +6,14 @@ module.exports = {
     "@storybook/react",
     {
       name: "@storybook/preset-scss",
-      options: { cssLoaderOptions: { modules: { auto: true } } },
+      options: {
+        cssLoaderOptions: {
+          modules: {
+            auto: true,
+            localIdentName: "[name]__[local]--[hash:base64:5]",
+          },
+        },
+      },
     },
     "@storybook/addon-storysource",
     "@storybook/addon-knobs/register",
