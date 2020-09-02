@@ -25,6 +25,7 @@ export function makeTypographyComponent<Props extends PropsObject>(
 export const Body = makeTypographyComponent<ComponentProps<"span">>("span", "body");
 export const BodyMedium = makeTypographyComponent<ComponentProps<"span">>("span", "bodyMedium");
 export const BodyLarge = makeTypographyComponent<ComponentProps<"span">>("span", "bodyLarge");
+export const BodyHuge = makeTypographyComponent<ComponentProps<"span">>("span", "bodyHuge");
 export const Label = makeTypographyComponent<ComponentProps<"span">>("span", "label");
 export const LabelMedium = makeTypographyComponent<ComponentProps<"span">>("span", "labelMedium");
 export const Heading1 = makeTypographyComponent<ComponentProps<"h1">>("h1", "h1");

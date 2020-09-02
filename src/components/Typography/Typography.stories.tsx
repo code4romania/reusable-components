@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { Body, BodyLarge, BodyMedium, Heading1, Heading2, Heading3, Label, LabelMedium } from "./Typography";
+import { Body, BodyHuge, BodyLarge, BodyMedium, Heading1, Heading2, Heading3, Label, LabelMedium } from "./Typography";
 
 export default {
   title: "Typography primitives",
-  subcomponents: [Body, BodyMedium, BodyLarge, Label, LabelMedium, Heading1, Heading2, Heading3],
+  subcomponents: [Body, BodyMedium, BodyLarge, BodyHuge, Label, LabelMedium, Heading1, Heading2, Heading3],
 };
 
 export const SimpleExample = () => {
@@ -28,6 +28,9 @@ export const SimpleExample = () => {
       <Heading3>Heading 3</Heading3>
       <div>
         <BodyLarge>This is large body text</BodyLarge>
+      </div>
+      <div>
+        <BodyHuge>This is huge body text</BodyHuge>
       </div>
     </>
   );
