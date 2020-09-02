@@ -1,0 +1,22 @@
+.root {
+}
+
+.bar {
+  height: (55rem / 16);
+  width: 100%;
+  background-color: black;
+  position: relative;
+  &:not(:first-child) {
+    margin-top: (-20rem / 16);
+  }
+}
+
+.label {
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  font-size: (22rem / 16);
+  font-weight: 600;
+  line-height: 1.5;
+}
