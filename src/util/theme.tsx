@@ -1,10 +1,24 @@
 import React, { createContext, forwardRef, useContext } from "react";
 
-export function mergeClasses(classes: IClassNames, overrides?: IClassNames | void): IClassNames {
+export function mergeClasses(a: string | void, b: string | void): string | undefined {
+  if (!a) {
+    return b || undefined;
+  }
+  if (!b) {
+    return a || undefined;
+  }
+  return `${a} ${b}`;
+}
+
+export function overrideClasses(classes: IClassNames, overrides?: IClassNames | void): IClassNames {
   if (!overrides) {
     return classes;
   }
-  return Object.assign({}, classes, overrides);
+  const newClasses = Object.assign({}, classes);
+  for (const key in overrides) {
+    newClasses[key] = mergeClasses(newClasses[key], overrides[key]);
+  }
+  return newClasses;
 }
 
 export type Theme = {
