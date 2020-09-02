@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { mockPresidentialElectionMeta, mockPresidentialElectionTurnout } from "../../util/mocks";
+import {
+  mockLocalCouncilElectionMeta,
+  mockNationalElectionScope,
+  mockPresidentialElectionMeta,
+  mockPresidentialElectionTurnout,
+} from "../../util/mocks";
 import { ElectionTurnoutSection } from "./ElectionTurnoutSection";
 
 export default {
@@ -10,5 +15,15 @@ export default {
 };
 
 export const PresidentialElection = () => {
-  return <ElectionTurnoutSection meta={mockPresidentialElectionMeta} turnout={mockPresidentialElectionTurnout} />;
+  return (
+    <ElectionTurnoutSection
+      scope={mockNationalElectionScope}
+      meta={mockPresidentialElectionMeta}
+      turnout={mockPresidentialElectionTurnout}
+    />
+  );
+};
+
+export const UnavailableData = () => {
+  return <ElectionTurnoutSection scope={mockNationalElectionScope} meta={mockLocalCouncilElectionMeta} />;
 };
