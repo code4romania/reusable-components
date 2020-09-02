@@ -37,8 +37,13 @@ export type Election = {
   id: string;
   scope: ElectionScope;
   meta: ElectionMeta;
-  turnout: ElectionTurnout;
-  observation?: ElectionObservation; // I guess send this only for the national scope
+
+  // These can be missing if the election doesn't support the current scope (eg. local elections with a national scope).
+  turnout?: ElectionTurnout;
+  results?: ElectionResults;
+
+  // Send this only when it makes sense (for the national scope)
+  observation?: ElectionObservation;
 };
 
 export type ElectionTurnout = {
