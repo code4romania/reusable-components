@@ -25,7 +25,12 @@ export type Theme = {
   [componentName: string]: IClassNames;
 };
 
-const defaultTheme: Theme = {};
+const defaultTheme: Theme = {
+  colors: {
+    primary: "#FFCC00",
+    secondary: "#352245",
+  },
+};
 
 const ThemeContext = createContext<Theme>(defaultTheme);
 
@@ -40,7 +45,7 @@ export function useThemeClasses(
   propsClasses?: IClassNames | void,
 ): IClassNames {
   const theme = useTheme();
-  return mergeClasses(mergeClasses(componentClasses, theme[componentName]), propsClasses);
+  return overrideClasses(overrideClasses(componentClasses, theme[componentName]), propsClasses);
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
