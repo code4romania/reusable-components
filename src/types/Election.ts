@@ -1,4 +1,4 @@
-export const DIASPORA = "DI";
+export const DIASPORA = "DIASPORA";
 
 export type ElectionScope =
   | {
@@ -6,18 +6,18 @@ export type ElectionScope =
     }
   | {
       type: "county";
-      county: string; // 2-letter county codes? "DI" for diaspora
+      county: string; // County ID/Name. "DIASPORA" for diaspora
     }
   | {
       type: "uat";
-      county: string; // 2-letter county codes?
-      uat: string; // I remember UATs had IDs. In case of diaspora, they can be countries.
+      county: string; // County ID/Name. "DIASPORA" for diaspora
+      uat: string; // UAT ID/Name. In case of diaspora, they can be countries.
     }
   | {
       type: "city";
-      county: string; // 2-letter county codes?
-      uat: string; // I remember UATs had IDs
-      city: string; // Do we have IDs for each town?
+      county: string; // County ID/Name. "DIASPORA" for diaspora
+      uat: string; // UAT ID/Name
+      city: string; // City ID/Name
     };
 
 export type ElectionMeta = {
