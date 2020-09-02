@@ -1,4 +1,23 @@
-import type { ElectionMeta, ElectionTurnout } from "../types/Election";
+import { DIASPORA, ElectionMeta, ElectionScope, ElectionTurnout } from "../types/Election";
+
+export const mockNationalElectionScope: ElectionScope = { type: "national" };
+export const mockCountyElectionScope: ElectionScope = { type: "county", county: "PRAHOVA" };
+export const mockUATElectionScope: ElectionScope = { type: "uat", county: "PRAHOVA", uat: "OLARI" };
+export const mockCityElectionScope: ElectionScope = {
+  type: "city",
+  county: "PRAHOVA",
+  uat: "OLARI",
+  city: "OLARII VECHI",
+};
+export const mockElectionScope: ElectionScope = { type: "county", county: "PRAHOVA" };
+export const mockDiasporaElectionScope: ElectionScope = { type: "county", county: DIASPORA };
+export const mockDiasporaCountryElectionScope: ElectionScope = { type: "uat", county: DIASPORA, uat: "POLONIA" };
+export const mockDiasporaCityElectionScope: ElectionScope = {
+  type: "city",
+  county: DIASPORA,
+  uat: "POLONIA",
+  city: "GDANSK",
+};
 
 export const mockPresidentialElectionMeta: ElectionMeta = {
   type: "president",
