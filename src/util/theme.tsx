@@ -29,10 +29,14 @@ export function useThemeClasses(
   return mergeClasses(mergeClasses(componentClasses, theme[componentName]), propsClasses);
 }
 
-type PropsObject = Record<string, unknown>;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type PropsObject = object;
 
-export type ThemableComponent<P extends PropsObject> = React.ComponentType<P & { classes: IClassNames }>;
-export type ThemableHOC<P extends PropsObject> = (Component: React.ComponentType<P>) => ThemableComponent<P>;
+export type ThemableComponentProps<P extends PropsObject> = P & { classes?: IClassNames };
+export type ThemableComponent<P extends PropsObject> = React.ComponentType<ThemableComponentProps<P>>;
+export type ThemedComponentProps<P extends PropsObject> = P & { classes: IClassNames };
+export type ThemedComponent<P extends PropsObject> = React.ComponentType<ThemedComponentProps<P>>;
+export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>) => ThemableComponent<P>;
 
 // This function has this arity so that it can also be used as a decorator,
 // whenever those might become mainstream
@@ -40,14 +44,10 @@ export const themable = <P extends PropsObject>(
   componentName: string,
   componentClasses: IClassNames,
 ): ThemableHOC<P> => {
-  return (Component: React.ComponentType<P>) => {
-    return (forwardRef(function WrappedComponent(props: P, ref) {
+  return (Component: ThemedComponent<P>) => {
+    return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
       return (
-        <Component
-          {...props}
-          classes={useThemeClasses(componentName, componentClasses, props.classes as IClassNames | void)}
-          ref={ref}
-        />
+        <Component {...props} classes={useThemeClasses(componentName, componentClasses, props.classes)} ref={ref} />
       );
     }) as unknown) as ThemableComponent<P>;
   };
