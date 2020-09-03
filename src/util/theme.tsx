@@ -41,12 +41,12 @@ export const ThemeProvider = ThemeContext.Provider;
 
 export function useThemeClasses(
   componentName: string,
-  componentClasses: IClassNames,
+  componentClasses?: IClassNames | void,
   propsClasses?: IClassNames | void,
   propsClassName?: string | void,
 ): IClassNames {
   const theme = useTheme();
-  let classes = overrideClasses(componentClasses, theme[componentName]);
+  let classes = overrideClasses(componentClasses || {}, theme[componentName]);
   classes = overrideClasses(classes, propsClasses);
   if (propsClassName) {
     classes = overrideClasses(classes, { root: propsClassName });
@@ -67,7 +67,7 @@ export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>)
 // whenever those might become mainstream
 export const themable = <P extends PropsObject>(
   componentName: string,
-  componentClasses: IClassNames,
+  componentClasses?: IClassNames,
 ): ThemableHOC<P> => {
   return (Component: ThemedComponent<P>) => {
     return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
