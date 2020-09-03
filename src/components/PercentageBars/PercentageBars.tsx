@@ -24,7 +24,7 @@ export const PercentageBars = themable<Props>(
       {items.map((item, index) => (
         <div
           key={index}
-          className={mergeClasses(classes.item, item.className)}
+          className={mergeClasses(classes.bar, item.className)}
           style={{
             backgroundColor: item.color,
             width: `${item.value * multiplier}%`,
