@@ -43,15 +43,21 @@ export function useThemeClasses(
   componentName: string,
   componentClasses: IClassNames,
   propsClasses?: IClassNames | void,
+  propsClassName?: string | void,
 ): IClassNames {
   const theme = useTheme();
-  return overrideClasses(overrideClasses(componentClasses, theme[componentName]), propsClasses);
+  let classes = overrideClasses(componentClasses, theme[componentName]);
+  classes = overrideClasses(classes, propsClasses);
+  if (propsClassName) {
+    classes = overrideClasses(classes, { root: propsClassName });
+  }
+  return classes;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type PropsObject = object;
 
-export type ThemableComponentProps<P extends PropsObject> = P & { classes?: IClassNames };
+export type ThemableComponentProps<P extends PropsObject> = P & { classes?: IClassNames; className?: string };
 export type ThemableComponent<P extends PropsObject> = React.ComponentType<ThemableComponentProps<P>>;
 export type ThemedComponentProps<P extends PropsObject> = P & { classes: IClassNames };
 export type ThemedComponent<P extends PropsObject> = React.ComponentType<ThemedComponentProps<P>>;
@@ -66,7 +72,11 @@ export const themable = <P extends PropsObject>(
   return (Component: ThemedComponent<P>) => {
     return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
       return (
-        <Component {...props} classes={useThemeClasses(componentName, componentClasses, props.classes)} ref={ref} />
+        <Component
+          {...props}
+          classes={useThemeClasses(componentName, componentClasses, props.classes, props.className)}
+          ref={ref}
+        />
       );
     }) as unknown) as ThemableComponent<P>;
   };
