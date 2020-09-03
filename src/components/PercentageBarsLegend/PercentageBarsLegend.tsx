@@ -1,7 +1,6 @@
 import React from "react";
 import cssClasses from "./PercentageBarsLegend.module.scss";
 import { mergeClasses, themable } from "../../util/theme";
-import classes from "./PercentageBarsLegend.module.scss";
 import { DivBody } from "../Typography/Typography";
 
 type Props = {
@@ -22,7 +21,7 @@ const exists = (x) => x || x === 0;
 export const PercentageBarsLegend = themable<Props>(
   "PercentageBarsLegend",
   cssClasses,
-)(({ items }) => {
+)(({ items, classes }) => {
   return (
     <div className={classes.root}>
       {items.map((item, index) => (
