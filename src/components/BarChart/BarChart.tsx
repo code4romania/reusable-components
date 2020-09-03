@@ -78,8 +78,6 @@ export const BarChart = themable<Props>(
     const barWidth = Math.max(minBarWidth, Math.min(maxBarWidth, desiredStride - barSpacing));
     const stride = barSpacing + barWidth;
 
-    console.log(barSpacing, barWidth, stride);
-
     const barRects = bars.map(({ value, color }, index) => (
       <rect
         key={index}
