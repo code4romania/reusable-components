@@ -4,8 +4,8 @@ import { mergeClasses, themable } from "../../util/theme";
 import classes from "./PercentageBars.module.scss";
 
 type Props = {
-  total?: number; // Defaults to the max value in bars
-  bars: {
+  total?: number; // Defaults to the max value in items
+  items: {
     value: number;
     label?: React.ElementType | string | number;
     color?: string;
@@ -17,20 +17,20 @@ type Props = {
 export const PercentageBars = themable<Props>(
   "PercentageBars",
   cssClasses,
-)(({ total, bars }) => {
-  const multiplier = 100.0 / (total ?? bars.reduce((acc, bar) => Math.max(acc, bar.value), 0));
+)(({ total, items }) => {
+  const multiplier = 100.0 / (total ?? items.reduce((acc, bar) => Math.max(acc, bar.value), 0));
   return (
     <div className={classes.root}>
-      {bars.map((bar, index) => (
+      {items.map((item, index) => (
         <div
           key={index}
-          className={mergeClasses(classes.bar, bar.className)}
+          className={mergeClasses(classes.item, item.className)}
           style={{
-            backgroundColor: bar.color,
-            width: `${bar.value * multiplier}%`,
+            backgroundColor: item.color,
+            width: `${item.value * multiplier}%`,
           }}
         >
-          <div className={classes.label}>{bar.label}</div>
+          <div className={classes.label}>{item.label}</div>
         </div>
       ))}
     </div>

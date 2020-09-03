@@ -17,7 +17,7 @@ export const SimpleExample = () => {
   return (
     <PercentageBars
       total={number("total", undefined)}
-      bars={[
+      items={[
         {
           value: number("value", 100, undefined, "bar1"),
           label: text("label", "100%", "bar1"),
