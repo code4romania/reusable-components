@@ -70,8 +70,9 @@ export type ElectionObservation = {
 };
 
 export type ElectionResults = {
-  eligibleVoters?: number; // We are duplicating these two values from ElectionTurnout. Should we?
-  totalVotes: number; // We are duplicating these two values from ElectionTurnout. Should we?
+  eligibleVoters?: number; // Duplicate this from ElectionTurnout
+  totalVotes: number; // Duplicate this from ElectionTurnout
+  voteByPostVotes?: number; // For diaspora
   validVotes: number;
   nullVotes: number;
   totalSeats?: number; // For the parliament (maybe even council) seats widget
