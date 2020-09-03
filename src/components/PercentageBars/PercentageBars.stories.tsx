@@ -20,12 +20,12 @@ export const SimpleExample = () => {
       items={[
         {
           value: number("value", 100, undefined, "bar1"),
-          label: text("label", "100%", "bar1"),
+          valueLabel: text("valueLabel", "100%", "bar1"),
           color: color("color", theme.colors.primary, "bar1"),
         },
         {
           value: number("value", 50, undefined, "bar2"),
-          label: text("label", "50%", "bar2"),
+          valueLabel: text("valueLabel", "50%", "bar2"),
           color: color("color", theme.colors.secondary, "bar2"),
         },
       ]}

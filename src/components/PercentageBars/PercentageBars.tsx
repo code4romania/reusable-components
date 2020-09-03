@@ -7,7 +7,7 @@ type Props = {
   total?: number; // Defaults to the max value in items
   items: {
     value: number;
-    label?: React.ElementType | string | number;
+    valueLabel?: React.ElementType | string | number;
     color?: string;
     labelColor?: string;
     className?: string;
@@ -30,7 +30,7 @@ export const PercentageBars = themable<Props>(
             width: `${item.value * multiplier}%`,
           }}
         >
-          <div className={classes.label}>{item.label}</div>
+          <div className={classes.label}>{item.valueLabel}</div>
         </div>
       ))}
     </div>
