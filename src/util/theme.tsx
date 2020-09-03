@@ -21,15 +21,26 @@ export function overrideClasses(classes: IClassNames, overrides?: IClassNames | 
   return newClasses;
 }
 
-export type Theme = {
-  [componentName: string]: IClassNames;
-};
+export interface Theme extends ThemeValues {
+  colors: {
+    primary: string;
+    secondary: string;
+  };
+  componentClasses: {
+    [componentName: string]: IClassNames;
+  };
+  componentValues: {
+    [componentName: string]: ThemeValues;
+  };
+}
 
 const defaultTheme: Theme = {
   colors: {
     primary: "#FFCC00",
     secondary: "#352245",
   },
+  componentClasses: {},
+  componentValues: {},
 };
 
 const ThemeContext = createContext<Theme>(defaultTheme);
@@ -39,14 +50,14 @@ export function useTheme(): Theme {
 }
 export const ThemeProvider = ThemeContext.Provider;
 
-export function useThemeClasses(
+export function mergeThemeClasses(
+  theme: Theme,
   componentName: string,
   componentClasses?: IClassNames | void,
   propsClasses?: IClassNames | void,
   propsClassName?: string | void,
 ): IClassNames {
-  const theme = useTheme();
-  let classes = overrideClasses(componentClasses || {}, theme[componentName]);
+  let classes = overrideClasses(componentClasses || {}, theme.componentClasses[componentName]);
   classes = overrideClasses(classes, propsClasses);
   if (propsClassName) {
     classes = overrideClasses(classes, { root: propsClassName });
@@ -54,12 +65,41 @@ export function useThemeClasses(
   return classes;
 }
 
+const mergeValues = (a?: ThemeValues | void, b?: ThemeValues | void): ThemeValues | void => {
+  if (!a) {
+    return b;
+  }
+  if (!b) {
+    return a;
+  }
+  return Object.assign({}, a, b);
+};
+
+const emptyValues: ThemeValues = {};
+
+export function mergeThemeValues(
+  theme: Theme,
+  componentName: string,
+  componentValues?: ThemeValues | void,
+  propsValues?: ThemeValues | void,
+): ThemeValues {
+  let values = mergeValues(componentValues, theme.componentValues[componentName]);
+  values = mergeValues(values, propsValues) || emptyValues;
+  return values;
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type PropsObject = object;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ThemeValues = { [key: string]: any };
 
-export type ThemableComponentProps<P extends PropsObject> = P & { classes?: IClassNames; className?: string };
+export type ThemableComponentProps<P extends PropsObject> = P & {
+  className?: string;
+  classes?: IClassNames;
+  themeValues?: ThemeValues;
+};
 export type ThemableComponent<P extends PropsObject> = React.ComponentType<ThemableComponentProps<P>>;
-export type ThemedComponentProps<P extends PropsObject> = P & { classes: IClassNames };
+export type ThemedComponentProps<P extends PropsObject> = P & { classes: IClassNames; themeValues: ThemeValues };
 export type ThemedComponent<P extends PropsObject> = React.ComponentType<ThemedComponentProps<P>>;
 export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>) => ThemableComponent<P>;
 
@@ -68,13 +108,16 @@ export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>)
 export const themable = <P extends PropsObject>(
   componentName: string,
   componentClasses?: IClassNames,
+  componentValues?: ThemeValues,
 ): ThemableHOC<P> => {
   return (Component: ThemedComponent<P>) => {
     return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
+      const theme = useTheme();
       return (
         <Component
           {...props}
-          classes={useThemeClasses(componentName, componentClasses, props.classes, props.className)}
+          classes={mergeThemeClasses(theme, componentName, componentClasses, props.classes, props.className)}
+          themeValues={mergeThemeValues(theme, componentName, componentValues, props.themeValues)}
           ref={ref}
         />
       );
