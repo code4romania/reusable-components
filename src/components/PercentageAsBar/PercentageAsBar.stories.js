@@ -1,5 +1,5 @@
 import React from "react";
-import PercentageAsBar from "./PercentageAsBar.js";
+import { PercentageAsBar } from "./PercentageAsBar.tsx";
 import { number, withKnobs } from "@storybook/addon-knobs";
 
 export default {
@@ -9,10 +9,5 @@ export default {
 };
 
 export const SimpleExample = () => {
-  return (
-    <PercentageAsBar
-      value={number("Percentage", 72.5)}
-      totalColor={"#ff0000"}
-    />
-  );
+  return <PercentageAsBar value={number("Percentage", 72.5)} totalColor={"#ff0000"} />;
 };

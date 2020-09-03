@@ -1,5 +1,10 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": { "jsx": true }
+  },
   "settings": {
     "react": {
       "version": "detect"
@@ -9,10 +14,12 @@
     "browser": true,
     "es6": true
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["@typescript-eslint/eslint-plugin", "react", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "rules": {
@@ -27,8 +34,8 @@
     "react/prefer-stateless-function": "error",
     "react/no-did-update-set-state": "error",
     "react/no-unknown-property": "error",
-    "react/no-unused-prop-types": "error",
     "react/react-in-jsx-scope": "error",
+    "react/prop-types": "off",
     "jsx-quotes": ["warn", "prefer-double"],
     "quotes": ["warn", "double"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
@@ -38,5 +45,14 @@
     "no-unused-expressions": "error",
     "no-var": "error",
     "max-len": ["error", { "code": 120 }],
-  }
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": ["error"]
+      }
+    }
+  ]
 }

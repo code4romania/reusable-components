@@ -1,5 +1,5 @@
 import React from "react";
-import HorizontalStackedBar from "./HorizontalStackedBar";
+import { HorizontalStackedBar } from "./HorizontalStackedBar.tsx";
 import { number, withKnobs } from "@storybook/addon-knobs";
 
 export default {

@@ -1,5 +1,5 @@
 import React from "react";
-import PartyResultCard from "./PartyResultCard";
+import { PartyResultCard } from "./PartyResultCard.tsx";
 
 import { number, text, boolean, withKnobs } from "@storybook/addon-knobs";
 
@@ -15,14 +15,7 @@ export const SimpleCard = () => {
   const name = text("Party Name", "PNL");
   const percentage = number("Percentage", 32);
 
-  return (
-    <PartyResultCard
-      color={color}
-      name={name}
-      percentage={percentage}
-      rightAligned={rightAligned}
-    />
-  );
+  return <PartyResultCard color={color} name={name} percentage={percentage} rightAligned={rightAligned} />;
 };
 
 SimpleCard.story = {

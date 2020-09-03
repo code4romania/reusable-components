@@ -1,34 +1,29 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useRef } from "react";
 import * as d3Select from "d3-selection";
 import * as d3Scale from "d3-scale";
-import "./PercentageAsBar.scss";
+import classes from "./PercentageAsBar.module.scss";
 
-const PercentageAsBar = ({ value, totalColor, turnoutColor }) => {
+type Props = {
+  value: number;
+  totalColor?: string;
+  turnoutColor?: string;
+};
+
+export const PercentageAsBar: React.FC<Props> = ({ value, totalColor, turnoutColor }) => {
+  const ref = useRef(null);
   useEffect(() => {
-    drawBars();
-  }, [value]);
+    if (!ref.current) {
+      return;
+    }
+    const d3Element = d3Select.select(ref.current);
+    d3Element.select("svg").remove();
 
-  const chartWidth = 1000;
-  const chartHeight = 110;
-  const barHeight = 60;
-  const overlap = 20;
-  const textMargin = 10;
-  const barY = barHeight - overlap;
-
-  const drawBars = () => {
-    d3Select.select(".percentage-as-bar svg").remove();
-
-    const svg = d3Select
-      .select(".percentage-as-bar")
+    const svg = d3Element
       .append("svg")
       .attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
-    const xScale = d3Scale
-      .scaleLinear()
-      .domain([0, 100])
-      .range([0, chartWidth]);
+    const xScale = d3Scale.scaleLinear().domain([0, 100]).range([0, chartWidth]);
 
     svg
       .append("rect")
@@ -48,7 +43,7 @@ const PercentageAsBar = ({ value, totalColor, turnoutColor }) => {
 
     svg
       .append("text")
-      .attr("class", "text-value")
+      .attr("class", classes.textValue)
       .attr("text-anchor", "end")
       .attr("x", chartWidth - textMargin)
       .attr("y", barHeight / 2 + textMargin)
@@ -61,15 +56,14 @@ const PercentageAsBar = ({ value, totalColor, turnoutColor }) => {
       .attr("x", xScale(value) - textMargin)
       .attr("y", barHeight / 2 + textMargin + barY)
       .text(`${value}%`);
-  };
+  }, [value, ref.current]);
 
-  return <div className={"percentage-as-bar"} />;
-};
+  const chartWidth = 1000;
+  const chartHeight = 110;
+  const barHeight = 60;
+  const overlap = 20;
+  const textMargin = 10;
+  const barY = barHeight - overlap;
 
-export default PercentageAsBar;
-
-PercentageAsBar.propTypes = {
-  value: PropTypes.number.isRequired,
-  totalColor: PropTypes.string,
-  turnoutColor: PropTypes.string,
+  return <div ref={ref} />;
 };

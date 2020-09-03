@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useRef } from "react";
 import * as d3Select from "d3-selection";
 import * as d3Scale from "d3-scale";
-import "./HorizontalStackedBar.scss";
+import classes from "./HorizontalStackedBar.module.scss";
 
-const HorizontalStackedBar = ({ results }) => {
+type Props = {
+  results: {
+    votes: number;
+    color: string;
+  };
+};
+
+export const HorizontalStackedBar: React.FC<Props> = ({ results }) => {
+  const ref = useRef(null);
   useEffect(() => {
     drawBar();
-  }, [results]);
+  }, [results, ref.current]);
 
   const marginBottom = 10;
 
@@ -22,14 +29,14 @@ const HorizontalStackedBar = ({ results }) => {
 
     svg
       .append("text")
-      .attr("class", "text-value")
+      .attr("class", classes.textValue)
       .attr("x", textMargin)
       .attr("y", yBottomChart - textMargin)
       .text(leftLabel);
 
     svg
       .append("text")
-      .attr("class", "text-value")
+      .attr("class", classes.textValue)
       .attr("text-anchor", "end")
       .attr("x", chartWidth - textMargin)
       .attr("y", yBottomChart - textMargin)
@@ -48,21 +55,22 @@ const HorizontalStackedBar = ({ results }) => {
   };
 
   const drawBar = () => {
-    //this is to remove the previous svg (if exists) - useful in case of re-renders
-    d3Select.select(".horizontal-stacked-bar svg").remove();
+    if (!ref.current) {
+      return;
+    }
+    const d3Element = d3Select.select(ref.current);
 
-    const svg = d3Select
-      .select(".horizontal-stacked-bar")
+    //this is to remove the previous svg (if exists) - useful in case of re-renders
+    d3Element.select("svg").remove();
+
+    const svg = d3Element
       .append("svg")
       .attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
     const { stackedBarData, total } = stackResults(results);
 
-    const xScale = d3Scale
-      .scaleLinear()
-      .domain([0, total])
-      .range([0, chartWidth]);
+    const xScale = d3Scale.scaleLinear().domain([0, total]).range([0, chartWidth]);
 
     svg
       .selectAll("rect")
@@ -82,7 +90,7 @@ const HorizontalStackedBar = ({ results }) => {
     putLabels(svg, stackedBarData[0].value, stackedBarData[len - 1].value);
   };
 
-  return <div className={"horizontal-stacked-bar"} />;
+  return <div ref={ref} />;
 };
 
 const stackResults = (results) => {
@@ -95,17 +103,6 @@ const stackResults = (results) => {
       });
       return { stackedBarData: stackedBarData, total: total + result.votes };
     },
-    { stackedBarData: [], total: 0 }
+    { stackedBarData: [], total: 0 },
   );
-};
-
-export default HorizontalStackedBar;
-
-HorizontalStackedBar.propTypes = {
-  results: PropTypes.arrayOf(
-    PropTypes.shape({
-      votes: PropTypes.number,
-      color: PropTypes.string,
-    })
-  ).isRequired,
 };
