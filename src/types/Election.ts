@@ -49,13 +49,15 @@ export type Election = {
 export type ElectionTurnout = {
   eligibleVoters?: number; // Cetățeni cu drept de vot. Nu se aplică pentru diaspora
   totalVotes: number;
-  breakdown?: {
-    type: "national" | "diaspora" | "all"; // Open to extensions. "all" means this chart applies to the whole scope
-    total?: number;
-    categories: {
-      type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box" | "vote_by_post"; // Open to extensions
-      votes: number;
-    }[];
+  breakdown?: ElectionTurnoutBreakdown[];
+};
+
+export type ElectionTurnoutBreakdown = {
+  type: "national" | "diaspora" | "all"; // Open to extensions. "all" means this chart applies to the whole scope
+  total?: number;
+  categories: {
+    type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box" | "vote_by_post"; // Open to extensions
+    votes: number;
   }[];
 };
 
