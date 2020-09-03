@@ -1,24 +1,26 @@
+export const DIASPORA = "DIASPORA";
+
 export type ElectionScope =
   | {
       type: "national";
     }
   | {
       type: "county";
-      county: string; // 2-letter county codes?
-    }
-  | {
-      type: "city";
-      county: string; // 2-letter county codes?
-      city: string; // Do we have IDs for each town?
+      county: string; // County ID/Name. "DIASPORA" for diaspora
     }
   | {
       type: "uat";
-      county: string; // 2-letter county codes?
-      city: string; // Do we have IDs for each town?
-      uat: string; // I remember UATs had IDs
+      county: string; // County ID/Name. "DIASPORA" for diaspora
+      uat: string; // UAT ID/Name. In case of diaspora, they can be countries.
+    }
+  | {
+      type: "city";
+      county: string; // County ID/Name. "DIASPORA" for diaspora
+      uat: string; // UAT ID/Name
+      city: string; // City ID/Name
     };
 
-type ElectionMeta = {
+export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
   // This is just for extra visual customisation like splitting local council results in two tables,
   // showing the parliament seats widget or showing disapora next to the map or not
@@ -35,20 +37,27 @@ export type Election = {
   id: string;
   scope: ElectionScope;
   meta: ElectionMeta;
-  turnout: ElectionTurnout;
-  observation?: ElectionObservation; // I guess send this only for the national scope
+
+  // These can be missing if the election doesn't support the current scope (eg. local elections with a national scope).
+  turnout?: ElectionTurnout;
+  results?: ElectionResults;
+
+  // Send this only when it makes sense (for the national scope)
+  observation?: ElectionObservation;
 };
 
 export type ElectionTurnout = {
-  eligibleVoters: number; // Cetățeni cu drept de vot
+  eligibleVoters?: number; // Cetățeni cu drept de vot. Nu se aplică pentru diaspora
   totalVotes: number;
-  breakdown?: {
-    type: "national" | "diaspora"; // Open to extensions
-    total?: number;
-    categories: {
-      type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box"; // Open to extensions
-      votes: number;
-    }[];
+  breakdown?: ElectionTurnoutBreakdown[];
+};
+
+export type ElectionTurnoutBreakdown = {
+  type: "national" | "diaspora" | "all"; // Open to extensions. "all" means this chart applies to the whole scope
+  total?: number;
+  categories: {
+    type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box" | "vote_by_post"; // Open to extensions
+    votes: number;
   }[];
 };
 
@@ -61,8 +70,9 @@ export type ElectionObservation = {
 };
 
 export type ElectionResults = {
-  eligibleVoters: number; // We are duplicating these two values from ElectionTurnout. Should we?
-  totalVotes: number; // We are duplicating these two values from ElectionTurnout. Should we?
+  eligibleVoters?: number; // Duplicate this from ElectionTurnout
+  totalVotes: number; // Duplicate this from ElectionTurnout
+  voteByPostVotes?: number; // For diaspora
   validVotes: number;
   nullVotes: number;
   totalSeats?: number; // For the parliament (maybe even council) seats widget

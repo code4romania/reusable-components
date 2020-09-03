@@ -1,17 +1,36 @@
 import React, { createContext, forwardRef, useContext } from "react";
 
-export function mergeClasses(classes: IClassNames, overrides?: IClassNames | void): IClassNames {
+export function mergeClasses(a: string | void, b: string | void): string | undefined {
+  if (!a) {
+    return b || undefined;
+  }
+  if (!b) {
+    return a || undefined;
+  }
+  return `${a} ${b}`;
+}
+
+export function overrideClasses(classes: IClassNames, overrides?: IClassNames | void): IClassNames {
   if (!overrides) {
     return classes;
   }
-  return Object.assign({}, classes, overrides);
+  const newClasses = Object.assign({}, classes);
+  for (const key in overrides) {
+    newClasses[key] = mergeClasses(newClasses[key], overrides[key]);
+  }
+  return newClasses;
 }
 
 export type Theme = {
   [componentName: string]: IClassNames;
 };
 
-const defaultTheme: Theme = {};
+const defaultTheme: Theme = {
+  colors: {
+    primary: "#FFCC00",
+    secondary: "#352245",
+  },
+};
 
 const ThemeContext = createContext<Theme>(defaultTheme);
 
@@ -22,17 +41,23 @@ export const ThemeProvider = ThemeContext.Provider;
 
 export function useThemeClasses(
   componentName: string,
-  componentClasses: IClassNames,
+  componentClasses?: IClassNames | void,
   propsClasses?: IClassNames | void,
+  propsClassName?: string | void,
 ): IClassNames {
   const theme = useTheme();
-  return mergeClasses(mergeClasses(componentClasses, theme[componentName]), propsClasses);
+  let classes = overrideClasses(componentClasses || {}, theme[componentName]);
+  classes = overrideClasses(classes, propsClasses);
+  if (propsClassName) {
+    classes = overrideClasses(classes, { root: propsClassName });
+  }
+  return classes;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type PropsObject = object;
 
-export type ThemableComponentProps<P extends PropsObject> = P & { classes?: IClassNames };
+export type ThemableComponentProps<P extends PropsObject> = P & { classes?: IClassNames; className?: string };
 export type ThemableComponent<P extends PropsObject> = React.ComponentType<ThemableComponentProps<P>>;
 export type ThemedComponentProps<P extends PropsObject> = P & { classes: IClassNames };
 export type ThemedComponent<P extends PropsObject> = React.ComponentType<ThemedComponentProps<P>>;
@@ -42,12 +67,16 @@ export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>)
 // whenever those might become mainstream
 export const themable = <P extends PropsObject>(
   componentName: string,
-  componentClasses: IClassNames,
+  componentClasses?: IClassNames,
 ): ThemableHOC<P> => {
   return (Component: ThemedComponent<P>) => {
     return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
       return (
-        <Component {...props} classes={useThemeClasses(componentName, componentClasses, props.classes)} ref={ref} />
+        <Component
+          {...props}
+          classes={useThemeClasses(componentName, componentClasses, props.classes, props.className)}
+          ref={ref}
+        />
       );
     }) as unknown) as ThemableComponent<P>;
   };

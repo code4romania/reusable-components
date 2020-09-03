@@ -1,5 +1,5 @@
 import React, { ComponentProps, ComponentType, forwardRef } from "react";
-import { PropsObject, themable, ThemableComponent, ThemableComponentProps } from "../../util/theme";
+import { mergeClasses, PropsObject, themable, ThemableComponent, ThemableComponentProps } from "../../util/theme";
 import cssClasses from "./Typography.module.scss";
 
 export function makeTypographyComponent<Props extends PropsObject>(
@@ -14,8 +14,7 @@ export function makeTypographyComponent<Props extends PropsObject>(
     cssClasses,
   )(
     forwardRef(function TypographyInner({ classes, ...otherProps }: ThemableComponentProps<Props>, ref) {
-      const ownClassName = classes[className];
-      const finalClassName = extraClassName ? `${ownClassName} ${extraClassName}` : ownClassName;
+      const finalClassName = mergeClasses(mergeClasses(classes[className], extraClassName), classes.root);
       return <Component_ {...otherProps} className={finalClassName} ref={ref} />;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any,
@@ -25,6 +24,11 @@ export function makeTypographyComponent<Props extends PropsObject>(
 export const Body = makeTypographyComponent<ComponentProps<"span">>("span", "body");
 export const BodyMedium = makeTypographyComponent<ComponentProps<"span">>("span", "bodyMedium");
 export const BodyLarge = makeTypographyComponent<ComponentProps<"span">>("span", "bodyLarge");
+export const BodyHuge = makeTypographyComponent<ComponentProps<"span">>("span", "bodyHuge");
+export const DivBody = makeTypographyComponent<ComponentProps<"div">>("div", "body");
+export const DivBodyMedium = makeTypographyComponent<ComponentProps<"div">>("div", "bodyMedium");
+export const DivBodyLarge = makeTypographyComponent<ComponentProps<"div">>("div", "bodyLarge");
+export const DivBodyHuge = makeTypographyComponent<ComponentProps<"div">>("div", "bodyHuge");
 export const Label = makeTypographyComponent<ComponentProps<"span">>("span", "label");
 export const LabelMedium = makeTypographyComponent<ComponentProps<"span">>("span", "labelMedium");
 export const Heading1 = makeTypographyComponent<ComponentProps<"h1">>("h1", "h1");
