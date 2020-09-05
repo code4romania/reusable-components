@@ -1,14 +1,17 @@
 import React from "react";
-import { ElectionTurnoutBreakdown } from "../../types/Election";
+import { ElectionScope, ElectionTurnoutBreakdown } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage } from "../../util/format";
 import { themable } from "../../util/theme";
 import { BarChart } from "../BarChart/BarChart";
 import { PercentageBarsLegend } from "../PercentageBarsLegend/PercentageBarsLegend";
 import cssClasses from "./ElectionTurnoutBreakdownChart.module.scss";
 import useDimensions from "react-use-dimensions";
+import WorldMap from "../../assets/world-map.svg";
+import RomaniaMap from "../../assets/romania-map.svg";
 
 type Props = {
   value: ElectionTurnoutBreakdown;
+  scope?: ElectionScope;
   width?: number;
 };
 
@@ -45,15 +48,28 @@ const adjustScale = (x: number) => {
 export const ElectionTurnoutBreakdownChart = themable<Props>(
   "ElectionTurnoutBreakdownChart",
   cssClasses,
-)(({ classes, value }) => {
+)(({ classes, value, scope }) => {
   const [ref, { width }] = useDimensions();
+
+  let type = value.type;
+  if (type === "all" && scope) {
+    if (scope.type === "national") {
+      type = "national";
+    } else if (scope.type === "diaspora") {
+      type = "diaspora";
+    }
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.chartRow}>
-        {value.type !== "all" && (
+        {type !== "all" && (
           <div className={classes.infoRow}>
             <div className={classes.typeLabel}>{breakdownTypeLabels[value.type]}</div>
-            <div style={{ backgroundColor: "#FFCC00", flex: 1, alignSelf: "stretch" }} />
+            <div className={classes.mapIconContainer}>
+              {type === "diaspora" && <WorldMap className={classes.worldMapIcon} />}
+              {type === "national" && <RomaniaMap className={classes.romaniaMapIcon} />}
+            </div>
           </div>
         )}
         <div className={classes.chartContainer} ref={ref}>

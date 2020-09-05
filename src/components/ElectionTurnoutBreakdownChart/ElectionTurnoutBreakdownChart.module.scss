@@ -40,3 +40,19 @@
   line-height: 1.5;
   margin-bottom: 0.25rem;
 }
+
+.mapIconContainer {
+  flex: 1;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.worldMapIcon {
+  width: 100%;
+}
+
+.romaniaMapIcon {
+  width: 93%;
+}
