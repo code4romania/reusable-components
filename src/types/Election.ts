@@ -1,24 +1,9 @@
-export const DIASPORA = "DIASPORA";
-
 export type ElectionScope =
-  | {
-      type: "national";
-    }
-  | {
-      type: "county";
-      county: string; // County ID/Name. "DIASPORA" for diaspora
-    }
-  | {
-      type: "uat";
-      county: string; // County ID/Name. "DIASPORA" for diaspora
-      uat: string; // UAT ID/Name. In case of diaspora, they can be countries.
-    }
-  | {
-      type: "city";
-      county: string; // County ID/Name. "DIASPORA" for diaspora
-      uat: string; // UAT ID/Name
-      city: string; // City ID/Name
-    };
+  | { type: "national" }
+  | { type: "county"; county: string }
+  | { type: "city"; county: string; city: string }
+  | { type: "diaspora" }
+  | { type: "diaspora_country"; country: string };
 
 export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
