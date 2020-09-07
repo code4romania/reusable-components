@@ -1,4 +1,4 @@
-import { ElectionScope } from "../types/Election";
+import { ElectionScopeResolved } from "../types/Election";
 
 export const formatPercentage = (x: number): string =>
   new Intl.NumberFormat("ro-RO", {
@@ -11,17 +11,17 @@ export const formatGroupedNumber = (x: number): string =>
     useGrouping: true,
   }).format(x);
 
-export function getScopeName(scope: ElectionScope): string {
+export function getScopeName(scope: ElectionScopeResolved): string {
   switch (scope.type) {
     case "national":
       return "Nivel Național";
     case "county":
-      return `Județul ${scope.county}`;
-    case "city":
-      return `Localitatea ${scope.city}`;
+      return scope.countyName ? `Județul ${scope.countyName}` : "Județ";
+    case "locality":
+      return scope.localityName ? `Localitatea ${scope.localityName}` : "Localitate";
     case "diaspora":
       return "Diaspora";
     case "diaspora_country":
-      return `Diaspora din ${scope.country}`;
+      return scope.countryName ? `Diaspora din ${scope.countryName}` : "Țară din Diaspora";
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { ElectionMeta, ElectionScope, ElectionTurnout } from "../../types/Election";
+import { ElectionMeta, ElectionScope, ElectionScopeResolved, ElectionTurnout } from "../../types/Election";
 import { getScopeName } from "../../util/format";
 import { themable } from "../../util/theme";
 import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars";
@@ -8,7 +8,7 @@ import cssClasses from "./ElectionTurnoutSection.module.scss";
 
 type Props = {
   meta: ElectionMeta;
-  scope: ElectionScope;
+  scope: ElectionScopeResolved;
   turnout?: ElectionTurnout;
 };
 

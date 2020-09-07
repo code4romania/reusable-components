@@ -1,11 +1,11 @@
 import { ElectionMeta, ElectionScope, ElectionTurnout } from "../types/Election";
 
 export const mockNationalElectionScope: ElectionScope = { type: "national" };
-export const mockCountyElectionScope: ElectionScope = { type: "county", county: "PRAHOVA" };
-export const mockCityElectionScope: ElectionScope = { type: "city", county: "PRAHOVA", city: "OLARII VECHI" };
-export const mockElectionScope: ElectionScope = { type: "county", county: "PRAHOVA" };
+export const mockCountyElectionScope: ElectionScope = { type: "county", countyId: 1 };
+export const mockCityElectionScope: ElectionScope = { type: "locality", countyId: 1, localityId: 1 };
+export const mockElectionScope: ElectionScope = { type: "county", countyId: 1 };
 export const mockDiasporaElectionScope: ElectionScope = { type: "diaspora" };
-export const mockDiasporaCountryElectionScope: ElectionScope = { type: "diaspora_country", country: "POLONIA" };
+export const mockDiasporaCountryElectionScope: ElectionScope = { type: "diaspora_country", countryId: 1 };
 
 export const mockPresidentialElectionMeta: ElectionMeta = {
   type: "president",
@@ -51,7 +51,7 @@ export const mockPresidentialElectionTurnout: ElectionTurnout = {
           votes: 926574,
         },
         {
-          type: "vote_by_post",
+          type: "vote_by_mail",
           votes: 17503,
         },
       ],
