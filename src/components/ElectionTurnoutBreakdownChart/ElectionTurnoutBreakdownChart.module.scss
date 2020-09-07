@@ -1,0 +1,58 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: (340rem / 16);
+}
+
+.chartRow {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.chartContainer {
+  flex: 1;
+  height: 100px;
+  position: relative;
+}
+
+.chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.infoRow {
+  width: (100rem / 16);
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.typeLabel {
+  font-size: (20rem / 16);
+  font-weight: 600;
+  color: #E7E7E7;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.mapIconContainer {
+  flex: 1;
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.worldMapIcon {
+  width: 100%;
+}
+
+.romaniaMapIcon {
+  width: 93%;
+}

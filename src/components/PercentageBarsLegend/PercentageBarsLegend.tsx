@@ -1,17 +1,17 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import cssClasses from "./PercentageBarsLegend.module.scss";
 import { mergeClasses, themable } from "../../util/theme";
 import { DivBody } from "../Typography/Typography";
 
 type Props = {
   items: {
-    legendName: React.ElementType | string | number;
-    legendValueLabel?: React.ElementType | string | number; // Defaults to valueLabel
-    legendNote?: React.ElementType | string | number;
+    legendName: ReactNode;
+    legendValueLabel?: ReactNode; // Defaults to valueLabel
+    legendNote?: ReactNode;
     legendColor?: string; // Defaults to color
     legendClassName?: string;
 
-    valueLabel?: React.ElementType | string | number;
+    valueLabel?: ReactNode;
     color?: string;
   }[];
 };
