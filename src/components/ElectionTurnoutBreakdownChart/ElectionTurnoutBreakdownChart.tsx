@@ -12,7 +12,6 @@ import RomaniaMap from "../../assets/romania-map.svg";
 type Props = {
   value: ElectionTurnoutBreakdown;
   scope?: ElectionScope;
-  width?: number;
 };
 
 const categoryColors = {

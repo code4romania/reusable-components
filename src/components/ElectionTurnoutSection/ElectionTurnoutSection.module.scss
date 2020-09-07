@@ -5,3 +5,74 @@
 .percentageBars {
   margin-top: 1rem;
 }
+
+.map {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.mapBreakdownContainer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+}
+
+.breakdownContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-right: 2rem;
+}
+
+.breakdown {
+  flex-shrink: 1;
+  flex-grow: 0;
+  margin-bottom: 2rem;
+  width: (320rem / 16);
+}
+
+.mapBreakdownContainerMobile {
+  .breakdownContainer {
+    margin-right: 0;
+    flex: 1;
+  }
+  .breakdown {
+    flex-grow: 1;
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.mapBreakdownContainerFullWidth {
+  flex-direction: column-reverse;
+  .breakdownContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}
+
+.mapOverlay {
+  position: absolute;
+  left: 48%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #3E3E3E;
+}
+
+.mapOverlayPercentage {
+  font-size: (50em / 18 * 0.65);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.mapOverlayLabel {
+  font-size: 0.65em;
+  line-height: 1.5;
+}

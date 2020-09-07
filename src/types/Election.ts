@@ -8,17 +8,31 @@ type ElectionScope_<T> =
 export type ElectionScope = ElectionScope_<number>;
 export type ElectionScopeIncomplete = ElectionScope_<number | void>;
 
-export type ElectionScopeResolved = ElectionScope & {
+export type ElectionScopeNames = {
   countyName?: string;
   countryName?: string;
   localityName?: string;
 };
+export type ElectionScopeResolved = ElectionScope & ElectionScopeNames;
+
+export type ElectionType =
+  | "referendum"
+  | "president"
+  | "senate"
+  | "house"
+  | "local_council"
+  | "county_council"
+  | "mayor"
+  | string;
+
+export const electionTypeInvolvesDiaspora = (electionType: ElectionType): boolean =>
+  electionType !== "local_council" && electionType !== "county_council" && electionType !== "mayor";
 
 export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
   // This is just for extra visual customisation like splitting local council results in two tables,
   // showing the parliament seats widget or showing disapora next to the map or not
-  type: "referendum" | "president" | "senate" | "house" | "local_council" | "county_council" | "mayor" | string;
+  type: ElectionType;
   date: string; // ISO 8601
   title: string; // eg. "Alegeri locale"
   ballot?: string; // eg. "Primar", maybe find a better name for this?

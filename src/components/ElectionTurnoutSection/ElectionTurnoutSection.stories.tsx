@@ -24,6 +24,16 @@ export const PresidentialElection = () => {
   );
 };
 
+export const LocalCouncilElection = () => {
+  return (
+    <ElectionTurnoutSection
+      scope={mockNationalElectionScope}
+      meta={mockLocalCouncilElectionMeta}
+      turnout={mockPresidentialElectionTurnout}
+    />
+  );
+};
+
 export const UnavailableData = () => {
   return <ElectionTurnoutSection scope={mockNationalElectionScope} meta={mockLocalCouncilElectionMeta} />;
 };
