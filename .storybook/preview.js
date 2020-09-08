@@ -8,9 +8,9 @@ import "./storybook.css";
 
 export const decorators = [
   (storyFn, context) => withConsole()(storyFn)(context),
-  (Story) => (
+  (storyFn, context) => (
     <HereMapsAPIKeyProvider value={process.env.STORYBOOK_HEREMAPS_API_KEY}>
-      <Story />
+      {storyFn(context)}
     </HereMapsAPIKeyProvider>
   ),
 ];
