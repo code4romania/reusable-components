@@ -1,4 +1,12 @@
-import React, { PropsWithChildren } from "react";
+import React, {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { ElectionScopeIncomplete } from "../../types/Election";
 import { themable } from "../../util/theme";
 import cssClasses from "./ElectionMap.module.scss";
@@ -13,27 +21,97 @@ type Props = PropsWithChildren<{
   maxHeight?: number;
 }>;
 
-const HereMap = () => {
-  return (
-    <div
-      style={{
-        backgroundColor: "#FFCC00",
-        color: "white",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-        fontWeight: 600,
-      }}
-    >
-      <div>Here maps not implemented</div>
-    </div>
-  );
-};
-
 const defaultAspectRatio = 21 / 15;
 const defaultDiasporaAspectRatio = 38 / 25;
 const defaultMaxHeight = 460;
+
+const loadJS = (src: string) =>
+  new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.addEventListener("load", resolve);
+    script.addEventListener("error", reject);
+    script.src = src;
+    window?.document?.getElementsByTagName("head")[0].appendChild(script);
+  });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type HereMapsAPI = any;
+
+const loadHereMaps = async () => {
+  await loadJS("https://js.api.here.com/v3/3.1/mapsjs-core.js");
+  await Promise.all([
+    loadJS("https://js.api.here.com/v3/3.1/mapsjs-service.js"),
+    loadJS("https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"),
+    loadJS("https://js.api.here.com/v3/3.1/mapsjs-ui.js"),
+  ]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (window as any).H as HereMapsAPI;
+};
+
+let hereMapsPromise: Promise<HereMapsAPI> | void = null;
+const getHereMaps = (): Promise<HereMapsAPI> => {
+  if (hereMapsPromise) {
+    return hereMapsPromise;
+  }
+  hereMapsPromise = loadHereMaps();
+  return hereMapsPromise;
+};
+
+getHereMaps(); // Load on startup
+
+export const useHereMaps = (): HereMapsAPI | void => {
+  const [savedH, setH] = useState<HereMapsAPI>(null);
+  useEffect(() => {
+    let set = setH;
+    getHereMaps().then((H) => {
+      if (set) {
+        set(H);
+      }
+    });
+    return () => {
+      set = null;
+    };
+  }, []);
+  return savedH;
+};
+
+export const HereMapsAPIKeyContext = createContext<string>("");
+export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
+
+const HereMap = ({ classes, width, height }) => {
+  const H = useHereMaps();
+  const apiKey = useContext(HereMapsAPIKeyContext);
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!H || !apiKey || !mapRef.current) {
+      return;
+    }
+
+    const platform = new H.service.Platform({
+      apikey: apiKey,
+    });
+    const defaultLayers = platform.createDefaultLayers();
+    const hMap = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
+      center: { lat: 50, lng: 5 },
+      zoom: 4,
+      pixelRatio: window.devicePixelRatio || 1,
+    });
+
+    new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
+    H.ui.UI.createDefault(hMap, defaultLayers);
+
+    return () => {
+      hMap.dispose();
+    };
+  }, [H, apiKey, mapRef]);
+
+  if (!H || !apiKey) {
+    return null;
+  }
+
+  return <div className={classes.hereMap} ref={mapRef} style={{ width, height }} />;
+};
 
 export const ElectionMap = themable<Props>(
   "ElectionMap",
@@ -65,7 +143,7 @@ export const ElectionMap = themable<Props>(
             )}
           </div>
         ) : (
-          <HereMap />
+          width > 0 && height > 0 && <HereMap classes={classes} width={width} height={height} />
         )}
       </div>
     </div>

@@ -1,40 +1,38 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { ElectionScopeIncomplete } from "../../types/Election";
 import { mockCityElectionScope, mockCountyElectionScope, mockNationalElectionScope } from "../../util/mocks";
-import { boolean, select, withKnobs } from "@storybook/addon-knobs";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
   title: "Election Map",
   component: ElectionMap,
-  decorators: [withKnobs],
+  argTypes: {
+    scope: {
+      defaultValue: mockCityElectionScope,
+      control: {
+        type: "radio",
+        options: {
+          national: mockNationalElectionScope,
+          county: mockCountyElectionScope,
+          locality: mockCityElectionScope,
+        },
+      },
+    },
+    involvesDiaspora: {
+      control: "boolean",
+      defaultValue: true,
+    },
+  },
 };
 
-const scopes = {
-  national: mockNationalElectionScope,
-  county: mockCountyElectionScope,
-  locality: mockCityElectionScope,
+export const SimpleExample = (args) => {
+  return <ElectionMap {...args} />;
 };
 
-export const SimpleExample = () => {
+export const ExampleWithChildren = (args) => {
   return (
-    <ElectionMap
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      scope={(select("scope", scopes as any, scopes.national as any) as unknown) as ElectionScopeIncomplete}
-      involvesDiaspora={boolean("involvesDiaspora", true)}
-    />
-  );
-};
-
-export const ExampleWithChildren = () => {
-  return (
-    <ElectionMap
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      scope={(select("scope", scopes as any, scopes.national as any) as unknown) as ElectionScopeIncomplete}
-      involvesDiaspora={boolean("involvesDiaspora", true)}
-    >
+    <ElectionMap {...args}>
       <div
         style={{
           position: "absolute",
