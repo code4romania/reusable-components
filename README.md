@@ -22,15 +22,15 @@ If you would like to suggest new functionality, open an Issue and mark it as a _
 
 ### Programming languages
 
-JavaScript
+[TypeScript](https://www.typescriptlang.org)
 
 ### Frontend framework
 
-ReactJS
+[ReactJS](https://reactjs.org)
 
 ### Package managers
 
-npm
+[npm](https://www.npmjs.com)
 
 ## Development
 
@@ -47,6 +47,14 @@ npm run-script storybook
 ```
 
 Preview environments available automatically on each PR powered by [Vercel](https://vercel.com/). Preview environment for `master` branch: https://reusable-components-peach.vercel.app/
+
+## Concepts
+
+### Stack
+
+### CSS and theming
+
+All the components in this repo are themed using [CSS Modules](https://github.com/css-modules/css-modules). In case you need to override any component's styles, pass the `classes` prop to any component individually or pass a theme to a `<ThemeProvider>`. See [theme.tsx](src/util/theme.tsx) for more details.
 
 ## Feedback
 
