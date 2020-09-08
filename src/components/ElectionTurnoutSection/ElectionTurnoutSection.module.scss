@@ -34,6 +34,10 @@
 }
 
 .mapBreakdownContainerMobile {
+  .map {
+    flex: none;
+  }
+
   .breakdownContainer {
     margin-right: 0;
     flex: 1;
@@ -47,6 +51,11 @@
 
 .mapBreakdownContainerFullWidth {
   flex-direction: column-reverse;
+
+  .map {
+    flex: none;
+  }
+
   .breakdownContainer {
     flex-direction: row;
     flex-wrap: wrap;
@@ -67,13 +76,13 @@
 }
 
 .mapOverlayPercentage {
-  font-size: (50em / 18 * 0.65);
+  font-size: (50em / 18 * 0.55);
   line-height: 1.3;
   font-weight: 600;
 }
 
 .mapOverlayLabel {
-  font-size: 0.65em;
+  font-size: 0.55em;
   line-height: 1.5;
 }
 
