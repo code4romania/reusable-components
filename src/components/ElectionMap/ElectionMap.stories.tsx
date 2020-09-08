@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { mockCityElectionScope, mockCountyElectionScope, mockNationalElectionScope } from "../../util/mocks";
+import { mockLocalityElectionScope, mockCountyElectionScope, mockNationalElectionScope } from "../../util/mocks";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
@@ -9,13 +9,13 @@ export default {
   component: ElectionMap,
   argTypes: {
     scope: {
-      defaultValue: mockCityElectionScope,
+      defaultValue: mockLocalityElectionScope,
       control: {
         type: "radio",
         options: {
           national: mockNationalElectionScope,
           county: mockCountyElectionScope,
-          locality: mockCityElectionScope,
+          locality: mockLocalityElectionScope,
         },
       },
     },

@@ -2,6 +2,7 @@
 
 import React from "react";
 import {
+  mockDiasporaElectionScope,
   mockLocalCouncilElectionMeta,
   mockNationalElectionScope,
   mockPresidentialElectionMeta,
@@ -30,6 +31,16 @@ export const LocalCouncilElection = () => {
       scope={mockNationalElectionScope}
       meta={mockLocalCouncilElectionMeta}
       turnout={mockPresidentialElectionTurnout}
+    />
+  );
+};
+
+export const DiasporaElection = () => {
+  return (
+    <ElectionTurnoutSection
+      scope={mockDiasporaElectionScope}
+      meta={mockLocalCouncilElectionMeta}
+      turnout={{ ...mockPresidentialElectionTurnout, eligibleVoters: null }}
     />
   );
 };

@@ -76,3 +76,26 @@
   font-size: 0.65em;
   line-height: 1.5;
 }
+
+.totalVotesContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.totalVotesLabels {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.totalVotesCount {
+  font-size: (30rem / 16);
+  color: #505050;
+}
+
+.totalVotesLabel {
+  font-size: (18rem / 16);
+  color: #A8A8A8;
+  margin-top: 0.25rem;
+}

@@ -1,11 +1,20 @@
-import { ElectionMeta, ElectionScope, ElectionTurnout } from "../types/Election";
+import { ElectionMeta, ElectionScopeResolved, ElectionTurnout } from "../types/Election";
 
-export const mockNationalElectionScope: ElectionScope = { type: "national" };
-export const mockCountyElectionScope: ElectionScope = { type: "county", countyId: 1 };
-export const mockCityElectionScope: ElectionScope = { type: "locality", countyId: 1, localityId: 1 };
-export const mockElectionScope: ElectionScope = { type: "county", countyId: 1 };
-export const mockDiasporaElectionScope: ElectionScope = { type: "diaspora" };
-export const mockDiasporaCountryElectionScope: ElectionScope = { type: "diaspora_country", countryId: 1 };
+export const mockNationalElectionScope: ElectionScopeResolved = { type: "national" };
+export const mockCountyElectionScope: ElectionScopeResolved = { type: "county", countyId: 1, countyName: "Prahova" };
+export const mockLocalityElectionScope: ElectionScopeResolved = {
+  type: "locality",
+  countyId: 1,
+  localityId: 1,
+  countyName: "Prahova",
+  localityName: "Ploiești",
+};
+export const mockDiasporaElectionScope: ElectionScopeResolved = { type: "diaspora" };
+export const mockDiasporaCountryElectionScope: ElectionScopeResolved = {
+  type: "diaspora_country",
+  countryId: 1,
+  countryName: "Spania",
+};
 
 export const mockPresidentialElectionMeta: ElectionMeta = {
   type: "president",

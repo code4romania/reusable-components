@@ -5,7 +5,7 @@ import {
   ElectionTurnout,
   electionTypeInvolvesDiaspora,
 } from "../../types/Election";
-import { formatPercentage, getScopeName } from "../../util/format";
+import { formatGroupedNumber, formatPercentage, getScopeName } from "../../util/format";
 import { mergeClasses, themable } from "../../util/theme";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars";
@@ -13,6 +13,7 @@ import { ElectionTurnoutBreakdownChart } from "../ElectionTurnoutBreakdownChart/
 import { BodyHuge, Heading2, Label } from "../Typography/Typography";
 import cssClasses from "./ElectionTurnoutSection.module.scss";
 import useDimensions from "react-use-dimensions";
+import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 
 type Props = {
   meta: ElectionMeta;
@@ -69,9 +70,18 @@ export const ElectionTurnoutSection = themable<Props>(
             mobileMap && classes.mapBreakdownContainerMobile,
           )}
         >
-          {turnout && turnout.breakdown && turnout.breakdown.length > 0 && (
+          {turnout && ((turnout.breakdown && turnout.breakdown.length > 0) || turnout.eligibleVoters == null) && (
             <div className={classes.breakdownContainer}>
-              {turnout.breakdown.map((breakdown, index) => (
+              {turnout.eligibleVoters == null && (
+                <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>
+                  <BallotCheckmark />
+                  <div className={classes.totalVotesLabels}>
+                    <div className={classes.totalVotesCount}>{formatGroupedNumber(turnout.totalVotes)}</div>
+                    <div className={classes.totalVotesLabel}>Votanți {getScopeName(scope)}</div>
+                  </div>
+                </div>
+              )}
+              {turnout.breakdown?.map((breakdown, index) => (
                 <ElectionTurnoutBreakdownChart
                   key={index}
                   className={classes.breakdown}
