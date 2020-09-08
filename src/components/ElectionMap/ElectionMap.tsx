@@ -82,6 +82,7 @@ const HereMap = ({ classes, width, height }) => {
   const H = useHereMaps();
   const apiKey = useContext(HereMapsAPIKeyContext);
   const mapRef = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState(null);
 
   useLayoutEffect(() => {
     if (!H || !apiKey || !mapRef.current) {
@@ -97,14 +98,22 @@ const HereMap = ({ classes, width, height }) => {
       zoom: 4,
       pixelRatio: window.devicePixelRatio || 1,
     });
+    setMap(hMap);
 
     new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
     H.ui.UI.createDefault(hMap, defaultLayers);
 
     return () => {
       hMap.dispose();
+      setMap((state) => (state === hMap ? null : state));
     };
   }, [H, apiKey, mapRef]);
+
+  useLayoutEffect(() => {
+    if (map) {
+      map.getViewPort().resize();
+    }
+  }, [width, height, map]);
 
   if (!H || !apiKey) {
     return null;
