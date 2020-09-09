@@ -5,3 +5,5 @@ storybook-static/
 
 .DS_Store
 thumbs.db
+
+.env

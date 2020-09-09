@@ -1,11 +1,16 @@
-import '@storybook/addon-console'
+import React from "react";
 
-import { addDecorator } from '@storybook/react';
-import { withConsole } from '@storybook/addon-console';
+import { withConsole } from "@storybook/addon-console";
+import { HereMapsAPIKeyProvider } from "../src/components/ElectionMap/ElectionMap";
 
-import "./storybook.scss";
+import "./storybook.css";
 
-addDecorator((storyFn, context) => withConsole()(storyFn)(context));
+export const decorators = [
+  (storyFn, context) => withConsole()(storyFn)(context),
+  (storyFn, context) => (
+    <HereMapsAPIKeyProvider value={process.env.STORYBOOK_HEREMAPS_API_KEY}>{storyFn(context)}</HereMapsAPIKeyProvider>
+  ),
+];
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

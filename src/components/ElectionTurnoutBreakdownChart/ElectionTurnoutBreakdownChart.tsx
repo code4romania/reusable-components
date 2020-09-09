@@ -12,14 +12,13 @@ import RomaniaMap from "../../assets/romania-map.svg";
 type Props = {
   value: ElectionTurnoutBreakdown;
   scope?: ElectionScope;
-  width?: number;
 };
 
 const categoryColors = {
   permanent_lists: "#55505C",
   supplementary_lists: "#5D737E",
   mobile_ballot_box: "#7FC6A4",
-  vote_by_post: "#F1C692",
+  vote_by_mail: "#F1C692",
   default: "#55505C",
 };
 
@@ -27,7 +26,7 @@ const categoryLabels = {
   permanent_lists: "Votanți liste permanente",
   supplementary_lists: "Votanți liste suplimentare",
   mobile_ballot_box: "Votanți urnă mobilă",
-  vote_by_post: "Votanți prin corespondență",
+  vote_by_mail: "Votanți prin corespondență",
   default: "Categorie necunoscută",
 };
 
