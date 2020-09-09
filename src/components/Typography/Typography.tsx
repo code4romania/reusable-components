@@ -35,3 +35,4 @@ export const LabelMedium = makeTypographyComponent<ComponentProps<"span">>("span
 export const Heading1 = makeTypographyComponent<ComponentProps<"h1">>("h1", "h1");
 export const Heading2 = makeTypographyComponent<ComponentProps<"h2">>("h2", "h2");
 export const Heading3 = makeTypographyComponent<ComponentProps<"h3">>("h3", "h3");
+export const Underlined = makeTypographyComponent<ComponentProps<"span">>("span", "underlined");
