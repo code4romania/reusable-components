@@ -1,7 +1,8 @@
 import React from "react";
 import {
   ElectionMeta,
-  ElectionScopeResolved,
+  ElectionScopeIncompleteResolved,
+  electionScopeIsComplete,
   ElectionTurnout,
   electionTypeInvolvesDiaspora,
 } from "../../types/Election";
@@ -10,14 +11,15 @@ import { mergeClasses, themable } from "../../util/theme";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars";
 import { ElectionTurnoutBreakdownChart } from "../ElectionTurnoutBreakdownChart/ElectionTurnoutBreakdownChart";
-import { BodyHuge, Heading2, Label } from "../Typography/Typography";
+import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import cssClasses from "./ElectionTurnoutSection.module.scss";
 import useDimensions from "react-use-dimensions";
 import BallotCheckmark from "../../assets/ballot-checkmark.svg";
+import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 
 type Props = {
   meta: ElectionMeta;
-  scope: ElectionScopeResolved;
+  scope: ElectionScopeIncompleteResolved;
   turnout?: ElectionTurnout;
 };
 
@@ -28,6 +30,8 @@ export const ElectionTurnoutSection = themable<Props>(
   const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
+
+  const completeness = electionScopeIsComplete(scope);
 
   const map = width != null && (
     <ElectionMap scope={scope} involvesDiaspora={involvesDiaspora} className={classes.map}>
@@ -45,54 +49,61 @@ export const ElectionTurnoutSection = themable<Props>(
   const fullWidthMap =
     !mobileMap && width != null && width <= (scope.type === "national" && involvesDiaspora ? 1000 : 840);
 
+  const showHeading = turnout != null && completeness.complete;
+
   return (
     <>
       {mobileMap && map}
-      <Heading2>Prezența la vot</Heading2>
-      <div>
-        <Label>{getScopeName(scope)}</Label>
-        {turnout == null && (
-          <div className={classes.unavailable}>
-            <BodyHuge>Nu există date despre prezența la vot pentru acest nivel de detaliu.</BodyHuge>
+      {showHeading && (
+        <>
+          <Heading2>Prezența la vot</Heading2>
+          <div>
+            <Label>{getScopeName(scope)}</Label>
+          </div>
+        </>
+      )}
+      {!completeness.complete && <ElectionScopeIncompleteWarning completeness={completeness} page="turnout" />}
+      {turnout == null && completeness.complete && (
+        <DivBodyHuge className={classes.unavailable}>
+          Nu există date despre prezența la vot pentru acest nivel de detaliu.
+        </DivBodyHuge>
+      )}
+      {turnout && turnout.eligibleVoters != null && (
+        <ElectionTurnoutBars
+          className={classes.percentageBars}
+          eligibleVoters={turnout.eligibleVoters}
+          totalVotes={turnout.totalVotes}
+        />
+      )}
+      <div style={{ width: "100%" }} ref={measureRef} />
+      <div
+        className={mergeClasses(
+          mergeClasses(classes.mapBreakdownContainer, fullWidthMap && classes.mapBreakdownContainerFullWidth),
+          mobileMap && classes.mapBreakdownContainerMobile,
+        )}
+      >
+        {turnout && completeness.complete && (turnout.breakdown?.length > 0 || turnout.eligibleVoters == null) && (
+          <div className={classes.breakdownContainer}>
+            {turnout.eligibleVoters == null && (
+              <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>
+                <BallotCheckmark />
+                <div className={classes.totalVotesLabels}>
+                  <div className={classes.totalVotesCount}>{formatGroupedNumber(turnout.totalVotes)}</div>
+                  <div className={classes.totalVotesLabel}>Votanți {getScopeName(scope)}</div>
+                </div>
+              </div>
+            )}
+            {turnout.breakdown?.map((breakdown, index) => (
+              <ElectionTurnoutBreakdownChart
+                key={index}
+                className={classes.breakdown}
+                value={breakdown}
+                scope={completeness.complete}
+              />
+            ))}
           </div>
         )}
-        {turnout && turnout.eligibleVoters != null && (
-          <ElectionTurnoutBars
-            className={classes.percentageBars}
-            eligibleVoters={turnout.eligibleVoters}
-            totalVotes={turnout.totalVotes}
-          />
-        )}
-        <div style={{ width: "100%" }} ref={measureRef} />
-        <div
-          className={mergeClasses(
-            mergeClasses(classes.mapBreakdownContainer, fullWidthMap && classes.mapBreakdownContainerFullWidth),
-            mobileMap && classes.mapBreakdownContainerMobile,
-          )}
-        >
-          {turnout && ((turnout.breakdown && turnout.breakdown.length > 0) || turnout.eligibleVoters == null) && (
-            <div className={classes.breakdownContainer}>
-              {turnout.eligibleVoters == null && (
-                <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>
-                  <BallotCheckmark />
-                  <div className={classes.totalVotesLabels}>
-                    <div className={classes.totalVotesCount}>{formatGroupedNumber(turnout.totalVotes)}</div>
-                    <div className={classes.totalVotesLabel}>Votanți {getScopeName(scope)}</div>
-                  </div>
-                </div>
-              )}
-              {turnout.breakdown?.map((breakdown, index) => (
-                <ElectionTurnoutBreakdownChart
-                  key={index}
-                  className={classes.breakdown}
-                  value={breakdown}
-                  scope={scope}
-                />
-              ))}
-            </div>
-          )}
-          {!mobileMap && map}
-        </div>
+        {!mobileMap && map}
       </div>
     </>
   );

@@ -8,12 +8,32 @@ type ElectionScope_<T> =
 export type ElectionScope = ElectionScope_<number>;
 export type ElectionScopeIncomplete = ElectionScope_<number | void>;
 
+export type ElectionScopeCompleteness = {
+  complete: ElectionScope | null;
+  missingCounty: boolean;
+  missingLocality: boolean;
+  missingCountry: boolean;
+};
+
+export const electionScopeIsComplete = (scope: ElectionScopeIncomplete): ElectionScopeCompleteness => {
+  const missingCounty = (scope.type === "county" || scope.type === "locality") && scope.countyId == null;
+  const missingLocality = scope.type === "locality" && scope.localityId == null;
+  const missingCountry = scope.type === "diaspora_country" && scope.countryId == null;
+  return {
+    complete: !missingCounty && !missingLocality && !missingCountry ? ((scope as unknown) as ElectionScope) : null,
+    missingCounty,
+    missingLocality,
+    missingCountry,
+  };
+};
+
 export type ElectionScopeNames = {
   countyName?: string;
   countryName?: string;
   localityName?: string;
 };
 export type ElectionScopeResolved = ElectionScope & ElectionScopeNames;
+export type ElectionScopeIncompleteResolved = ElectionScopeIncomplete & ElectionScopeNames;
 
 export type ElectionType =
   | "referendum"

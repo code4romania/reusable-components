@@ -1,4 +1,4 @@
-import { ElectionScopeResolved } from "../types/Election";
+import { ElectionScopeIncompleteResolved } from "../types/Election";
 
 export const formatPercentage = (x: number): string =>
   new Intl.NumberFormat("ro-RO", {
@@ -11,7 +11,7 @@ export const formatGroupedNumber = (x: number): string =>
     useGrouping: true,
   }).format(x);
 
-export function getScopeName(scope: ElectionScopeResolved): string {
+export function getScopeName(scope: ElectionScopeIncompleteResolved): string {
   switch (scope.type) {
     case "national":
       return "Nivel Național";
