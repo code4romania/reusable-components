@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useApiResponse } from "../util/api";
 import { ElectionAPI, makeElectionApi } from "../util/electionApi";
 import { mockElectionAPI, mockNationalElectionScope } from "../util/mocks";
+import { ElectionObservationSection } from "./ElectionObservationSection/ElectionObservationSection";
 import { ElectionTurnoutSection } from "./ElectionTurnoutSection/ElectionTurnoutSection";
 
 const realElectionAPI = makeElectionApi();
@@ -59,6 +60,7 @@ export const AllComponents = (args: { api: string; electionId: string }) => {
       {data && (
         <>
           <ElectionTurnoutSection meta={data.meta} scope={data.scope} turnout={data.turnout} />
+          {data.observation && <ElectionObservationSection observation={data.observation} />}
         </>
       )}
     </>

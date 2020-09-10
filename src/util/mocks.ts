@@ -94,6 +94,7 @@ export const mockElectionAPI = makeElectionApi({
           scope,
           meta: mockPresidentialElectionMeta,
           turnout: mockPresidentialElectionTurnout,
+          observation: mockObservation,
         };
       },
     ],
