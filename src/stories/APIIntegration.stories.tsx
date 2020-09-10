@@ -1,30 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import React, { useState } from "react";
+import React from "react";
 import { useApiResponse } from "../util/api";
 import { ElectionAPI, makeElectionApi } from "../util/electionApi";
 import { mockElectionAPI, mockNationalElectionScope } from "../util/mocks";
 import { ElectionObservationSection } from "../components/ElectionObservationSection/ElectionObservationSection";
 import { ElectionTurnoutSection } from "../components/ElectionTurnoutSection/ElectionTurnoutSection";
+import { APIRequestPreview } from "./APIRequestPreview";
 
 const realElectionAPI = makeElectionApi();
 
 const apis = {
   mock: mockElectionAPI,
   real: realElectionAPI,
-};
-
-const DataPreview = ({ data }) => {
-  const [visible, setVisible] = useState(false);
-  return (
-    <pre
-      onClick={() => {
-        setVisible((x) => !x);
-      }}
-    >
-      {visible ? JSON.stringify(data, null, 2) : "Click here to show data as JSON"}
-    </pre>
-  );
 };
 
 export default {
@@ -54,9 +42,7 @@ export const AllComponents = (args: { api: string; electionId: string }) => {
 
   return (
     <>
-      {loading && <div>Loading...</div>}
-      {error && <div>{error.toString()}</div>}
-      {data && <DataPreview data={data} />}
+      <APIRequestPreview data={data} loading={loading} error={error} />
       {data && (
         <>
           <ElectionTurnoutSection meta={data.meta} scope={data.scope} turnout={data.turnout} />
