@@ -1,4 +1,6 @@
 import { ElectionMeta, ElectionObservation, ElectionScopeResolved, ElectionTurnout } from "../types/Election";
+import { mockFetch } from "./api";
+import { makeElectionApi } from "./electionApi";
 
 export const mockNationalElectionScope: ElectionScopeResolved = { type: "national" };
 export const mockCountyElectionScope: ElectionScopeResolved = { type: "county", countyId: 1, countyName: "Prahova" };
@@ -75,3 +77,25 @@ export const mockObservation: ElectionObservation = {
   messageCount: 500,
   issueCount: 231,
 };
+
+// To fake loading times
+const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
+
+export const mockElectionAPI = makeElectionApi({
+  fetch: mockFetch([
+    [
+      "GET",
+      /^\/elections\/([^/]+)$/,
+      async ({ match, query }) => {
+        await delay(1000);
+        const scope = { ...query, countyName: "Prahova", localityName: "Ploiești", countryName: "Spania" };
+        return {
+          id: match[1],
+          scope,
+          meta: mockPresidentialElectionMeta,
+          turnout: mockPresidentialElectionTurnout,
+        };
+      },
+    ],
+  ]),
+});
