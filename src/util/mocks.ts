@@ -1,4 +1,4 @@
-import { ElectionMeta, ElectionScopeResolved, ElectionTurnout } from "../types/Election";
+import { ElectionMeta, ElectionObservation, ElectionScopeResolved, ElectionTurnout } from "../types/Election";
 
 export const mockNationalElectionScope: ElectionScopeResolved = { type: "national" };
 export const mockCountyElectionScope: ElectionScopeResolved = { type: "county", countyId: 1, countyName: "Prahova" };
@@ -66,4 +66,12 @@ export const mockPresidentialElectionTurnout: ElectionTurnout = {
       ],
     },
   ],
+};
+
+export const mockObservation: ElectionObservation = {
+  coveredPollingPlaces: 431,
+  coveredCounties: 34,
+  observerCount: 823,
+  messageCount: 500,
+  issueCount: 231,
 };

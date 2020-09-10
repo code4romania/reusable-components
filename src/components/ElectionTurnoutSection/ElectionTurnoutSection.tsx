@@ -62,9 +62,11 @@ export const ElectionTurnoutSection = themable<Props>(
           </div>
         </>
       )}
-      {!completeness.complete && <ElectionScopeIncompleteWarning completeness={completeness} page="turnout" />}
+      {!completeness.complete && (
+        <ElectionScopeIncompleteWarning className={classes.warning} completeness={completeness} page="turnout" />
+      )}
       {turnout == null && completeness.complete && (
-        <DivBodyHuge className={classes.unavailable}>
+        <DivBodyHuge className={classes.warning}>
           Nu există date despre prezența la vot pentru acest nivel de detaliu.
         </DivBodyHuge>
       )}

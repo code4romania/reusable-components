@@ -1,8 +1,6 @@
 import React from "react";
 import { ElectionScopeCompleteness } from "../../types/Election";
-import { themable } from "../../util/theme";
-import { DivBodyHuge } from "../Typography/Typography";
-import cssClasses from "./ElectionScopeIncompleteWarning.module.scss";
+import { DivBodyHuge, Underlined } from "../Typography/Typography";
 
 const pageName = (page: string | void) => {
   switch (page) {
@@ -31,17 +29,15 @@ const missingData = (completeness: ElectionScopeCompleteness) => {
   return "";
 };
 
-export const ElectionScopeIncompleteWarning = themable<{
+type Props = {
+  className?: string;
   completeness: ElectionScopeCompleteness;
   page?: "turnout" | "results" | void;
-}>(
-  "ElectionScopeIncompleteWarning",
-  cssClasses,
-)(({ classes, completeness, page }) =>
+};
+
+export const ElectionScopeIncompleteWarning: React.FC<Props> = ({ className, completeness, page }) =>
   completeness.complete ? null : (
-    <DivBodyHuge className={classes.root}>
-      Pentru a vizualiza {pageName(page)}, te rugăm să selectezi{" "}
-      <span className={classes.missingData}>{missingData(completeness)}</span>.
+    <DivBodyHuge className={className}>
+      Pentru a vizualiza {pageName(page)}, te rugăm să selectezi <Underlined>{missingData(completeness)}</Underlined>.
     </DivBodyHuge>
-  ),
-);
+  );
