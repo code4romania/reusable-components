@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useApiResponse } from "../util/api";
 import { ElectionAPI, makeElectionApi } from "../util/electionApi";
 import { mockElectionAPI, mockNationalElectionScope } from "../util/mocks";
-import { ElectionObservationSection } from "./ElectionObservationSection/ElectionObservationSection";
-import { ElectionTurnoutSection } from "./ElectionTurnoutSection/ElectionTurnoutSection";
+import { ElectionObservationSection } from "../components/ElectionObservationSection/ElectionObservationSection";
+import { ElectionTurnoutSection } from "../components/ElectionTurnoutSection/ElectionTurnoutSection";
 
 const realElectionAPI = makeElectionApi();
 
