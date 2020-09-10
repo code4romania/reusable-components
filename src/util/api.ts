@@ -132,7 +132,7 @@ export function makeJsonFetch(
       }
     }
     const searchString = searchParams.toString();
-    const url = urlPrefix + method + (searchString ? "?" + searchString : "");
+    const url = urlPrefix + endpoint + (searchString ? "?" + searchString : "");
 
     return async (signal) => {
       const response = await fetch(url, {
