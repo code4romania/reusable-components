@@ -119,10 +119,13 @@ export function makeJsonFetch(
   >(method: string, endpoint: string, options: JSONFetchOptions<BodyType, QueryParamsType> = {}) {
     const { body, query, headers, fetchOptions } = options;
 
-    const sentHeaders: Record<string, string> = { ...defaultHeaders };
+    const sentHeaders: Record<string, string> = {
+      ["Accept"]: "application/json",
+    };
     if (body != null) {
       headers["Content-Type"] = "application/json";
     }
+    Object.assign(sentHeaders, defaultHeaders);
     Object.assign(sentHeaders, headers);
 
     const searchParams = new URLSearchParams();
