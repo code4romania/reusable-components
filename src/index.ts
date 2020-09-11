@@ -11,3 +11,4 @@ export * from "./components/BarChart/BarChart";
 export * from "./components/ElectionMap/ElectionMap";
 export * from "./components/ElectionTurnoutSection/ElectionTurnoutSection";
 export * from "./components/ElectionObservationSection/ElectionObservationSection";
+export * from "./components/CountyLocalitySelect/CountyLocalitySelect";
