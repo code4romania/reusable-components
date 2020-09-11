@@ -1,7 +1,6 @@
+import { electionApiProductionUrl } from "../constants/servers";
 import { Election, ElectionMeta, ElectionScope } from "../types/Election";
 import { APIInvocation, JSONFetch, makeJsonFetch } from "./api";
-
-const productionApiUrl = "https://example.com"; // TODO
 
 export interface ElectionScopeAPI {
   getCounties: () => APIInvocation<{ id: number; name: string }[]>;
@@ -18,7 +17,7 @@ export const makeElectionApi = (options?: {
   apiUrl?: string;
   fetch?: JSONFetch; // for optional mocking
 }): ElectionAPI => {
-  const fetch = options?.fetch ?? makeJsonFetch(options?.apiUrl ?? productionApiUrl);
+  const fetch = options?.fetch ?? makeJsonFetch(options?.apiUrl ?? electionApiProductionUrl);
   return {
     getElection: (id, scope) => fetch("GET", `/elections/${id}`, { query: scope }),
     getElections: () => fetch("GET", "/elections"),
