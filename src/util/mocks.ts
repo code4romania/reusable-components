@@ -1,4 +1,13 @@
-import { ElectionMeta, ElectionObservation, ElectionScopeResolved, ElectionTurnout } from "../types/Election";
+import {
+  Election,
+  ElectionMeta,
+  ElectionObservation,
+  ElectionScope,
+  ElectionScopeResolved,
+  ElectionTurnout,
+} from "../types/Election";
+import { mockFetch, APIMockHandler } from "./api";
+import { makeElectionApi } from "./electionApi";
 
 export const mockNationalElectionScope: ElectionScopeResolved = { type: "national" };
 export const mockCountyElectionScope: ElectionScopeResolved = { type: "county", countyId: 1, countyName: "Prahova" };
@@ -75,3 +84,77 @@ export const mockObservation: ElectionObservation = {
   messageCount: 500,
   issueCount: 231,
 };
+
+// To fake loading times
+const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
+
+export const mockElectionAPI = makeElectionApi({
+  fetch: mockFetch([
+    [
+      "GET",
+      /^\/elections\/([^/]+)$/,
+      (async ({ match, query }) => {
+        await delay(1000);
+        const scope = { ...query, countyName: "Prahova", localityName: "Ploiești", countryName: "Spania" };
+        return {
+          id: match[1],
+          scope,
+          meta: mockPresidentialElectionMeta,
+          turnout: mockPresidentialElectionTurnout,
+          observation: mockObservation,
+        };
+      }) as APIMockHandler<Election, unknown, ElectionScope>,
+    ],
+
+    [
+      "GET",
+      "/elections",
+      (async () => {
+        await delay(1000);
+        return [
+          { id: "first-election", meta: mockPresidentialElectionMeta },
+          { id: "second-election", meta: mockLocalCouncilElectionMeta },
+        ];
+      }) as APIMockHandler<{ id: string; meta: ElectionMeta }[]>,
+    ],
+
+    [
+      "GET",
+      "/counties",
+      (async () => {
+        await delay(1000);
+        return [
+          { id: 1, name: "Prahova" },
+          { id: 2, name: "Brașov" },
+          { id: 3, name: "Constanța" },
+        ];
+      }) as APIMockHandler<{ id: number; name: string }[]>,
+    ],
+
+    [
+      "GET",
+      /^\/counties\/([^/]+)\/localities$/,
+      (async () => {
+        await delay(1000);
+        return [
+          { id: 1, name: "Ploiești" },
+          { id: 2, name: "Slănic" },
+          { id: 3, name: "Câmpina" },
+        ];
+      }) as APIMockHandler<{ id: number; name: string }[]>,
+    ],
+
+    [
+      "GET",
+      "/countries",
+      (async () => {
+        await delay(1000);
+        return [
+          { id: 1, name: "Portugalia" },
+          { id: 2, name: "Spania" },
+          { id: 3, name: "Regatul Unit al Marii Britanii și Irlandei de Nord" },
+        ];
+      }) as APIMockHandler<{ id: number; name: string }[]>,
+    ],
+  ]),
+});

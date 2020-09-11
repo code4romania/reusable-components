@@ -1,4 +1,6 @@
 export * from "./util/theme";
+export * from "./util/api";
+export * from "./util/electionApi";
 
 export * from "./components/Typography/Typography";
 export * from "./components/NameWithColor/NameWithColor";
