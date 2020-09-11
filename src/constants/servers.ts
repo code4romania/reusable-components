@@ -1,3 +1,3 @@
 // TODO
 export const electionApiProductionUrl = "https://example.com";
-export const electionMapOverlayUrl = "https://localhost:5000";
+export const electionMapOverlayUrl = "http://localhost:5000";

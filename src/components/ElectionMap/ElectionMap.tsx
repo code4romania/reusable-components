@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useMemo } from "react";
 import { ElectionScopeIncomplete } from "../../types/Election";
 import { themable } from "../../util/theme";
 import cssClasses from "./ElectionMap.module.scss";
@@ -6,9 +6,11 @@ import RomaniaMap from "../../assets/romania-map.svg";
 import WorldMap from "../../assets/world-map.svg";
 import useDimensions from "react-use-dimensions";
 import { HereMap } from "./HereMap";
+import { electionMapOverlayUrl } from "../../constants/servers";
 
 type Props = PropsWithChildren<{
   scope: ElectionScopeIncomplete;
+  onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
   involvesDiaspora?: boolean; // electionTypeInvolvesDiaspora(election.meta.type)
   aspectRatio?: number;
   maxHeight?: number;
@@ -21,7 +23,7 @@ const defaultMaxHeight = 460;
 export const ElectionMap = themable<Props>(
   "ElectionMap",
   cssClasses,
-)(({ classes, scope, involvesDiaspora, aspectRatio, maxHeight = defaultMaxHeight, children }) => {
+)(({ classes, scope, onScopeChange, involvesDiaspora, aspectRatio, maxHeight = defaultMaxHeight, children }) => {
   const [ref, { width = 0 }] = useDimensions();
 
   const showsSimpleMap = scope.type === "national";
@@ -30,6 +32,38 @@ export const ElectionMap = themable<Props>(
   if (!Number.isFinite(height)) {
     height = 0;
   }
+
+  const [overlayUrl, selectedFeature, scopeModifier] = useMemo<
+    [string, number | void, (featureId: number) => ElectionScopeIncomplete]
+  >(() => {
+    if (scope.type === "locality" && scope.countyId != null) {
+      return [
+        `${electionMapOverlayUrl}/dobrogea.geojson`,
+        scope.localityId,
+        (localityId) => ({ ...scope, localityId }),
+      ];
+    }
+    if ((scope.type === "locality" && scope.countyId == null) || scope.type === "county") {
+      return [`${electionMapOverlayUrl}/dobrogea.geojson`, scope.countyId, (countyId) => ({ ...scope, countyId })];
+    }
+    if (scope.type === "diaspora" || scope.type === "diaspora_country") {
+      return [
+        `${electionMapOverlayUrl}/dobrogea.geojson`,
+        scope.type === "diaspora_country" && scope.countryId != null ? scope.countryId : null,
+        (countryId) => ({ type: "diaspora_country", countryId }),
+      ];
+    }
+    return [`${electionMapOverlayUrl}/dobrogea.geojson`, null, (countyId) => ({ type: "county", countyId })];
+  }, [scope]);
+
+  const onFeatureSelect = useMemo(
+    () =>
+      onScopeChange &&
+      ((featureId) => {
+        onScopeChange(scopeModifier(featureId));
+      }),
+    [onScopeChange, scopeModifier],
+  );
 
   return (
     <div className={classes.root} ref={ref} style={{ height }}>
@@ -48,7 +82,17 @@ export const ElectionMap = themable<Props>(
             )}
           </div>
         ) : (
-          width > 0 && height > 0 && <HereMap className={classes.hereMap} width={width} height={height} />
+          width > 0 &&
+          height > 0 && (
+            <HereMap
+              className={classes.hereMap}
+              width={width}
+              height={height}
+              overlayUrl={overlayUrl}
+              selectedFeature={selectedFeature}
+              onFeatureSelect={onFeatureSelect}
+            />
+          )
         )}
       </div>
     </div>

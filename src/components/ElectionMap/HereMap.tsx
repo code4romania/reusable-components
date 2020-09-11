@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 
+type Props = {
+  className?: string;
+  width: number;
+  height: number;
+  overlayUrl?: string;
+  selectedFeature?: number | void;
+  onFeatureSelect?: (featureId: number) => unknown;
+};
+
 const loadJS = (src: string) =>
   new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -18,6 +27,7 @@ const loadHereMaps = async () => {
     loadJS("https://js.api.here.com/v3/3.1/mapsjs-service.js"),
     loadJS("https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"),
     loadJS("https://js.api.here.com/v3/3.1/mapsjs-ui.js"),
+    loadJS("https://js.api.here.com/v3/3.1/mapsjs-data.js"),
   ]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (window as any).H as HereMapsAPI;
@@ -53,13 +63,7 @@ export const useHereMaps = (): HereMapsAPI | void => {
 export const HereMapsAPIKeyContext = createContext<string>("");
 export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
 
-type Props = {
-  className?: string;
-  width: number;
-  height: number;
-};
-
-export const HereMap: React.FC<Props> = ({ className, width, height }) => {
+export const HereMap: React.FC<Props> = ({ className, width, height, overlayUrl }) => {
   const H = useHereMaps();
   const apiKey = useContext(HereMapsAPIKeyContext);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -95,6 +99,21 @@ export const HereMap: React.FC<Props> = ({ className, width, height }) => {
       map.getViewPort().resize();
     }
   }, [width, height, map]);
+
+  useLayoutEffect(() => {
+    if (!H || !map || !overlayUrl) return;
+
+    const reader = new H.data.geojson.Reader(overlayUrl, { disableLegacyMode: true });
+    reader.parse();
+
+    const layer = reader.getLayer();
+    map.addLayer(layer);
+
+    return () => {
+      map.removeLayer(layer);
+      reader.dispose();
+    };
+  }, [H, map, overlayUrl]);
 
   if (!H || !apiKey) {
     return null;
