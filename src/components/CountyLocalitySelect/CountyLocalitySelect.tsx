@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Select from "react-select";
+
 import classes from "./CountyLocalitySelect.module.scss";
 import { Heading2, Label } from "../Typography/Typography";
 
@@ -23,8 +25,8 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
     localities: localities,
   });
 
-  const changeCounty = (evt) => {
-    const value = evt.target.value;
+  const changeCounty = (county) => {
+    const value = county.value;
 
     setState({
       ...state,
@@ -33,39 +35,43 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
     });
   };
 
-  const changeLocality = (evt) => {
+  const changeLocality = (locality) => {
+    const value = locality.value;
+
     setState({
       ...state,
-      selectedLocality: evt.target.value,
+      selectedLocality: value,
     });
   };
+
+  const countyList = counties.map((county) => ({ value: county.countyName, label: county.label }));
+  const selectedCounty = countyList.find((county) => county.value === state.selectedCounty);
+
+  const localityList = state.localities.map((locality) => ({ value: locality.localityName, label: locality.label }));
+  const selectedLocality = localityList.find((locality) => locality.value === state.selectedLocality);
+
+  console.log("state.county", state.selectedCounty);
+  console.log("state.locality", state.selectedLocality);
 
   return (
     <div className={classes.root}>
       <Heading2 className={classes.h2}>Localitate</Heading2>
 
+      {/* TO DO: make it so that users can undo selection */}
       <div>
-        <Label>Județ</Label>
-        <select value={state.selectedCounty} onChange={changeCounty}>
-          <option value="">Alege județul</option>
-          {counties.map((county) => (
-            <option key={county.label} value={county.label}>
-              {county.label}
-            </option>
-          ))}
-        </select>
+        <Label className={classes.label}>Județ</Label>
+        <Select placeholder="Alege județul" options={countyList} onChange={changeCounty} value={selectedCounty} />
       </div>
 
+      {/* TO DO: make it so that users can undo selection */}
       <div>
-        <Label>Localitate</Label>
-        <select value={state.selectedLocality} onChange={changeLocality}>
-          <option value="">Alege localitatea</option>
-          {state.localities.map((loc) => (
-            <option key={loc.localityName} value={loc.label}>
-              {loc.label}
-            </option>
-          ))}
-        </select>
+        <Label className={classes.label}>Localitate</Label>
+        <Select
+          placeholder="Alege localitatea"
+          options={localityList}
+          onChange={changeLocality}
+          value={selectedLocality}
+        />
       </div>
     </div>
   );

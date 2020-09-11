@@ -1,11 +1,13 @@
 .root {
   display: grid;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: 33% 30% 30%;
+  column-gap: 1%;
   color: #999999;
 }
 
 .root .h2 {
   color: #333333;
+  margin: auto 0;
 }
 
 .root select {
@@ -21,4 +23,8 @@
 
 .root option {
   color: #999999;  
+}
+
+.label {
+  margin-left: 1px;
 }
