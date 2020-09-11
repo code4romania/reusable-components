@@ -1,7 +1,7 @@
 import React from "react";
 
 import { withConsole } from "@storybook/addon-console";
-import { HereMapsAPIKeyProvider } from "../src/components/ElectionMap/ElectionMap";
+import { HereMapsAPIKeyProvider } from "../src/components/ElectionMap/HereMap";
 
 import "./storybook.css";
 

@@ -11,5 +11,6 @@ export * from "./components/PercentageBars/PercentageBars";
 export * from "./components/PercentageBarsLegend/PercentageBarsLegend";
 export * from "./components/BarChart/BarChart";
 export * from "./components/ElectionMap/ElectionMap";
+export * from "./components/ElectionMap/HereMap";
 export * from "./components/ElectionTurnoutSection/ElectionTurnoutSection";
 export * from "./components/ElectionObservationSection/ElectionObservationSection";
