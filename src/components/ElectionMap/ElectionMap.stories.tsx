@@ -9,6 +9,10 @@ export default {
   component: ElectionMap,
   argTypes: {
     ...scopeArgTypes,
+    scopeType: {
+      ...scopeArgTypes.scopeType,
+      defaultValue: "locality",
+    },
     involvesDiaspora: {
       control: "boolean",
       defaultValue: true,
@@ -16,15 +20,19 @@ export default {
   },
 };
 
+const logScopeChange = (scope) => {
+  console.log("onScopeChange", scope);
+};
+
 export const SimpleExample = (args) => {
   const [scope, otherArgs] = scopeFromArgs(args);
-  return <ElectionMap scope={scope} {...otherArgs} />;
+  return <ElectionMap scope={scope} onScopeChange={logScopeChange} {...otherArgs} />;
 };
 
 export const ExampleWithChildren = (args) => {
   const [scope, otherArgs] = scopeFromArgs(args);
   return (
-    <ElectionMap scope={scope} {...otherArgs}>
+    <ElectionMap scope={scope} onScopeChange={logScopeChange} {...otherArgs}>
       <div
         style={{
           position: "absolute",

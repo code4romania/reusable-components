@@ -5,7 +5,7 @@ import cssClasses from "./ElectionMap.module.scss";
 import RomaniaMap from "../../assets/romania-map.svg";
 import WorldMap from "../../assets/world-map.svg";
 import useDimensions from "react-use-dimensions";
-import { HereMap } from "./HereMap";
+import { HereMap, romaniaMapBounds, worldMapBounds } from "./HereMap";
 import { electionMapOverlayUrl } from "../../constants/servers";
 
 type Props = PropsWithChildren<{
@@ -88,6 +88,9 @@ export const ElectionMap = themable<Props>(
               className={classes.hereMap}
               width={width}
               height={height}
+              initialBounds={
+                scope.type === "diaspora" || scope.type === "diaspora_country" ? worldMapBounds : romaniaMapBounds
+              }
               overlayUrl={overlayUrl}
               selectedFeature={selectedFeature}
               onFeatureSelect={onFeatureSelect}
