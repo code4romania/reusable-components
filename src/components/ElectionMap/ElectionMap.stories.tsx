@@ -1,24 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { mockLocalityElectionScope, mockCountyElectionScope, mockNationalElectionScope } from "../../util/mocks";
+import { scopeFromArgs, scopeArgTypes } from "../../stories/util";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
   title: "Election Map",
   component: ElectionMap,
   argTypes: {
-    scope: {
-      defaultValue: mockLocalityElectionScope,
-      control: {
-        type: "radio",
-        options: {
-          national: mockNationalElectionScope,
-          county: mockCountyElectionScope,
-          locality: mockLocalityElectionScope,
-        },
-      },
-    },
+    ...scopeArgTypes,
     involvesDiaspora: {
       control: "boolean",
       defaultValue: true,
@@ -27,12 +17,14 @@ export default {
 };
 
 export const SimpleExample = (args) => {
-  return <ElectionMap {...args} />;
+  const [scope, otherArgs] = scopeFromArgs(args);
+  return <ElectionMap scope={scope} {...otherArgs} />;
 };
 
 export const ExampleWithChildren = (args) => {
+  const [scope, otherArgs] = scopeFromArgs(args);
   return (
-    <ElectionMap {...args}>
+    <ElectionMap scope={scope} {...otherArgs}>
       <div
         style={{
           position: "absolute",
