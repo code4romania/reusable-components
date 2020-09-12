@@ -20,6 +20,7 @@
     "@storybook/addon-storysource": "^6.0.16",
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/react": "^6.0.16",
+    "@types/heremaps": "^3.1.1",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "babel-eslint": "^10.1.0",

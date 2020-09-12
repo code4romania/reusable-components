@@ -18,8 +18,7 @@ const loadJS = (src: string) =>
     window?.document?.getElementsByTagName("head")[0].appendChild(script);
   });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type HereMapsAPI = any;
+type HereMapsAPI = typeof H;
 
 const loadHereMaps = async () => {
   await loadJS("https://js.api.here.com/v3/3.1/mapsjs-core.js");
