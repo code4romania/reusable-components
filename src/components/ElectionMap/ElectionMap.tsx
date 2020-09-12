@@ -5,7 +5,7 @@ import cssClasses from "./ElectionMap.module.scss";
 import RomaniaMap from "../../assets/romania-map.svg";
 import WorldMap from "../../assets/world-map.svg";
 import useDimensions from "react-use-dimensions";
-import { HereMap, romaniaMapBounds, worldMapBounds } from "./HereMap";
+import { HereMap, romaniaMapBounds, worldMapBounds } from "../HereMap/HereMap";
 import { electionMapOverlayUrl } from "../../constants/servers";
 
 type Props = PropsWithChildren<{
