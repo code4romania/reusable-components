@@ -26,7 +26,7 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
   });
 
   const changeCounty = (county) => {
-    const value = county.value;
+    const value = county ? county.value : undefined;
 
     setState({
       ...state,
@@ -36,7 +36,7 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
   };
 
   const changeLocality = (locality) => {
-    const value = locality.value;
+    const value = locality ? locality.value : undefined;
 
     setState({
       ...state,
@@ -57,13 +57,17 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
     <div className={classes.root}>
       <Heading2 className={classes.h2}>Localitate</Heading2>
 
-      {/* TO DO: make it so that users can undo selection */}
       <div>
         <Label className={classes.label}>Județ</Label>
-        <Select placeholder="Alege județul" options={countyList} onChange={changeCounty} value={selectedCounty} />
+        <Select
+          placeholder="Alege județul"
+          options={countyList}
+          onChange={changeCounty}
+          value={selectedCounty}
+          isClearable
+        />
       </div>
 
-      {/* TO DO: make it so that users can undo selection */}
       <div>
         <Label className={classes.label}>Localitate</Label>
         <Select
@@ -71,6 +75,7 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
           options={localityList}
           onChange={changeLocality}
           value={selectedLocality}
+          isClearable
         />
       </div>
     </div>
