@@ -4,6 +4,7 @@
         "target": "es6",
         "jsx": "react",
         "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node"
-    }
+        "moduleResolution": "node",
+        "types": ["@types/heremaps"],
+    },
 }
