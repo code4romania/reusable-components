@@ -1,5 +1,8 @@
 root = true
 
+[*]
+end_of_line = lf
+
 [*.{js,jsx,cjs,mjs,ts,tsx}]
 indent_style = space
 indent_size = 2
