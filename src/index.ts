@@ -3,7 +3,7 @@ export * from "./util/api";
 export * from "./util/electionApi";
 
 export * from "./components/Typography/Typography";
-export * from "./components/NameWithColor/NameWithColor";
+export * from "./components/ColoredSquare/ColoredSquare";
 export * from "./components/PartyResultCard/PartyResultCard";
 export * from "./components/PartyResultInline/PartyResultInline";
 export * from "./components/HorizontalStackedBar/HorizontalStackedBar";

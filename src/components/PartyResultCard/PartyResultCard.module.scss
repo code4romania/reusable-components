@@ -1,8 +1,53 @@
-.partyResultCard  {
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon {
+  height: 3rem;
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.column {
   display: flex;
   flex-direction: column;
 }
 
+.nameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.name {
+  margin-left: 0.5rem;
+}
+
 .percentage {
-    font-size: 2em;
+  line-height: 1.2;
+  color: #242424;
+}
+
+.rightAlign {
+  flex-direction: row-reverse;
+
+  .icon {
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
+
+  .column {
+    align-items: flex-end;
+  }
+
+  .nameRow {
+    flex-direction: row-reverse;
+  }
+
+  .name {
+    margin-left: 0;
+    margin-right: 0.5rem;
+  }
 }

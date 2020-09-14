@@ -1,19 +1,26 @@
 import React from "react";
+import { formatGroupedNumber, formatPercentage } from "../../util/format";
+import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
+import { DivBody, Label } from "../Typography/Typography";
 import classes from "./PartyResultInline.module.scss";
-import { NameWithColor } from "../NameWithColor/NameWithColor";
 
 type Props = {
   name: string;
   color: string;
-  percentage: string;
-  votesCount: number;
+  percentage?: number;
+  votes?: number;
 };
 
-export const PartyResultInline: React.FC<Props> = ({ name, color, percentage, votesCount }) => (
-  <div className={classes.partyResultInline}>
-    <NameWithColor color={color} text={name} />
-    <div className={classes.votes}>
-      {percentage}% ({votesCount})
+export const PartyResultInline: React.FC<Props> = ({ name, color, percentage, votes }) => (
+  <DivBody className={classes.root}>
+    <ColoredSquare color={color} className={classes.square} />
+    <div className={classes.text}>
+      <span className={classes.name}>{name}</span>
+      <Label className={classes.votes}>
+        {percentage != null && votes != null && `${formatPercentage(percentage)} (${formatGroupedNumber(votes)})`}
+        {percentage == null && votes != null && formatGroupedNumber(votes)}
+        {percentage != null && votes == null && formatPercentage(percentage)}
+      </Label>
     </div>
-  </div>
+  </DivBody>
 );
