@@ -16,6 +16,5 @@ module.exports = {
       },
     },
     "@storybook/addon-storysource",
-    "@storybook/addon-knobs/register",
   ],
 };

@@ -15,7 +15,6 @@
     "@rollup/plugin-typescript": "^5.0.2",
     "@storybook/addon-console": "^1.2.1",
     "@storybook/addon-essentials": "^6.0.16",
-    "@storybook/addon-knobs": "^6.0.16",
     "@storybook/addon-links": "^6.0.16",
     "@storybook/addon-storysource": "^6.0.16",
     "@storybook/preset-scss": "^1.0.2",
