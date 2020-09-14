@@ -10,7 +10,7 @@ type Props = {
   color: string;
   percentage: number;
   rightAligned?: boolean;
-  iconUrl: string;
+  iconUrl?: string;
 };
 
 export const PartyResultCard = themable<Props>(

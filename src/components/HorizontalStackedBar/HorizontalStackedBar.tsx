@@ -3,13 +3,15 @@ import cssClasses from "./HorizontalStackedBar.module.scss";
 import { themable } from "../../util/theme";
 import { DivBody } from "../Typography/Typography";
 
+export type HorizontalStackedBarItem = {
+  value: number;
+  color: string;
+  className?: string;
+};
+
 type Props = {
   total?: number; // Defaults to the max value in items
-  items: {
-    value: number;
-    color: string;
-    className?: string;
-  }[];
+  items: HorizontalStackedBarItem[];
   labelLeft?: ReactNode;
   labelRight?: ReactNode;
 };

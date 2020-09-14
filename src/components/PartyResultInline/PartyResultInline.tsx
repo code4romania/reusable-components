@@ -1,8 +1,9 @@
 import React from "react";
 import { formatGroupedNumber, formatPercentage } from "../../util/format";
+import { themable } from "../../util/theme";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 import { DivBody, Label } from "../Typography/Typography";
-import classes from "./PartyResultInline.module.scss";
+import cssClasses from "./PartyResultInline.module.scss";
 
 type Props = {
   name: string;
@@ -11,7 +12,10 @@ type Props = {
   votes?: number;
 };
 
-export const PartyResultInline: React.FC<Props> = ({ name, color, percentage, votes }) => (
+export const PartyResultInline = themable<Props>(
+  "PartyResultInline",
+  cssClasses,
+)(({ classes, name, color, percentage, votes }) => (
   <DivBody className={classes.root}>
     <ColoredSquare color={color} className={classes.square} />
     <div className={classes.text}>
@@ -23,4 +27,4 @@ export const PartyResultInline: React.FC<Props> = ({ name, color, percentage, vo
       </Label>
     </div>
   </DivBody>
-);
+));

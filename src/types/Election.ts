@@ -101,6 +101,18 @@ export type ElectionObservation = {
   issueCount: number;
 };
 
+export type ElectionResultsCandidate = {
+  // These still refer to parties in the context of local_council and county_council
+  name: string; // eg. "Uniunea Salvați România",
+  shortName?: string; // eg. "USR"
+  partyColor?: string;
+  partyLogo?: string; // A URL to a party logo image (square, with transparency, preferably SVG)
+  votes: number;
+  seats?: number;
+  seatsGained?: number | "new";
+  [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
+};
+
 export type ElectionResults = {
   eligibleVoters?: number; // Duplicate this from ElectionTurnout
   totalVotes: number; // Duplicate this from ElectionTurnout
@@ -108,16 +120,5 @@ export type ElectionResults = {
   validVotes: number;
   nullVotes: number;
   totalSeats?: number; // For the parliament (maybe even council) seats widget
-
-  candidates: {
-    // These still refer to parties in the context of local_council and county_council
-    name: string; // eg. "Uniunea Salvați România",
-    shortName?: string; // eg. "USR"
-    partyColor?: string;
-    partyLogo?: string; // A URL to a party logo image (square, with transparency, preferably SVG)
-    votes: number;
-    seats?: number;
-    seatsGained?: number | "new";
-    [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
-  }[]; // Sorted descending by votes
+  candidates: ElectionResultsCandidate[]; // Sorted descending by votes
 };
