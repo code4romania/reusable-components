@@ -120,9 +120,4 @@ export type ElectionResults = {
     seatsGained?: number | "new";
     [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
   }[]; // Sorted descending by votes
-
-  // TODO. For local_council and county_council
-  // Might even be good to separate this in a separate request, as the party lists might be long
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  nominalCandidates?: any;
 };
