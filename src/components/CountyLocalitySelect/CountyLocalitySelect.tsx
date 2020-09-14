@@ -26,7 +26,7 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
   });
 
   const changeCounty = (county) => {
-    const value = county ? county.value : undefined;
+    const value = county?.value;
 
     setState({
       ...state,
@@ -36,7 +36,7 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
   };
 
   const changeLocality = (locality) => {
-    const value = locality ? locality.value : undefined;
+    const value = locality?.value;
 
     setState({
       ...state,
@@ -50,8 +50,10 @@ export const CountyLocalitySelect: React.FC<Props> = ({ counties, localities }) 
   const localityList = state.localities.map((locality) => ({ value: locality.localityName, label: locality.label }));
   const selectedLocality = localityList.find((locality) => locality.value === state.selectedLocality);
 
-  console.log("state.county", state.selectedCounty);
-  console.log("state.locality", state.selectedLocality);
+  console.log("county", selectedCounty);
+  console.log("list", localityList);
+  console.log("locality", selectedLocality);
+  // problem: locality is undefined but React select still shows it
 
   return (
     <div className={classes.root}>
