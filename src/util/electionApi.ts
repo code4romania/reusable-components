@@ -16,15 +16,15 @@ export interface ElectionAPI extends ElectionScopeAPI {
 const scopeToQuery = (scope: ElectionScope) => {
   switch (scope.type) {
     case "national":
-      return { Division: 0 };
+      return { Division: "national" };
     case "diaspora":
-      return { Division: 1 };
+      return { Division: "diaspora" };
     case "county":
-      return { Division: 2, CountyId: scope.countyId };
+      return { Division: "county", CountyId: scope.countyId };
     case "locality":
-      return { Division: 3, CountyId: scope.countyId, LocalityId: scope.localityId };
+      return { Division: "locality", CountyId: scope.countyId, LocalityId: scope.localityId };
     case "diaspora_country":
-      return { Division: 4, LocalityId: scope.countryId };
+      return { Division: "diaspora_country", LocalityId: scope.countryId };
   }
 };
 
