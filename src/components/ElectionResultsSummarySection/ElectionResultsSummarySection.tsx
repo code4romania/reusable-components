@@ -62,7 +62,7 @@ export const ElectionResultsSummarySection = themable<Props>(
         </>
       )}
       {!completeness.complete && (
-        <ElectionScopeIncompleteWarning className={classes.warning} completeness={completeness} page="turnout" />
+        <ElectionScopeIncompleteWarning className={classes.warning} completeness={completeness} page="results" />
       )}
       {results == null && completeness.complete && (
         <DivBodyHuge className={classes.warning}>
