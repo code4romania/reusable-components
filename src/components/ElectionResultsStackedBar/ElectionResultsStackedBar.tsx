@@ -11,12 +11,12 @@ type Props = {
   results: ElectionResults;
 };
 
-const maxStackedBarItems = 4;
-const breakpoint1 = 850;
-const breakpoint2 = 700;
-const breakpoint3 = 330;
 const defaultThemeValues = {
   neutralColor: "#B5B5B5",
+  maxStackedBarItems: 4,
+  breakpoint1: 850,
+  breakpoint2: 700,
+  breakpoint3: 330,
 };
 
 const percentageOf = (x: number, total: number) => {
@@ -30,6 +30,7 @@ export const ElectionResultsStackedBar = themable<Props>(
   defaultThemeValues,
 )(({ classes, results, themeValues }) => {
   const { candidates } = results;
+  const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = themeValues;
 
   const [stackedBarItems, legendItems] = useMemo(() => {
     const items: (HorizontalStackedBarItem & {
@@ -43,7 +44,7 @@ export const ElectionResultsStackedBar = themable<Props>(
     for (let i = 0; i < stackedBarCount; i++) {
       const candidate = candidates[i];
       if (candidate) {
-        const color = candidate.partyColor ?? themeValues.neutralColor;
+        const color = candidate.partyColor ?? neutralColor;
         const percent = percentageOf(candidate.votes, results.validVotes);
         items.push({
           name: candidate.shortName ?? candidate.name,
@@ -76,7 +77,7 @@ export const ElectionResultsStackedBar = themable<Props>(
     }
 
     return [stackItems, items];
-  }, [candidates]);
+  }, [candidates, neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3]);
 
   const [measureRef, { width = Infinity }] = useDimensions();
 
