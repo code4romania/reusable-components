@@ -23,10 +23,17 @@ type Props = {
   turnout?: ElectionTurnout;
 };
 
+const defaultThemeValues = {
+  breakpoint1: 1000,
+  breakpoint2: 840,
+  breakpoint3: 480,
+};
+
 export const ElectionTurnoutSection = themable<Props>(
   "ElectionTurnoutSection",
   cssClasses,
-)(({ meta, scope, turnout, classes }) => {
+  defaultThemeValues,
+)(({ meta, scope, turnout, classes, themeValues }) => {
   const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -45,9 +52,11 @@ export const ElectionTurnoutSection = themable<Props>(
       )}
     </ElectionMap>
   );
-  const mobileMap = width != null && width <= 480;
+
+  const { breakpoint1, breakpoint2, breakpoint3 } = themeValues;
+  const mobileMap = width != null && width <= breakpoint3;
   const fullWidthMap =
-    !mobileMap && width != null && width <= (scope.type === "national" && involvesDiaspora ? 1000 : 840);
+    !mobileMap && width != null && width <= (scope.type === "national" && involvesDiaspora ? breakpoint1 : breakpoint2);
 
   const showHeading = turnout != null && completeness.complete;
 
