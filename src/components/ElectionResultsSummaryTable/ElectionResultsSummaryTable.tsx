@@ -19,7 +19,8 @@ export const ElectionResultsSummaryTable = themable<Props>(
   "ElectionResultsSummaryTable",
   cssClasses,
 )(({ classes, results, meta }) => {
-  const hasSeats = electionTypeHasSeats(meta.type);
+  const hasSeats =
+    electionTypeHasSeats(meta.type) && results.candidates.reduce((acc, cand) => acc || cand.seats != null, false);
   const maxFraction = results.candidates.reduce(
     (acc, cand) => Math.max(acc, fractionOf(cand.votes, results.validVotes)),
     0,
@@ -51,7 +52,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
                   <ColoredSquare color={candidate.partyColor} className={classes.square} />
                   {candidate.shortName || candidate.name}
                 </TCell>
-                {hasSeats && <TCell>{formatGroupedNumber(candidate.seats ?? 0)}</TCell>}
+                {hasSeats && <TCell>{candidate.seats != null && formatGroupedNumber(candidate.seats)}</TCell>}
                 <TCell>{formatGroupedNumber(candidate.votes)}</TCell>
                 <TCell className={classes.percentage}>
                   {formatPercentage(fractionOf(candidate.votes, results.validVotes))}
