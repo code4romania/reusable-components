@@ -14,3 +14,7 @@ export * from "./components/ElectionMap/ElectionMap";
 export * from "./components/HereMap/HereMap";
 export * from "./components/ElectionTurnoutSection/ElectionTurnoutSection";
 export * from "./components/ElectionObservationSection/ElectionObservationSection";
+export * from "./components/ElectionResultsSummarySection/ElectionResultsSummarySection";
+export * from "./components/ElectionResultsSummaryTable/ElectionResultsSummaryTable";
+export * from "./components/ElectionResultsProcess/ElectionResultsProcess";
+export * from "./components/ElectionResultsStackedBar/ElectionResultsStackedBar";
