@@ -30,28 +30,25 @@ export const ElectionResultsProcess = themable<Props>(
 )(({ results, classes }) => {
   return (
     <div className={classes.root}>
-      <Heading2>Procesul electoral</Heading2>
-      <div className={classes.showcase}>
-        {results.eligibleVoters != null && (
-          <ShowcaseItem classes={classes} icon={<Citizens />} value={results.eligibleVoters}>
-            Total alegători înscriși în liste
-          </ShowcaseItem>
-        )}
-        {results.votesByMail != null && (
-          <ShowcaseItem classes={classes} icon={<VoteByMail />} value={results.votesByMail}>
-            Total voturi prin corespondență
-          </ShowcaseItem>
-        )}
-        <ShowcaseItem classes={classes} icon={<CitizensBuilding />} value={results.totalVotes}>
-          Total alegători prezenți la urne
+      {results.eligibleVoters != null && (
+        <ShowcaseItem classes={classes} icon={<Citizens />} value={results.eligibleVoters}>
+          Total alegători înscriși în liste
         </ShowcaseItem>
-        <ShowcaseItem classes={classes} icon={<BallotFillIn />} value={results.validVotes}>
-          Total voturi valabil exprimate
+      )}
+      {results.votesByMail != null && (
+        <ShowcaseItem classes={classes} icon={<VoteByMail />} value={results.votesByMail}>
+          Total voturi prin corespondență
         </ShowcaseItem>
-        <ShowcaseItem classes={classes} icon={<NullTimes />} value={results.nullVotes}>
-          Total voturi nule
-        </ShowcaseItem>
-      </div>
+      )}
+      <ShowcaseItem classes={classes} icon={<CitizensBuilding />} value={results.totalVotes}>
+        Total alegători prezenți la urne
+      </ShowcaseItem>
+      <ShowcaseItem classes={classes} icon={<BallotFillIn />} value={results.validVotes}>
+        Total voturi valabil exprimate
+      </ShowcaseItem>
+      <ShowcaseItem classes={classes} icon={<NullTimes />} value={results.nullVotes}>
+        Total voturi nule
+      </ShowcaseItem>
     </div>
   );
 });
