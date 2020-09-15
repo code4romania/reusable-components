@@ -48,7 +48,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
           <tbody>
             {results.candidates.map((candidate, index) => (
               <tr key={index}>
-                <TCell>
+                <TCell className={classes.name}>
                   <ColoredSquare color={candidate.partyColor} className={classes.square} />
                   {candidate.shortName || candidate.name}
                 </TCell>

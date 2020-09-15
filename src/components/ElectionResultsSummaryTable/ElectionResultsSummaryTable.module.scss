@@ -5,6 +5,12 @@
   align-items: stretch;
 }
 
+.name {
+  max-width: 5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .header {
   padding: 0.5rem 0.75rem;
 }

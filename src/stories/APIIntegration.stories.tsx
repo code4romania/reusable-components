@@ -9,6 +9,9 @@ import { ElectionTurnoutSection } from "../components/ElectionTurnoutSection/Ele
 import { APIRequestPreview } from "./APIRequestPreview";
 import { ScopeArgs, scopeArgTypes, useScopeFromArgs } from "./util";
 import { electionApiProductionUrl } from "../constants/servers";
+// eslint-disable-next-line max-len
+import { ElectionResultsSummarySection } from "../components/ElectionResultsSummarySection/ElectionResultsSummarySection";
+import { ElectionResultsProcess } from "../components/ElectionResultsProcess/ElectionResultsProcess";
 
 export default {
   title: "API integrations",
@@ -47,6 +50,8 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
         <>
           <ElectionTurnoutSection meta={data.meta} scope={data.scope} turnout={data.turnout} />
           {data.observation && <ElectionObservationSection observation={data.observation} />}
+          <ElectionResultsSummarySection meta={data.meta} scope={data.scope} results={data.results} />
+          {data.results && <ElectionResultsProcess results={data.results} />}
         </>
       )}
     </>
