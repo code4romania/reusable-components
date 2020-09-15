@@ -1,0 +1,28 @@
+.warning {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.stackedBar {
+  margin-top: 1rem;
+}
+
+.map {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.mapSummaryContainer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+}
+
+.mapSummaryTable {
+  margin-right: 1rem;
+  width: 20rem;
+  max-height: 24rem;
+  align-self: flex-start;
+}

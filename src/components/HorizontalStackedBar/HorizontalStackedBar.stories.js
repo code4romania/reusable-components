@@ -1,21 +1,29 @@
 import React from "react";
 import { HorizontalStackedBar } from "./HorizontalStackedBar.tsx";
-import { number, withKnobs } from "@storybook/addon-knobs";
 
 export default {
-  title: "Horizontal Stacked Bar",
+  title: "Horizontal stacked bar",
   component: HorizontalStackedBar,
-  decorators: [withKnobs],
 };
 
-export const SimpleExample = () => {
-  const results = [
-    { votes: number("PSD votes", 2000), color: "#ff0000" },
-    { votes: number("UDMR votes", 700), color: "#00ff00" },
-    { votes: number("PMP votes", 500), color: "#0060aa" },
-    { votes: number("USR votes", 1000), color: "#00f0ff" },
-    { votes: number("PNL votes", 1800), color: "#0000ff" },
-  ];
+export const SimpleExample = (args) => {
+  return <HorizontalStackedBar {...args} />;
+};
 
-  return <HorizontalStackedBar results={results} />;
+SimpleExample.args = {
+  labelLeft: "Left label",
+  labelRight: "Right label",
+  items: [
+    { value: 2000, color: "#ff0000" },
+    { value: 700, color: "#00ff00" },
+    { value: 500, color: "#0060aa" },
+    { value: 1000, color: "#00f0ff" },
+    { value: 1800, color: "#0000ff" },
+  ],
+};
+
+SimpleExample.argTypes = {
+  labelLeft: { control: "text" },
+  labelRight: { control: "text" },
+  items: { control: "object" },
 };

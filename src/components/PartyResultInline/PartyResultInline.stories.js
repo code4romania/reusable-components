@@ -2,12 +2,22 @@ import React from "react";
 import { PartyResultInline } from "./PartyResultInline.tsx";
 
 export default {
-  title: "Party Result Inline",
+  title: "Party result inline",
   component: PartyResultInline,
+  args: {
+    color: "#ff0000",
+    name: "PSD",
+    percentage: 0.2356,
+    votes: 2000000,
+  },
+  argTypes: {
+    color: { control: "color" },
+    name: { control: "text" },
+    percentage: { control: { type: "range", min: 0, max: 1, step: 0.005 } },
+    votes: { control: "number" },
+  },
 };
 
-export const SimpleExample = () => {
-  const color = "#ff0000";
-  const name = "PSD";
-  return <PartyResultInline color={color} name={name} percentage={23.56} votesCount={2000000} />;
+export const SimpleExample = (args) => {
+  return <PartyResultInline {...args} />;
 };

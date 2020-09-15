@@ -4,7 +4,9 @@ export const formatPercentage = (x: number): string =>
   new Intl.NumberFormat("ro-RO", {
     style: "percent",
     maximumFractionDigits: 2,
-  }).format(x);
+  })
+    .format(x)
+    .replace(/\s+%$/, "%");
 
 export const formatGroupedNumber = (x: number): string =>
   new Intl.NumberFormat("ro-RO", {
@@ -25,3 +27,8 @@ export function getScopeName(scope: ElectionScopeIncompleteResolved): string {
       return scope.countryName ? `Diaspora din ${scope.countryName}` : "Țară din Diaspora";
   }
 }
+
+export const fractionOf = (x: number, total: number): number => {
+  const percent = x / total;
+  return Number.isFinite(percent) ? percent : 0;
+};

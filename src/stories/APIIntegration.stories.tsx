@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useApiResponse } from "../util/api";
 import { ElectionAPI, makeElectionApi } from "../util/electionApi";
 import { mockElectionAPI } from "../util/mocks";
@@ -8,16 +8,13 @@ import { ElectionObservationSection } from "../components/ElectionObservationSec
 import { ElectionTurnoutSection } from "../components/ElectionTurnoutSection/ElectionTurnoutSection";
 import { APIRequestPreview } from "./APIRequestPreview";
 import { ScopeArgs, scopeArgTypes, useScopeFromArgs } from "./util";
-
-const realElectionAPI = makeElectionApi();
-
-const apis = {
-  mock: mockElectionAPI,
-  real: realElectionAPI,
-};
+import { electionApiProductionUrl } from "../constants/servers";
+// eslint-disable-next-line max-len
+import { ElectionResultsSummarySection } from "../components/ElectionResultsSummarySection/ElectionResultsSummarySection";
+import { ElectionResultsProcess } from "../components/ElectionResultsProcess/ElectionResultsProcess";
 
 export default {
-  title: "API Integrations",
+  title: "API integrations",
   argTypes: {
     api: {
       defaultValue: "mock",
@@ -26,7 +23,11 @@ export default {
         options: ["mock", "real"],
       },
     },
-    electionId: {
+    apiUrl: {
+      defaultValue: electionApiProductionUrl,
+      control: "text",
+    },
+    id: {
       defaultValue: "mock-election-id",
       control: "text",
     },
@@ -34,10 +35,13 @@ export default {
   },
 };
 
-export const ElectionComponents = (args: { api: string; electionId: string } & ScopeArgs) => {
-  const [scope, { api, electionId }] = useScopeFromArgs(args);
-  const electionApi: ElectionAPI = apis[api];
-  const { data, loading, error } = useApiResponse(() => electionApi.getElection(electionId, scope), [scope]);
+export const ElectionComponents = (args: { api: string; apiUrl: string; id: string } & ScopeArgs) => {
+  const [scope, { api, apiUrl, id }] = useScopeFromArgs(args);
+  const electionApi: ElectionAPI = useMemo(() => (api === "mock" ? mockElectionAPI : makeElectionApi({ apiUrl })), [
+    api,
+    apiUrl,
+  ]);
+  const { data, loading, error } = useApiResponse(() => electionApi.getElection(id, scope), [electionApi, id, scope]);
 
   return (
     <>
@@ -46,6 +50,8 @@ export const ElectionComponents = (args: { api: string; electionId: string } & S
         <>
           <ElectionTurnoutSection meta={data.meta} scope={data.scope} turnout={data.turnout} />
           {data.observation && <ElectionObservationSection observation={data.observation} />}
+          <ElectionResultsSummarySection meta={data.meta} scope={data.scope} results={data.results} />
+          {data.results && <ElectionResultsProcess results={data.results} />}
         </>
       )}
     </>

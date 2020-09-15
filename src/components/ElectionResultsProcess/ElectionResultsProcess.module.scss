@@ -1,0 +1,46 @@
+.root {
+  margin-bottom: 2rem;
+}
+
+.showcase {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-right: -1rem;
+}
+
+.showcaseItem {
+  width: 28rem;
+  margin: 1rem 1rem 1rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.showcaseIcon {
+  height: 5rem;
+  width: 5rem;
+  margin-right: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.showcaseContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.showcaseValue {
+  font-size: (36rem / 16);
+  font-weight: 600;
+  line-height: 1;
+  color: #ECBE07;
+}

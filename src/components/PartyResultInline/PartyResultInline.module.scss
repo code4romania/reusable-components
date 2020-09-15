@@ -1,8 +1,14 @@
-.partyResultInline {
+.root {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.square {
+  display: block;
+  margin-right: 0.5em;
 }
 
 .votes {
-  margin-left: 5px;
-  color: darkgrey;
+  margin-left: 0.5em;
 }

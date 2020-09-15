@@ -43,10 +43,18 @@ export type ElectionType =
   | "local_council"
   | "county_council"
   | "mayor"
+  | "european_parliament"
   | string;
 
 export const electionTypeInvolvesDiaspora = (electionType: ElectionType): boolean =>
   electionType !== "local_council" && electionType !== "county_council" && electionType !== "mayor";
+
+export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
+  electionType === "senate" ||
+  electionType === "house" ||
+  electionType === "local_council" ||
+  electionType === "county_council" ||
+  electionType === "european_parliament";
 
 export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
@@ -58,6 +66,9 @@ export type ElectionMeta = {
   ballot?: string; // eg. "Primar", maybe find a better name for this?
   subtitle?: string; // eg. "Pentru trecerea la parlament unicameral și reducerea numărului de parlamentari"
 
+  ballotId: number; // The ID of this Election (Ballot in the backend, a rename might be in order)
+  electionId?: number; // Used for grouping
+
   // TODO: I haven't the slightest idea what should go in here, but I assume some sort
   // of an URL/category ID for the blog API
   newsfeed?: string;
@@ -66,7 +77,6 @@ export type ElectionMeta = {
 // You get one of these after making a request with an ID and the data in an ElectionScope
 // (url-encoded in the GET request or whatever)
 export type Election = {
-  id: string;
   scope: ElectionScopeResolved;
   meta: ElectionMeta;
 
@@ -101,6 +111,18 @@ export type ElectionObservation = {
   issueCount: number;
 };
 
+export type ElectionResultsCandidate = {
+  // These still refer to parties in the context of local_council and county_council
+  name: string; // eg. "Uniunea Salvați România",
+  shortName?: string; // eg. "USR"
+  partyColor?: string;
+  partyLogo?: string; // A URL to a party logo image (square, with transparency, preferably SVG)
+  votes: number;
+  seats?: number;
+  seatsGained?: number | "new";
+  [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
+};
+
 export type ElectionResults = {
   eligibleVoters?: number; // Duplicate this from ElectionTurnout
   totalVotes: number; // Duplicate this from ElectionTurnout
@@ -108,21 +130,5 @@ export type ElectionResults = {
   validVotes: number;
   nullVotes: number;
   totalSeats?: number; // For the parliament (maybe even council) seats widget
-
-  candidates: {
-    // These still refer to parties in the context of local_council and county_council
-    name: string; // eg. "Uniunea Salvați România",
-    shortName?: string; // eg. "USR"
-    partyColor?: string;
-    partyLogo?: string; // A URL to a party logo image (square, with transparency, preferably SVG)
-    votes: number;
-    seats?: number;
-    seatsGained?: number | "new";
-    [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
-  }[]; // Sorted descending by votes
-
-  // TODO. For local_council and county_council
-  // Might even be good to separate this in a separate request, as the party lists might be long
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  nominalCandidates?: any;
+  candidates: ElectionResultsCandidate[]; // Sorted descending by votes
 };

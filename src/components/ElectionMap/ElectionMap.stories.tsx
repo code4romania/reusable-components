@@ -5,7 +5,7 @@ import { scopeFromArgs, scopeArgTypes } from "../../stories/util";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
-  title: "Election Map",
+  title: "Election map",
   component: ElectionMap,
   argTypes: {
     ...scopeArgTypes,
@@ -17,22 +17,19 @@ export default {
       control: "boolean",
       defaultValue: true,
     },
+    onScopeChange: { action: "onScopeChange" },
   },
-};
-
-const logScopeChange = (scope) => {
-  console.log("onScopeChange", scope);
 };
 
 export const SimpleExample = (args) => {
   const [scope, otherArgs] = scopeFromArgs(args);
-  return <ElectionMap scope={scope} onScopeChange={logScopeChange} {...otherArgs} />;
+  return <ElectionMap scope={scope} {...otherArgs} />;
 };
 
 export const ExampleWithChildren = (args) => {
   const [scope, otherArgs] = scopeFromArgs(args);
   return (
-    <ElectionMap scope={scope} onScopeChange={logScopeChange} {...otherArgs}>
+    <ElectionMap scope={scope} {...otherArgs}>
       <div
         style={{
           position: "absolute",

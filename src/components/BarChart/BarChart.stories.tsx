@@ -2,27 +2,49 @@
 
 import React from "react";
 import { BarChart } from "./BarChart";
-import { color, number, withKnobs } from "@storybook/addon-knobs";
 
 export default {
   title: "Bar chart",
   component: BarChart,
-  decorators: [withKnobs],
+  args: {
+    ...BarChart.defaultProps,
+  },
+  argTypes: {
+    width: { control: "number" },
+    height: { control: "number" },
+    yGridSteps: { control: "number" },
+    yMax: { control: "number" },
+    fontSize: { control: "number" },
+  },
 };
 
-export const SimpleExample = () => {
+export const SimpleExample = ({ bar1Color, bar1Value, bar2Color, bar2Value, bar3Color, bar3Value, ...args }) => {
   return (
     <BarChart
-      width={number("width", BarChart.defaultProps.width, { min: 0, max: 1000 })}
-      height={number("height", BarChart.defaultProps.height, { min: 0, max: 1000 })}
-      yGridSteps={number("ySteps", BarChart.defaultProps.yGridSteps, { min: 0, max: 20 })}
-      yMax={number("yMax", BarChart.defaultProps.yMax)}
-      fontSize={number("fontSize", BarChart.defaultProps.fontSize, { min: 0, max: 30 })}
+      {...args}
       bars={[
-        { color: color("bar1_color", "red"), value: number("bar1_value", 1, { min: 0, max: 1, step: 0.1 }) },
-        { color: color("bar2_color", "blue"), value: number("bar2_value", 0.5, { min: 0, max: 1, step: 0.1 }) },
-        { color: color("bar3_color", "yellow"), value: number("bar3_value", 0.25, { min: 0, max: 1, step: 0.1 }) },
+        { color: bar1Color, value: bar1Value },
+        { color: bar2Color, value: bar2Value },
+        { color: bar3Color, value: bar3Value },
       ]}
     />
   );
+};
+
+SimpleExample.args = {
+  bar1Color: "red",
+  bar1Value: 1,
+  bar2Color: "blue",
+  bar2Value: 0.5,
+  bar3Color: "yellow",
+  bar3Value: 0.25,
+};
+
+SimpleExample.argTypes = {
+  bar1Color: { control: "color" },
+  bar1Value: { control: { type: "range", min: 0, max: 1, step: 0.1 } },
+  bar2Color: { control: "color" },
+  bar2Value: { control: { type: "range", min: 0, max: 1, step: 0.1 } },
+  bar3Color: { control: "color" },
+  bar3Value: { control: { type: "range", min: 0, max: 1, step: 0.1 } },
 };

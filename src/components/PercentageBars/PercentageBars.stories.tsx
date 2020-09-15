@@ -2,33 +2,39 @@
 
 import React from "react";
 import { PercentageBars } from "./PercentageBars";
-import { number, withKnobs, text, color } from "@storybook/addon-knobs";
-import { useTheme } from "../../util/theme";
 
 export default {
   title: "Percentage bars",
   component: PercentageBars,
-  decorators: [withKnobs],
+  argTypes: {
+    total: { control: "number" },
+  },
 };
 
-export const SimpleExample = () => {
-  const theme = useTheme();
+export const SimpleExample = ({ value1, label1, color1, value2, label2, color2, ...args }) => (
+  <PercentageBars
+    {...args}
+    items={[
+      { value: value1, valueLabel: label1, color: color1 },
+      { value: value2, valueLabel: label2, color: color2 },
+    ]}
+  />
+);
 
-  return (
-    <PercentageBars
-      total={number("total", undefined)}
-      items={[
-        {
-          value: number("value", 100, undefined, "bar1"),
-          valueLabel: text("valueLabel", "100%", "bar1"),
-          color: color("color", theme.colors.primary, "bar1"),
-        },
-        {
-          value: number("value", 50, undefined, "bar2"),
-          valueLabel: text("valueLabel", "50%", "bar2"),
-          color: color("color", theme.colors.secondary, "bar2"),
-        },
-      ]}
-    />
-  );
+SimpleExample.args = {
+  value1: 100,
+  label1: "100%",
+  color1: "#FFCC00",
+  value2: 50,
+  label2: "50%",
+  color2: "#352245",
+};
+
+SimpleExample.argTypes = {
+  value1: { control: "number" },
+  label1: { control: "text" },
+  color1: { control: "color" },
+  value2: { control: "number" },
+  label2: { control: "text" },
+  color2: { control: "color" },
 };

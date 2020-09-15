@@ -1,0 +1,66 @@
+.root {
+  border: 1px #cccccc solid;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.name {
+  max-width: 5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.header {
+  padding: 0.5rem 0.75rem;
+}
+
+.square {
+  vertical-align: baseline;
+  width: (13rem / 16);
+  height: (13rem / 16);
+  margin-right: 0.25rem;
+}
+
+.tableContainer {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+
+  td, th {
+    padding: 0.25rem;
+    white-space: nowrap;
+    &:first-child {
+      padding-left: 0.75rem;
+    }
+  }
+
+  td {
+    font-size: (15rem / 16);
+  }
+
+  thead tr {
+    text-align: left;
+  }
+
+  tbody tr:not(:last-child), thead tr {
+    border-bottom: 1px #cccccc dashed;
+  }
+}
+
+.barContainer {
+  min-width: 1.5rem;
+  vertical-align: middle;
+}
+
+.bar {
+  height: (13rem / 16);
+}
+
+.percentage {
+  text-align: right;
+}

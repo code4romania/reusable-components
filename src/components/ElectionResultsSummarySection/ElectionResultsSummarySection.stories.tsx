@@ -8,63 +8,58 @@ import {
   mockLocalityElectionScope,
   mockNationalElectionScope,
   mockPresidentialElectionMeta,
-  mockPresidentialElectionTurnout,
+  mockResults,
 } from "../../util/mocks";
-import { ElectionTurnoutSection } from "./ElectionTurnoutSection";
+import { ElectionResultsSummarySection } from "./ElectionResultsSummarySection";
 
 export default {
-  title: "Election turnout section",
-  component: ElectionTurnoutSection,
+  title: "Election results summary section",
+  component: ElectionResultsSummarySection,
 };
 
 export const PresidentialElection = () => {
   return (
-    <ElectionTurnoutSection
+    <ElectionResultsSummarySection
       scope={mockNationalElectionScope}
       meta={mockPresidentialElectionMeta}
-      turnout={mockPresidentialElectionTurnout}
+      results={mockResults}
     />
   );
 };
 
 export const LocalCouncilElection = () => {
   return (
-    <ElectionTurnoutSection
+    <ElectionResultsSummarySection
       scope={mockNationalElectionScope}
       meta={mockLocalCouncilElectionMeta}
-      turnout={{
-        ...mockPresidentialElectionTurnout,
-        breakdown: [mockPresidentialElectionTurnout.breakdown[0]],
-      }}
+      results={mockResults}
     />
   );
 };
 
 export const DiasporaElection = () => {
   return (
-    <ElectionTurnoutSection
+    <ElectionResultsSummarySection
       scope={mockDiasporaElectionScope}
       meta={mockLocalCouncilElectionMeta}
-      turnout={{
-        ...mockPresidentialElectionTurnout,
-        eligibleVoters: null,
-        breakdown: [mockPresidentialElectionTurnout.breakdown[1]],
-      }}
+      results={mockResults}
     />
   );
 };
 
 export const UnavailableData = () => {
-  return <ElectionTurnoutSection scope={mockNationalElectionScope} meta={mockLocalCouncilElectionMeta} />;
+  return <ElectionResultsSummarySection scope={mockNationalElectionScope} meta={mockLocalCouncilElectionMeta} />;
 };
 
 export const IncompleteCounty = () => {
-  return <ElectionTurnoutSection scope={{ type: "county", countyId: null }} meta={mockLocalCouncilElectionMeta} />;
+  return (
+    <ElectionResultsSummarySection scope={{ type: "county", countyId: null }} meta={mockLocalCouncilElectionMeta} />
+  );
 };
 
 export const IncompleteCountyAndLocality = () => {
   return (
-    <ElectionTurnoutSection
+    <ElectionResultsSummarySection
       scope={{ type: "locality", countyId: null, localityId: null }}
       meta={mockLocalCouncilElectionMeta}
     />
@@ -73,7 +68,7 @@ export const IncompleteCountyAndLocality = () => {
 
 export const IncompleteLocality = () => {
   return (
-    <ElectionTurnoutSection
+    <ElectionResultsSummarySection
       scope={({ ...mockLocalityElectionScope, localityId: null } as unknown) as ElectionScopeIncompleteResolved}
       meta={mockLocalCouncilElectionMeta}
     />
@@ -82,6 +77,9 @@ export const IncompleteLocality = () => {
 
 export const IncompleteCountry = () => {
   return (
-    <ElectionTurnoutSection scope={{ type: "diaspora_country", countryId: null }} meta={mockLocalCouncilElectionMeta} />
+    <ElectionResultsSummarySection
+      scope={{ type: "diaspora_country", countryId: null }}
+      meta={mockLocalCouncilElectionMeta}
+    />
   );
 };
