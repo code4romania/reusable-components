@@ -4,7 +4,7 @@ import { themable } from "../../util/theme";
 import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import { lightFormat, parseISO } from "date-fns";
-import { formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
+import { formatGroupedNumber, formatPercentage, fractionOf, randomColor } from "../../util/format";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 
 type Props = {
@@ -48,7 +48,10 @@ export const ElectionResultsSummaryTable = themable<Props>(
             {results.candidates.map((candidate, index) => (
               <tr key={index}>
                 <TCell className={classes.name}>
-                  <ColoredSquare color={candidate.partyColor} className={classes.square} />
+                  <ColoredSquare
+                    color={candidate.partyColor ?? randomColor(candidate.name)}
+                    className={classes.square}
+                  />
                   {candidate.shortName || candidate.name}
                 </TCell>
                 {hasSeats && <TCell>{candidate.seats != null && formatGroupedNumber(candidate.seats)}</TCell>}
@@ -61,7 +64,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
                     className={classes.bar}
                     style={{
                       width: `${100 * fractionOf(fractionOf(candidate.votes, results.validVotes), maxFraction)}%`,
-                      backgroundColor: candidate.partyColor,
+                      backgroundColor: candidate.partyColor ?? randomColor(candidate.name),
                     }}
                   />
                 </td>

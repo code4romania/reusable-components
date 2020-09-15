@@ -128,13 +128,11 @@ export const mockResults: ElectionResults = {
     {
       name: "Dummy 1",
       shortName: "DUM1",
-      partyColor: "#ffff77",
       votes: 1063331,
     },
     {
       name: "Dummy 2",
       shortName: "DUM2",
-      partyColor: "#77ff77",
       votes: 1063331,
     },
   ],
