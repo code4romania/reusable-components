@@ -43,6 +43,7 @@ export type ElectionType =
   | "local_council"
   | "county_council"
   | "mayor"
+  | "european_parliament"
   | string;
 
 export const electionTypeInvolvesDiaspora = (electionType: ElectionType): boolean =>
@@ -52,7 +53,8 @@ export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
   electionType === "senate" ||
   electionType === "house" ||
   electionType === "local_council" ||
-  electionType === "county_council";
+  electionType === "county_council" ||
+  electionType === "european_parliament";
 
 export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
