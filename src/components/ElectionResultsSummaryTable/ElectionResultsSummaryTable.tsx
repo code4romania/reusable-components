@@ -1,5 +1,5 @@
 import React from "react";
-import { ElectionMeta, ElectionResults, electionTypeHasSeats } from "../../types/Election";
+import { electionHasSeats, ElectionMeta, ElectionResults } from "../../types/Election";
 import { themable } from "../../util/theme";
 import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
@@ -19,8 +19,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
   "ElectionResultsSummaryTable",
   cssClasses,
 )(({ classes, results, meta }) => {
-  const hasSeats =
-    electionTypeHasSeats(meta.type) && results.candidates.reduce((acc, cand) => acc || cand.seats != null, false);
+  const hasSeats = electionHasSeats(meta.type, results);
   const maxFraction = results.candidates.reduce(
     (acc, cand) => Math.max(acc, fractionOf(cand.votes, results.validVotes)),
     0,
