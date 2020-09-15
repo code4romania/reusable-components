@@ -194,3 +194,10 @@ export function mockFetch(entries: APIMockEntry<any, any, any>[]): JSONFetch {
     };
   };
 }
+
+export const transformApiInvocation = <TFrom, TTo>(
+  invocation: APIInvocation<TFrom>,
+  transform: (data: TFrom) => TTo,
+): APIInvocation<TTo> => {
+  return (abortSignal) => invocation(abortSignal).then(transform);
+};
