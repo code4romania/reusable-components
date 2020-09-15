@@ -38,7 +38,7 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
     api,
     apiUrl,
   ]);
-  const { data, loading, error } = useApiResponse(() => electionApi.getElection(id, scope), [electionApi, scope]);
+  const { data, loading, error } = useApiResponse(() => electionApi.getElection(id, scope), [electionApi, id, scope]);
 
   return (
     <>
