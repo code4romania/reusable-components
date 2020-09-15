@@ -5,7 +5,7 @@ import { scopeFromArgs, scopeArgTypes } from "../../stories/util";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
-  title: "Election Map",
+  title: "Election map",
   component: ElectionMap,
   argTypes: {
     ...scopeArgTypes,

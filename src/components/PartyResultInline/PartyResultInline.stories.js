@@ -2,7 +2,7 @@ import React from "react";
 import { PartyResultInline } from "./PartyResultInline.tsx";
 
 export default {
-  title: "Party Result Inline",
+  title: "Party result inline",
   component: PartyResultInline,
   args: {
     color: "#ff0000",

@@ -2,7 +2,7 @@ import React from "react";
 import { PartyResultCard } from "./PartyResultCard.tsx";
 
 export default {
-  title: "Party Result Card",
+  title: "Party result card",
   component: PartyResultCard,
   args: {
     color: "#0000ff",

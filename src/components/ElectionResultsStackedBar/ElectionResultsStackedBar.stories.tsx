@@ -5,7 +5,7 @@ import { mockResults } from "../../util/mocks";
 import { ElectionResultsStackedBar } from "./ElectionResultsStackedBar";
 
 export default {
-  title: "Election Results Stacked Bar",
+  title: "Election results stacked bar",
   component: ElectionResultsStackedBar,
 };
 

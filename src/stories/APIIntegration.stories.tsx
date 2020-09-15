@@ -17,7 +17,7 @@ const apis = {
 };
 
 export default {
-  title: "API Integrations",
+  title: "API integrations",
   argTypes: {
     api: {
       defaultValue: "mock",

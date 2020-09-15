@@ -13,7 +13,7 @@ import {
 import { ElectionTurnoutSection } from "./ElectionTurnoutSection";
 
 export default {
-  title: "Election Turnout Section",
+  title: "Election turnout section",
   component: ElectionTurnoutSection,
 };
 

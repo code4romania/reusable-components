@@ -2,7 +2,7 @@ import React from "react";
 import { HorizontalStackedBar } from "./HorizontalStackedBar.tsx";
 
 export default {
-  title: "Horizontal Stacked Bar",
+  title: "Horizontal stacked bar",
   component: HorizontalStackedBar,
 };
 
