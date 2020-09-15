@@ -26,7 +26,7 @@ export default {
         options: ["mock", "real"],
       },
     },
-    electionId: {
+    id: {
       defaultValue: "mock-election-id",
       control: "text",
     },
@@ -34,10 +34,10 @@ export default {
   },
 };
 
-export const ElectionComponents = (args: { api: string; electionId: string } & ScopeArgs) => {
-  const [scope, { api, electionId }] = useScopeFromArgs(args);
+export const ElectionComponents = (args: { api: string; id: string } & ScopeArgs) => {
+  const [scope, { api, id }] = useScopeFromArgs(args);
   const electionApi: ElectionAPI = apis[api];
-  const { data, loading, error } = useApiResponse(() => electionApi.getElection(electionId, scope), [scope]);
+  const { data, loading, error } = useApiResponse(() => electionApi.getElection(id, scope), [scope]);
 
   return (
     <>

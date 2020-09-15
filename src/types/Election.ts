@@ -66,6 +66,9 @@ export type ElectionMeta = {
   ballot?: string; // eg. "Primar", maybe find a better name for this?
   subtitle?: string; // eg. "Pentru trecerea la parlament unicameral și reducerea numărului de parlamentari"
 
+  ballotId: number;
+  electionId?: number;
+
   // TODO: I haven't the slightest idea what should go in here, but I assume some sort
   // of an URL/category ID for the blog API
   newsfeed?: string;
