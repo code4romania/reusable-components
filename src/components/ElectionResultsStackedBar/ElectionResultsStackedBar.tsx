@@ -6,6 +6,7 @@ import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
 import { PartyResultInline } from "../PartyResultInline/PartyResultInline";
 import useDimensions from "react-use-dimensions";
 import cssClasses from "./ElectionResultsStackedBar.module.scss";
+import { fractionOf } from "../../util/format";
 
 type Props = {
   results: ElectionResults;
@@ -17,11 +18,6 @@ const defaultThemeValues = {
   breakpoint1: 850,
   breakpoint2: 700,
   breakpoint3: 330,
-};
-
-const percentageOf = (x: number, total: number) => {
-  const percent = x / total;
-  return Number.isFinite(percent) ? percent : 0;
 };
 
 export const ElectionResultsStackedBar = themable<Props>(
@@ -45,7 +41,7 @@ export const ElectionResultsStackedBar = themable<Props>(
       const candidate = candidates[i];
       if (candidate) {
         const color = candidate.partyColor ?? neutralColor;
-        const percent = percentageOf(candidate.votes, results.validVotes);
+        const percent = fractionOf(candidate.votes, results.validVotes);
         items.push({
           name: candidate.shortName ?? candidate.name,
           color,
@@ -66,7 +62,7 @@ export const ElectionResultsStackedBar = themable<Props>(
         value: total,
         color: themeValues.neutralColor,
         name: "Alții",
-        percent: percentageOf(total, results.validVotes),
+        percent: fractionOf(total, results.validVotes),
         index: items.length,
       });
     }

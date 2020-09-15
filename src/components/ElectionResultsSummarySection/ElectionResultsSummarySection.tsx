@@ -14,6 +14,7 @@ import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { getScopeName } from "../../util/format";
 import { DivBodyHuge, Heading2, Label } from "../..";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
+import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 
 type Props = {
   meta: ElectionMeta;
@@ -73,7 +74,9 @@ export const ElectionResultsSummarySection = themable<Props>(
       {results && !mobileMap && separator}
       {!mobileMap && (
         <div className={classes.mapSummaryContainer}>
-          {!fullWidthMap && results && <div className={classes.mapSummaryTable} />}
+          {!fullWidthMap && results && (
+            <ElectionResultsSummaryTable className={classes.mapSummaryTable} meta={meta} results={results} />
+          )}
           {map}
         </div>
       )}

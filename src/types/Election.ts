@@ -48,6 +48,12 @@ export type ElectionType =
 export const electionTypeInvolvesDiaspora = (electionType: ElectionType): boolean =>
   electionType !== "local_council" && electionType !== "county_council" && electionType !== "mayor";
 
+export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
+  electionType === "senate" ||
+  electionType === "house" ||
+  electionType === "local_council" ||
+  electionType === "county_council";
+
 export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
   // This is just for extra visual customisation like splitting local council results in two tables,

@@ -22,9 +22,7 @@
 
 .mapSummaryTable {
   margin-right: 1rem;
-
   width: 20rem;
-  height: 400px;
-  border-radius: 8px;
-  border: 1px gray solid;
+  max-height: 24rem;
+  align-self: flex-start;
 }

@@ -27,3 +27,8 @@ export function getScopeName(scope: ElectionScopeIncompleteResolved): string {
       return scope.countryName ? `Diaspora din ${scope.countryName}` : "Țară din Diaspora";
   }
 }
+
+export const fractionOf = (x: number, total: number): number => {
+  const percent = x / total;
+  return Number.isFinite(percent) ? percent : 0;
+};
