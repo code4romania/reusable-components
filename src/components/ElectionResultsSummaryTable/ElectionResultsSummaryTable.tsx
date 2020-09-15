@@ -30,7 +30,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
       <div className={classes.header}>
         {meta.ballot && <DivBody>{meta.title}</DivBody>}
         <Heading3>
-          {meta.ballot ?? meta.title} {lightFormat(parseISO(meta.date), "yyyy")}
+          {meta.ballot || meta.title} {lightFormat(parseISO(meta.date), "yyyy")}
         </Heading3>
       </div>
       <div className={classes.tableContainer}>
