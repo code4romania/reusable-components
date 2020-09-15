@@ -1,0 +1,82 @@
+import React, { ReactNode } from "react";
+import {
+  ElectionMeta,
+  ElectionResults,
+  ElectionScopeIncompleteResolved,
+  electionScopeIsComplete,
+  electionTypeInvolvesDiaspora,
+} from "../../types/Election";
+import { themable } from "../../util/theme";
+import useDimensions from "react-use-dimensions";
+import cssClasses from "./ElectionResultsSummarySection.module.scss";
+import { ElectionResultsStackedBar } from "../ElectionResultsStackedBar/ElectionResultsStackedBar";
+import { ElectionMap } from "../ElectionMap/ElectionMap";
+import { getScopeName } from "../../util/format";
+import { DivBodyHuge, Heading2, Label } from "../..";
+import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
+
+type Props = {
+  meta: ElectionMeta;
+  scope: ElectionScopeIncompleteResolved;
+  results?: ElectionResults;
+  separator?: ReactNode;
+};
+
+const defaultThemeValues = {
+  breakpoint1: 840,
+  breakpoint2: 330,
+};
+
+export const ElectionResultsSummarySection = themable<Props>(
+  "ElectionResultsSummarySection",
+  cssClasses,
+  defaultThemeValues,
+)(({ classes, results, meta, scope, themeValues, separator }) => {
+  const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
+
+  const [measureRef, { width }] = useDimensions();
+
+  const completeness = electionScopeIsComplete(scope);
+
+  const map = width != null && (
+    <ElectionMap scope={scope} involvesDiaspora={involvesDiaspora} className={classes.map} />
+  );
+
+  const { breakpoint1, breakpoint2 } = themeValues;
+  const mobileMap = width != null && width <= breakpoint2;
+  const fullWidthMap = !mobileMap && width != null && width <= breakpoint1;
+
+  const showHeading = results != null && completeness.complete;
+
+  return (
+    <>
+      {mobileMap && map}
+      {mobileMap && showHeading && separator}
+      {showHeading && (
+        <>
+          <Heading2>Prezența la vot</Heading2>
+          <div>
+            <Label>{getScopeName(scope)}</Label>
+          </div>
+        </>
+      )}
+      {!completeness.complete && (
+        <ElectionScopeIncompleteWarning className={classes.warning} completeness={completeness} page="turnout" />
+      )}
+      {results == null && completeness.complete && (
+        <DivBodyHuge className={classes.warning}>
+          Nu există date despre prezența la vot pentru acest nivel de detaliu.
+        </DivBodyHuge>
+      )}
+      {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} />}
+      <div style={{ width: "100%" }} ref={measureRef} />
+      {results && !mobileMap && separator}
+      {!mobileMap && (
+        <div className={classes.mapSummaryContainer}>
+          {!fullWidthMap && results && <div className={classes.mapSummaryTable} />}
+          {map}
+        </div>
+      )}
+    </>
+  );
+});
