@@ -22,7 +22,7 @@ const CandidateTable: React.FC<{
   const hasCandidateCount = candidates.reduce((acc, candidate) => acc || candidate.candidateCount != null, false);
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
-  const canCollapse = candidates.length >= 2;
+  const canCollapse = candidates.length >= 8;
 
   const onToggleCollapsed = useCallback(() => {
     setCollapsed((x) => !x);
