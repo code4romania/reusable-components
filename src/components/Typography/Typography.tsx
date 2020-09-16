@@ -14,7 +14,7 @@ export function makeTypographyComponent<Props extends PropsObject>(
     cssClasses,
   )(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    forwardRef(function TypographyInner({ classes, themeValues, ...otherProps }: ThemableComponentProps<Props>, ref) {
+    forwardRef(function TypographyInner({ classes, constants, ...otherProps }: ThemableComponentProps<Props>, ref) {
       const finalClassName = mergeClasses(mergeClasses(classes[className], extraClassName), classes.root);
       return <Component_ {...otherProps} className={finalClassName} ref={ref} />;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

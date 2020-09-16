@@ -56,6 +56,9 @@ export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
   electionType === "county_council" ||
   electionType === "european_parliament";
 
+export const electionHasSeats = (electionType: ElectionType, results: ElectionResults): boolean =>
+  electionTypeHasSeats(electionType) && results.candidates.reduce((acc, cand) => acc || cand.seats != null, false);
+
 export type ElectionMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
   // This is just for extra visual customisation like splitting local council results in two tables,
@@ -120,6 +123,7 @@ export type ElectionResultsCandidate = {
   votes: number;
   seats?: number;
   seatsGained?: number | "new";
+  candidateCount?: number;
   [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
 };
 

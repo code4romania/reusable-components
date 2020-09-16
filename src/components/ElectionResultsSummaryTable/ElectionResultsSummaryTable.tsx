@@ -1,10 +1,10 @@
 import React from "react";
-import { ElectionMeta, ElectionResults, electionTypeHasSeats } from "../../types/Election";
+import { electionHasSeats, ElectionMeta, ElectionResults } from "../../types/Election";
 import { themable } from "../../util/theme";
 import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import { lightFormat, parseISO } from "date-fns";
-import { formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
+import { electionCandidateColor, formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 
 type Props = {
@@ -19,8 +19,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
   "ElectionResultsSummaryTable",
   cssClasses,
 )(({ classes, results, meta }) => {
-  const hasSeats =
-    electionTypeHasSeats(meta.type) && results.candidates.reduce((acc, cand) => acc || cand.seats != null, false);
+  const hasSeats = electionHasSeats(meta.type, results);
   const maxFraction = results.candidates.reduce(
     (acc, cand) => Math.max(acc, fractionOf(cand.votes, results.validVotes)),
     0,
@@ -49,7 +48,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
             {results.candidates.map((candidate, index) => (
               <tr key={index}>
                 <TCell className={classes.name}>
-                  <ColoredSquare color={candidate.partyColor} className={classes.square} />
+                  <ColoredSquare color={electionCandidateColor(candidate)} className={classes.square} />
                   {candidate.shortName || candidate.name}
                 </TCell>
                 {hasSeats && <TCell>{candidate.seats != null && formatGroupedNumber(candidate.seats)}</TCell>}
@@ -62,7 +61,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
                     className={classes.bar}
                     style={{
                       width: `${100 * fractionOf(fractionOf(candidate.votes, results.validVotes), maxFraction)}%`,
-                      backgroundColor: candidate.partyColor,
+                      backgroundColor: electionCandidateColor(candidate),
                     }}
                   />
                 </td>

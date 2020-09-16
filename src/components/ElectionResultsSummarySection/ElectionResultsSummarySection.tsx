@@ -23,7 +23,7 @@ type Props = {
   separator?: ReactNode;
 };
 
-const defaultThemeValues = {
+const defaultConstants = {
   breakpoint1: 840,
   breakpoint2: 330,
 };
@@ -31,8 +31,8 @@ const defaultThemeValues = {
 export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
-  defaultThemeValues,
-)(({ classes, results, meta, scope, themeValues, separator }) => {
+  defaultConstants,
+)(({ classes, results, meta, scope, constants, separator }) => {
   const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -43,7 +43,7 @@ export const ElectionResultsSummarySection = themable<Props>(
     <ElectionMap scope={scope} involvesDiaspora={involvesDiaspora} className={classes.map} />
   );
 
-  const { breakpoint1, breakpoint2 } = themeValues;
+  const { breakpoint1, breakpoint2 } = constants;
   const mobileMap = width != null && width <= breakpoint2;
   const fullWidthMap = !mobileMap && width != null && width <= breakpoint1;
 

@@ -1,0 +1,25 @@
+.root {
+  width: 100%;
+  font-size: (18rem / 16);
+
+  thead tr {
+    background-color: #352245;
+    color: #fff;
+  }
+
+  tbody tr {
+    &:nth-child(2n+1) {
+      background-color: #F1F1F1;
+    }
+    color: #414141;
+  }
+
+  th, td {
+    padding: 1rem;
+    text-align: center;
+
+    &:not(:first-child) {
+      border-left: 1px #fff solid;
+    }
+  }
+}

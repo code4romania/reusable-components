@@ -20,7 +20,7 @@ type Props = {
   renderLabel: (y: number) => ReactNode;
 };
 
-const defaultThemeValues = {
+const defaultConstants = {
   gridLabelColor: "#C1C1C1",
   gridColor: "#E2E2E2",
 };
@@ -28,11 +28,11 @@ const defaultThemeValues = {
 export const BarChart = themable<Props>(
   "BarChart",
   null,
-  defaultThemeValues,
+  defaultConstants,
 )(
   ({
     classes,
-    themeValues,
+    constants,
     width,
     height,
     yGridSteps,
@@ -55,7 +55,7 @@ export const BarChart = themable<Props>(
       const value = i * (yMax / yGridSteps);
       const y = Math.round(height - yScale * value);
       const lineY = y - 0.5; // to account for line width and prevent aliasing;
-      lines.push(<line key={i} stroke={themeValues.gridColor} x1={0} x2={width} y1={lineY} y2={lineY} />);
+      lines.push(<line key={i} stroke={constants.gridColor} x1={0} x2={width} y1={lineY} y2={lineY} />);
       labels.push(
         <text
           key={i}
@@ -63,7 +63,7 @@ export const BarChart = themable<Props>(
           x={width}
           y={y - 2}
           className={classes.yGridLabel}
-          fill={themeValues.gridLabelColor}
+          fill={constants.gridLabelColor}
           style={{ fontSize }}
         >
           {renderLabel(value)}

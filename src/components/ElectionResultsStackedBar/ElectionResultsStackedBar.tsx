@@ -6,13 +6,13 @@ import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
 import { PartyResultInline } from "../PartyResultInline/PartyResultInline";
 import useDimensions from "react-use-dimensions";
 import cssClasses from "./ElectionResultsStackedBar.module.scss";
-import { fractionOf } from "../../util/format";
+import { electionCandidateColor, fractionOf } from "../../util/format";
 
 type Props = {
   results: ElectionResults;
 };
 
-const defaultThemeValues = {
+const defaultConstants = {
   neutralColor: "#B5B5B5",
   maxStackedBarItems: 4,
   breakpoint1: 850,
@@ -23,10 +23,10 @@ const defaultThemeValues = {
 export const ElectionResultsStackedBar = themable<Props>(
   "ElectionResultsStackedBar",
   cssClasses,
-  defaultThemeValues,
-)(({ classes, results, themeValues }) => {
+  defaultConstants,
+)(({ classes, results, constants }) => {
   const { candidates } = results;
-  const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = themeValues;
+  const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = constants;
 
   const [stackedBarItems, legendItems] = useMemo(() => {
     const items: (HorizontalStackedBarItem & {
@@ -40,7 +40,7 @@ export const ElectionResultsStackedBar = themable<Props>(
     for (let i = 0; i < stackedBarCount; i++) {
       const candidate = candidates[i];
       if (candidate) {
-        const color = candidate.partyColor ?? neutralColor;
+        const color = electionCandidateColor(candidate);
         const percent = fractionOf(candidate.votes, results.validVotes);
         items.push({
           name: candidate.shortName ?? candidate.name,
@@ -60,7 +60,7 @@ export const ElectionResultsStackedBar = themable<Props>(
       }
       items.push({
         value: total,
-        color: themeValues.neutralColor,
+        color: constants.neutralColor,
         name: "Alții",
         percent: fractionOf(total, results.validVotes),
         index: items.length,
