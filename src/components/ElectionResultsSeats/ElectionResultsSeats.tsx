@@ -33,7 +33,7 @@ const SeatsGraphic: React.FC<{
   // the total area of the graph remains the same.
   const r = useMemo(() => 45.345892868 / Math.sqrt(totalSeats), [totalSeats]);
 
-  const [dots, lastRadius] = useMemo(() => {
+  const [dots, innerRadius] = useMemo(() => {
     const spacing = 2.3;
     const dotsArray = [];
 
@@ -112,8 +112,8 @@ const SeatsGraphic: React.FC<{
         d={`
           M -5 100
           A 105 105 0 0 1 205 100
-          L ${100 + lastRadius - 5} 100
-          A ${lastRadius - 5} ${lastRadius - 5} 0 0 0 ${100 - lastRadius + 5} 100
+          L ${100 + innerRadius - 5} 100
+          A ${innerRadius - 5} ${innerRadius - 5} 0 0 0 ${100 - innerRadius + 5} 100
           L -5 100
         `}
         fill="transparent"
