@@ -1,9 +1,9 @@
 import React, { memo, useMemo } from "react";
 import { ElectionResults } from "../../types/Election";
-import { electionCandidateColor } from "../../util/format";
+import { electionCandidateColor, formatGroupedNumber } from "../../util/format";
 import { mergeClasses, themable } from "../../util/theme";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
-import { DivBody } from "../Typography/Typography";
+import { DivBody, DivLabel } from "../Typography/Typography";
 import useDimensions from "react-use-dimensions";
 import cssClasses from "./ElectionResultsSeats.module.scss";
 
@@ -131,6 +131,7 @@ export const ElectionResultsSeats = themable<Props>(
             <DivBody className={classes.legendItem} key={index}>
               <ColoredSquare className={classes.square} color={electionCandidateColor(candidate)} />
               <div className={classes.legendLabel}>{candidate.shortName ?? candidate.name}</div>
+              <DivLabel className={classes.legendValue}>&nbsp;({formatGroupedNumber(candidate.seats)})</DivLabel>
             </DivBody>
           ) : null,
         )}

@@ -35,6 +35,10 @@
   overflow: hidden;
 }
 
+.legendValue {
+  flex-shrink: 0;
+}
+
 .svgContainer {
   flex: 1;
   display: flex;
