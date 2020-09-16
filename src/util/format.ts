@@ -51,3 +51,6 @@ function mulberry32(a: number): () => number {
 export const randomColor = (seed: string): string => {
   return `hsl(${mulberry32(hashCode(seed))() * 360.0}, 50%, 50%)`;
 };
+
+export const electionCandidateColor = (candidate: { name: string; partyColor?: string }): string =>
+  candidate.partyColor ?? randomColor(candidate.name);

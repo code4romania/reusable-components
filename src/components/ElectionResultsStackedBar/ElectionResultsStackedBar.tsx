@@ -6,7 +6,7 @@ import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
 import { PartyResultInline } from "../PartyResultInline/PartyResultInline";
 import useDimensions from "react-use-dimensions";
 import cssClasses from "./ElectionResultsStackedBar.module.scss";
-import { fractionOf, randomColor } from "../../util/format";
+import { electionCandidateColor, fractionOf } from "../../util/format";
 
 type Props = {
   results: ElectionResults;
@@ -40,7 +40,7 @@ export const ElectionResultsStackedBar = themable<Props>(
     for (let i = 0; i < stackedBarCount; i++) {
       const candidate = candidates[i];
       if (candidate) {
-        const color = candidate.partyColor ?? randomColor(candidate.name);
+        const color = electionCandidateColor(candidate);
         const percent = fractionOf(candidate.votes, results.validVotes);
         items.push({
           name: candidate.shortName ?? candidate.name,
