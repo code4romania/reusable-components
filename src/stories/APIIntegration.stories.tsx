@@ -12,6 +12,8 @@ import { electionApiProductionUrl } from "../constants/servers";
 // eslint-disable-next-line max-len
 import { ElectionResultsSummarySection } from "../components/ElectionResultsSummarySection/ElectionResultsSummarySection";
 import { ElectionResultsProcess } from "../components/ElectionResultsProcess/ElectionResultsProcess";
+import { ElectionResultsSeats } from "../components/ElectionResultsSeats/ElectionResultsSeats";
+import { ElectionResultsTableSection } from "../components/ElectionResultsTableSection/ElectionResultsTableSection";
 
 export default {
   title: "API integrations",
@@ -52,6 +54,8 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
           {data.observation && <ElectionObservationSection observation={data.observation} />}
           <ElectionResultsSummarySection meta={data.meta} scope={data.scope} results={data.results} />
           {data.results && <ElectionResultsProcess results={data.results} />}
+          {data.results && <ElectionResultsSeats results={data.results} />}
+          {data.results && <ElectionResultsTableSection meta={data.meta} results={data.results} />}
         </>
       )}
     </>
