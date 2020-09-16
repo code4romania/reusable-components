@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { ElectionResults } from "../../types/Election";
 import { electionCandidateColor, formatGroupedNumber } from "../../util/format";
 import { mergeClasses, themable } from "../../util/theme";
@@ -20,103 +20,129 @@ const DecorativeIcon = () => (
   />
 );
 
-const SeatsGraphic: React.FC<{ classes: IClassNames; results: ElectionResults; width: number; height: number }> = memo(
-  function SeatsGraphicUnmemoized({ classes, results, width, height }) {
-    const { totalSeats = 1 } = results;
-    // Scale the dot size with the total number of dots so that
-    // the total area of the graph remains the same.
-    const r = useMemo(() => 45.345892868 / Math.sqrt(totalSeats), [totalSeats]);
+const SeatsGraphic: React.FC<{
+  classes: IClassNames;
+  results: ElectionResults;
+  width: number;
+  height: number;
+  selectedCandidate: number;
+  onSelectCandidate: (number) => unknown;
+}> = memo(function SeatsGraphicUnmemoized({ classes, results, width, height, selectedCandidate, onSelectCandidate }) {
+  const { totalSeats = 1 } = results;
+  // Scale the dot size with the total number of dots so that
+  // the total area of the graph remains the same.
+  const r = useMemo(() => 45.345892868 / Math.sqrt(totalSeats), [totalSeats]);
 
-    const dots = useMemo(() => {
-      const spacing = 2.3;
-      const dotsArray = [];
+  const [dots, lastRadius] = useMemo(() => {
+    const spacing = 2.3;
+    const dotsArray = [];
 
-      // Determine how many dots fit in each row
-      let R = 100 - r;
-      let seatsLeft = totalSeats;
-      const rows = [];
-      while (seatsLeft > 0) {
-        // Offset the first and last dot by a tiny angle so that they're tangent to the bottom of the viewport
-        const offset = Math.asin(r / R);
-        const seatsOnRow = 1 + Math.max(0, Math.floor(((Math.PI - offset * 2) * R) / (r * spacing)));
-        seatsLeft -= seatsOnRow;
-        rows.push({ R, offset, seatsOnRow });
-        R -= r * spacing;
+    // Determine how many dots fit in each row
+    let R = 100 - r;
+    let seatsLeft = totalSeats;
+    const rows = [];
+    while (seatsLeft > 0) {
+      // Offset the first and last dot by a tiny angle so that they're tangent to the bottom of the viewport
+      const offset = Math.asin(r / R);
+      const seatsOnRow = 1 + Math.max(0, Math.floor(((Math.PI - offset * 2) * R) / (r * spacing)));
+      seatsLeft -= seatsOnRow;
+      rows.push({ R, offset, seatsOnRow });
+      R -= r * spacing;
+    }
+
+    // We might have some empty slots left over that we need to
+    // remove evenly from amongst the rows.
+    if (seatsLeft < 0) {
+      const div = Math.floor(-seatsLeft / rows.length);
+      for (let i = 0; i < rows.length; i += 1) {
+        rows[i].seatsOnRow -= div;
       }
+      seatsLeft += div * rows.length;
+    }
 
-      // We might have some empty slots left over that we need to
-      // remove evenly from amongst the rows.
-      if (seatsLeft < 0) {
-        const div = Math.floor(-seatsLeft / rows.length);
-        for (let i = 0; i < rows.length; i += 1) {
-          rows[i].seatsOnRow -= div;
-        }
-        seatsLeft += div * rows.length;
+    // If they don't split evenly, remove the rest starting with the innermost row.
+    if (seatsLeft < 0) {
+      for (let i = rows.length - 1; i >= 0 && seatsLeft < 0; i -= 1) {
+        rows[i].seatsOnRow -= 1;
+        seatsLeft += 1;
       }
+    }
 
-      // If they don't split evenly, remove the rest starting with the innermost row.
-      if (seatsLeft < 0) {
-        for (let i = rows.length - 1; i >= 0 && seatsLeft < 0; i -= 1) {
-          rows[i].seatsOnRow -= 1;
-          seatsLeft += 1;
-        }
+    // Position each dot in polar coordinates
+    for (let i = 0; i < rows.length; i++) {
+      const { seatsOnRow, offset, R: rowR } = rows[i];
+      const stride = (Math.PI - offset * 2) / (seatsOnRow - 1);
+      for (let j = 0; j < seatsOnRow; j++) {
+        dotsArray.push({ alpha: offset + j * stride, R: rowR, candidate: null });
       }
+    }
 
-      // Position each dot in polar coordinates
-      for (let i = 0; i < rows.length; i++) {
-        const { seatsOnRow, offset, R: rowR } = rows[i];
-        const stride = (Math.PI - offset * 2) / (seatsOnRow - 1);
-        for (let j = 0; j < seatsOnRow; j++) {
-          dotsArray.push({ alpha: offset + j * stride, R: rowR, candidate: null });
-        }
-      }
+    // Sort the dots radially left to right
+    dotsArray.sort((a, b) => a.alpha - b.alpha);
 
-      // Sort the dots radially left to right
-      dotsArray.sort((a, b) => a.alpha - b.alpha);
-
-      // Assign candidates to each dot
-      let start = 0;
-      let end = dotsArray.length - 1;
-      let fromStart = false; // Alternate each candidate left/right
-      results.candidates.forEach((candidate, index) => {
-        let { seats } = candidate;
-        if (Number.isFinite(seats) && seats > 0) {
-          fromStart = !fromStart;
-          for (; seats > 0 && start <= end; seats -= 1) {
-            dotsArray[fromStart ? start : end].candidate = index;
-            if (fromStart) {
-              start += 1;
-            } else {
-              end -= 1;
-            }
+    // Assign candidates to each dot
+    let start = 0;
+    let end = dotsArray.length - 1;
+    let fromStart = false; // Alternate each candidate left/right
+    results.candidates.forEach((candidate, index) => {
+      let { seats } = candidate;
+      if (Number.isFinite(seats) && seats > 0) {
+        fromStart = !fromStart;
+        for (; seats > 0 && start <= end; seats -= 1) {
+          dotsArray[fromStart ? start : end].candidate = index;
+          if (fromStart) {
+            start += 1;
+          } else {
+            end -= 1;
           }
         }
-      });
+      }
+    });
 
-      return dotsArray;
-    }, [totalSeats, results]);
+    return [dotsArray, rows[rows.length - 1]?.R - r];
+  }, [totalSeats, results]);
 
-    return (
-      <svg className={classes.svg} viewBox="0 0 200 100" width={width} height={height}>
-        {dots.map((dot, index) => (
-          <circle
-            key={index}
-            r={r}
-            cx={100 - dot.R * Math.cos(dot.alpha)}
-            cy={100 - dot.R * Math.sin(dot.alpha)}
-            fill={dot.candidate != null ? electionCandidateColor(results.candidates[dot.candidate]) : "#ccc"}
-          />
-        ))}
-        <g transform="translate(100 78.75) scale(0.33 0.33) translate(-64.5 -64.5)">
-          <DecorativeIcon />
-        </g>
-        <text x={100} y={85} dominantBaseline="middle" className={classes.seatCount}>
-          {formatGroupedNumber(totalSeats)}
-        </text>
-      </svg>
-    );
-  },
-);
+  const onDeselect = useCallback(() => {
+    onSelectCandidate(null);
+  }, [onSelectCandidate]);
+
+  return (
+    <svg className={classes.svg} viewBox="-2 -1 204 102" width={width} height={height} onMouseLeave={onDeselect}>
+      <path
+        d={`
+          M -5 100
+          A 105 105 0 0 1 205 100
+          L ${100 + lastRadius - 5} 100
+          A ${lastRadius - 5} ${lastRadius - 5} 0 0 0 ${100 - lastRadius + 5} 100
+          L -5 100
+        `}
+        fill="transparent"
+        stroke="transparent"
+        onMouseLeave={onDeselect}
+      />
+      {dots.map((dot, index) => (
+        <circle
+          key={index}
+          r={r}
+          cx={100 - dot.R * Math.cos(dot.alpha)}
+          cy={100 - dot.R * Math.sin(dot.alpha)}
+          fill={dot.candidate != null ? electionCandidateColor(results.candidates[dot.candidate]) : "#ccc"}
+          strokeWidth={selectedCandidate !== null && selectedCandidate === dot.candidate ? 1 : 0}
+          stroke="#000"
+          onMouseOver={() => {
+            onSelectCandidate(dot.candidate);
+          }}
+        />
+      ))}
+      <g transform="translate(100 78.75) scale(0.33 0.33) translate(-64.5 -64.5)">
+        <DecorativeIcon />
+      </g>
+      <text x={100} y={85} dominantBaseline="middle" className={classes.seatCount}>
+        {formatGroupedNumber(totalSeats)}
+      </text>
+    </svg>
+  );
+});
 
 const defaultConstants = {
   breakpoint: 560,
@@ -138,6 +164,8 @@ export const ElectionResultsSeats = themable<Props>(
 
   const vertical = width < constants.breakpoint;
 
+  const [selectedCandidate, setSelectedCandidate] = useState<number>(null);
+
   return (
     <div className={mergeClasses(classes.root, vertical && classes.vertical)} ref={measureRef}>
       <div className={classes.legend}>
@@ -145,14 +173,28 @@ export const ElectionResultsSeats = themable<Props>(
           Number.isFinite(candidate.seats) && candidate.seats > 0 ? (
             <DivBody className={classes.legendItem} key={index}>
               <ColoredSquare className={classes.square} color={electionCandidateColor(candidate)} />
-              <div className={classes.legendLabel}>{candidate.shortName ?? candidate.name}</div>
+              <div
+                className={mergeClasses(
+                  classes.legendLabel,
+                  index === selectedCandidate && classes.legendLabelSelected,
+                )}
+              >
+                {candidate.shortName ?? candidate.name}
+              </div>
               <DivLabel className={classes.legendValue}>&nbsp;({formatGroupedNumber(candidate.seats)})</DivLabel>
             </DivBody>
           ) : null,
         )}
       </div>
       <div className={classes.svgContainer}>
-        <SeatsGraphic classes={classes} results={results} width={svgWidth} height={svgHeight} />
+        <SeatsGraphic
+          classes={classes}
+          results={results}
+          width={svgWidth}
+          height={svgHeight}
+          selectedCandidate={selectedCandidate}
+          onSelectCandidate={setSelectedCandidate}
+        />
       </div>
     </div>
   );
