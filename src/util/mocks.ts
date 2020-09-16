@@ -3,7 +3,6 @@ import {
   ElectionMeta,
   ElectionObservation,
   ElectionResults,
-  ElectionScope,
   ElectionScopeResolved,
   ElectionTurnout,
 } from "../types/Election";
