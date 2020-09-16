@@ -30,8 +30,8 @@ export default {
       control: "text",
     },
     id: {
-      defaultValue: "mock-election-id",
-      control: "text",
+      defaultValue: 1,
+      control: "number",
     },
     ...scopeArgTypes,
   },
