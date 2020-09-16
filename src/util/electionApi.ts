@@ -1,5 +1,5 @@
 import { electionApiProductionUrl } from "../constants/servers";
-import { ElectionBallot, ElectionBallotMeta, ElectionScope } from "../types/Election";
+import { ElectionBallot, ElectionBallotMeta, ElectionScope, ElectionNewsFeed } from "../types/Election";
 import { APIInvocation, JSONFetch, makeJsonFetch } from "./api";
 
 export type OptionWithID<K = number, N = string> = { id: K; name: N };
@@ -13,6 +13,7 @@ export interface ElectionScopeAPI {
 export interface ElectionAPI extends ElectionScopeAPI {
   getBallot: (id: number, scope: ElectionScope) => APIInvocation<ElectionBallot>;
   getBallots: () => APIInvocation<ElectionBallotMeta[]>;
+  getNewsFeed: (id: number) => APIInvocation<ElectionNewsFeed>;
 }
 
 const scopeToQuery = (scope: ElectionScope) => {
@@ -47,5 +48,6 @@ export const makeElectionApi = (options?: {
     getCounties: () => fetch("GET", "/counties"),
     getLocalities: (countyId) => fetch("GET", "/localities", { query: { CountyId: countyId } }),
     getCountries: () => fetch("GET", "/countries"),
+    getNewsFeed: (id) => fetch("GET", "/news", { query: { BallotId: id } }),
   };
 };
