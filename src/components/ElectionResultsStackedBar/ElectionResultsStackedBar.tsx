@@ -12,7 +12,7 @@ type Props = {
   results: ElectionResults;
 };
 
-const defaultThemeValues = {
+const defaultConstants = {
   neutralColor: "#B5B5B5",
   maxStackedBarItems: 4,
   breakpoint1: 850,
@@ -23,10 +23,10 @@ const defaultThemeValues = {
 export const ElectionResultsStackedBar = themable<Props>(
   "ElectionResultsStackedBar",
   cssClasses,
-  defaultThemeValues,
-)(({ classes, results, themeValues }) => {
+  defaultConstants,
+)(({ classes, results, constants }) => {
   const { candidates } = results;
-  const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = themeValues;
+  const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = constants;
 
   const [stackedBarItems, legendItems] = useMemo(() => {
     const items: (HorizontalStackedBarItem & {
@@ -60,7 +60,7 @@ export const ElectionResultsStackedBar = themable<Props>(
       }
       items.push({
         value: total,
-        color: themeValues.neutralColor,
+        color: constants.neutralColor,
         name: "Alții",
         percent: fractionOf(total, results.validVotes),
         index: items.length,

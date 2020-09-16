@@ -107,7 +107,7 @@ export const HereMap = themable<Props>(
 )(
   ({
     classes,
-    themeValues,
+    constants,
     width,
     height,
     overlayUrl,
@@ -125,22 +125,22 @@ export const HereMap = themable<Props>(
       () =>
         H && {
           default: new H.map.SpatialStyle({
-            fillColor: themeValues.featureFill,
-            strokeColor: themeValues.featureStroke,
+            fillColor: constants.featureFill,
+            strokeColor: constants.featureStroke,
             lineWidth: 2,
           }),
           selected: new H.map.SpatialStyle({
-            fillColor: themeValues.featureStroke,
-            strokeColor: themeValues.featureStroke,
+            fillColor: constants.featureStroke,
+            strokeColor: constants.featureStroke,
             lineWidth: 2,
           }),
           hover: new H.map.SpatialStyle({
-            fillColor: themeValues.featureHoverFill,
-            strokeColor: themeValues.featureHoverFill,
+            fillColor: constants.featureHoverFill,
+            strokeColor: constants.featureHoverFill,
             lineWidth: 2,
           }),
         },
-      [H, themeValues.featureFill, themeValues.featureStroke, themeValues.featureHoverFill],
+      [H, constants.featureFill, constants.featureStroke, constants.featureHoverFill],
     );
 
     // Instance vars

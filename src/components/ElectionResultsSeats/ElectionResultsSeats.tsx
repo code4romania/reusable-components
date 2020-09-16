@@ -118,7 +118,7 @@ const SeatsGraphic: React.FC<{ classes: IClassNames; results: ElectionResults; w
   },
 );
 
-const defaultThemeValues = {
+const defaultConstants = {
   breakpoint: 560,
   height: 200,
 };
@@ -126,17 +126,17 @@ const defaultThemeValues = {
 export const ElectionResultsSeats = themable<Props>(
   "ElectionResultsSeats",
   cssClasses,
-  defaultThemeValues,
-)(({ classes, themeValues, results }) => {
+  defaultConstants,
+)(({ classes, constants, results }) => {
   const [measureRef, { width }] = useDimensions();
-  let svgHeight = themeValues.height;
-  let svgWidth = themeValues.height * 2;
+  let svgHeight = constants.height;
+  let svgWidth = constants.height * 2;
   if (svgWidth > width) {
     svgWidth = width;
     svgHeight = svgWidth * 0.5;
   }
 
-  const vertical = width < themeValues.breakpoint;
+  const vertical = width < constants.breakpoint;
 
   return (
     <div className={mergeClasses(classes.root, vertical && classes.vertical)} ref={measureRef}>
