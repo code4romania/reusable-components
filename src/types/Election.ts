@@ -123,6 +123,7 @@ export type ElectionResultsCandidate = {
   votes: number;
   seats?: number;
   seatsGained?: number | "new";
+  candidateCount?: number;
   [extraFields: string]: number | string; // Care e faza cu "Mandat1/Mandat2"?
 };
 
