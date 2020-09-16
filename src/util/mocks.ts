@@ -31,6 +31,7 @@ export const mockPresidentialElectionMeta: ElectionMeta = {
   date: "2019-11-24",
   title: "Alegeri prezidențiale",
   ballot: "Turul 2",
+  ballotId: 1,
 };
 
 export const mockLocalCouncilElectionMeta: ElectionMeta = {
@@ -38,6 +39,7 @@ export const mockLocalCouncilElectionMeta: ElectionMeta = {
   date: "2016-06-05",
   title: "Alegeri locale",
   ballot: "Consiliul Local",
+  ballotId: 1,
 };
 
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
