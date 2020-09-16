@@ -39,7 +39,7 @@ export const mockLocalCouncilElectionMeta: ElectionMeta = {
   date: "2016-06-05",
   title: "Alegeri locale",
   ballot: "Consiliul Local",
-  ballotId: 1,
+  ballotId: 2,
 };
 
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
@@ -154,31 +154,36 @@ export const mockElectionAPI = makeElectionApi({
   fetch: mockFetch([
     [
       "GET",
-      /^\/elections\/([^/]+)$/,
-      (async ({ match, query }) => {
+      "/ballot",
+      (async ({ query: { BallotId, Division, CountyId, LocalityId } }) => {
         await delay(1000);
-        const scope = { ...query, countyName: "Prahova", localityName: "Ploiești", countryName: "Spania" };
+        const scope = {
+          type: Division,
+          countyId: CountyId,
+          localityId: Division !== "diaspora_country" ? LocalityId : undefined,
+          countryId: Division === "diaspora_country" ? LocalityId : undefined,
+          countyName: "Prahova",
+          localityName: "Ploiești",
+          countryName: "Spania",
+        };
         return {
-          id: match[1],
+          id: BallotId,
           scope,
           meta: mockPresidentialElectionMeta,
           turnout: mockPresidentialElectionTurnout,
           observation: mockObservation,
           results: mockResults,
         };
-      }) as APIMockHandler<Election, unknown, ElectionScope>,
+      }) as APIMockHandler<Election, unknown, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
     ],
 
     [
       "GET",
-      "/elections",
+      "/ballots",
       (async () => {
         await delay(1000);
-        return [
-          { id: "first-election", meta: mockPresidentialElectionMeta },
-          { id: "second-election", meta: mockLocalCouncilElectionMeta },
-        ];
-      }) as APIMockHandler<{ id: string; meta: ElectionMeta }[]>,
+        return [mockPresidentialElectionMeta, mockLocalCouncilElectionMeta];
+      }) as APIMockHandler<ElectionMeta[]>,
     ],
 
     [
@@ -196,7 +201,7 @@ export const mockElectionAPI = makeElectionApi({
 
     [
       "GET",
-      /^\/counties\/([^/]+)\/localities$/,
+      "/localities",
       (async () => {
         await delay(1000);
         return [
