@@ -120,7 +120,7 @@ const SeatsGraphic: React.FC<{ classes: IClassNames; results: ElectionResults; w
 
 const defaultThemeValues = {
   breakpoint: 560,
-  height: 150,
+  height: 200,
 };
 
 export const ElectionResultsSeats = themable<Props>(
