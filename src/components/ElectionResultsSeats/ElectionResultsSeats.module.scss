@@ -1,0 +1,57 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.legend {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+  justify-content: flex-start;
+  max-width: 15rem;
+}
+
+.legendItem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  max-width: 8rem;
+}
+
+.square {
+  display: block;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.svgContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column-reverse;
+  align-items: stretch;
+
+  .svgContainer {
+    margin-bottom: 0.5rem;
+  }
+
+  .legend {
+    justify-content: center;
+    max-width: none;
+  }
+}
