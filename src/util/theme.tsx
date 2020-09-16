@@ -1,4 +1,4 @@
-import React, { createContext, forwardRef, useContext } from "react";
+import React, { createContext, forwardRef, useContext, useMemo } from "react";
 
 export function mergeClasses(a: string | void, b: string | void): string | undefined {
   if (!a) {
@@ -113,14 +113,15 @@ export const themable = <P extends PropsObject>(
   return (Component: ThemedComponent<P>) => {
     return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
       const theme = useTheme();
-      return (
-        <Component
-          {...props}
-          classes={mergeThemeClasses(theme, componentName, componentClasses, props.classes, props.className)}
-          themeValues={mergeThemeValues(theme, componentName, componentValues, props.themeValues)}
-          ref={ref}
-        />
+      const classes = useMemo(
+        () => mergeThemeClasses(theme, componentName, componentClasses, props.classes, props.className),
+        [theme, props.classes, props.className],
       );
+      const themeValues = useMemo(() => mergeThemeValues(theme, componentName, componentValues, props.themeValues), [
+        theme,
+        props.themeValues,
+      ]);
+      return <Component {...props} classes={classes} themeValues={themeValues} ref={ref} />;
     }) as unknown) as ThemableComponent<P>;
   };
 };
