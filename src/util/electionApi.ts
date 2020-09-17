@@ -10,7 +10,7 @@ export interface ElectionScopeAPI {
 
 export interface ElectionAPI extends ElectionScopeAPI {
   getElection: (id: number, scope: ElectionScope) => APIInvocation<Election>;
-  getElections: () => APIInvocation<ElectionMeta>;
+  getElections: () => APIInvocation<ElectionMeta[]>;
 }
 
 const scopeToQuery = (scope: ElectionScope) => {

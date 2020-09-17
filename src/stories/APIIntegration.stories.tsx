@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useApiResponse } from "../util/api";
 import { ElectionAPI, makeElectionApi } from "../util/electionApi";
 import { mockElectionAPI } from "../util/mocks";
@@ -14,6 +14,7 @@ import { ElectionResultsSummarySection } from "../components/ElectionResultsSumm
 import { ElectionResultsProcess } from "../components/ElectionResultsProcess/ElectionResultsProcess";
 import { ElectionResultsSeats } from "../components/ElectionResultsSeats/ElectionResultsSeats";
 import { ElectionResultsTableSection } from "../components/ElectionResultsTableSection/ElectionResultsTableSection";
+import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimeline";
 
 export default {
   title: "API integrations",
@@ -29,20 +30,16 @@ export default {
       defaultValue: electionApiProductionUrl,
       control: "text",
     },
-    id: {
-      defaultValue: 1,
-      control: "number",
-    },
-    ...scopeArgTypes,
   },
+};
+
+const useApi = (api, apiUrl): ElectionAPI => {
+  return useMemo(() => (api === "mock" ? mockElectionAPI : makeElectionApi({ apiUrl })), [api, apiUrl]);
 };
 
 export const ElectionComponents = (args: { api: string; apiUrl: string; id: string } & ScopeArgs) => {
   const [scope, { api, apiUrl, id }] = useScopeFromArgs(args);
-  const electionApi: ElectionAPI = useMemo(() => (api === "mock" ? mockElectionAPI : makeElectionApi({ apiUrl })), [
-    api,
-    apiUrl,
-  ]);
+  const electionApi: ElectionAPI = useApi(api, apiUrl);
   const { data, loading, error } = useApiResponse(() => electionApi.getElection(id, scope), [electionApi, id, scope]);
 
   return (
@@ -57,6 +54,37 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
           {data.results && <ElectionResultsSeats results={data.results} />}
           {data.results && <ElectionResultsTableSection meta={data.meta} results={data.results} />}
         </>
+      )}
+    </>
+  );
+};
+
+ElectionComponents.argTypes = {
+  id: {
+    defaultValue: 1,
+    control: "number",
+  },
+  ...scopeArgTypes,
+};
+
+export const ElectionTimelineComponent = (args: { api: string; apiUrl: string }) => {
+  const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
+  const { data, loading, error } = useApiResponse(() => electionApi.getElections(), [electionApi]);
+
+  const [selectedBallotId, setSelectedBallotId] = useState<number>(null);
+
+  return (
+    <>
+      <APIRequestPreview data={data} loading={loading} error={error} />
+      {data && (
+        <ElectionTimeline
+          items={data}
+          selectedBallotId={selectedBallotId}
+          onSelectBallot={(meta) => {
+            console.log("onSelectBallot", meta);
+            setSelectedBallotId(meta.ballotId);
+          }}
+        />
       )}
     </>
   );
