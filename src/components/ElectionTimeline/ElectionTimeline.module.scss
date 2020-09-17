@@ -1,0 +1,110 @@
+$collapse-caret-width: 0.7rem;
+$collapse-caret-margin: 0.2rem;
+$left-padding: 2.5rem;
+$year-indent: 0rem;
+$election-indent: 0.9rem + $collapse-caret-width + $collapse-caret-margin;
+$line-x-offset: -1rem;
+$line-y-offset: (24rem / 16) * 0.5 + 0.375rem;
+
+.root {
+  color: #505050;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.yearRow {
+  font-size: (24rem / 16);
+  padding-left: $left-padding;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+
+.electionRow {
+  padding-left: ($left-padding + $year-indent);
+}
+
+.ballotRow {
+  padding-left: ($left-padding + $year-indent + $election-indent);
+}
+
+.electionRow, .ballotTitle {
+  font-size: (18rem / 16);
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  cursor: pointer;
+}
+
+.selectedYear {
+  font-weight: 600;
+}
+
+.selectedElection {
+  font-weight: 600;
+}
+
+.selectedBallot {
+  font-weight: 600;
+}
+
+.year {
+  position: relative;
+}
+
+.yearLine {
+  position: absolute;
+  left: ($left-padding + $line-x-offset);
+  top: $line-y-offset;
+  width: 1px;
+  height: 100%;
+  background-color: currentColor;
+  transform: translate(-50%, 0);
+}
+
+.yearDot {
+  position: absolute;
+  left: ($left-padding + $line-x-offset);
+  top: $line-y-offset;
+  width: (12rem / 16);
+  height: (12rem / 16);
+  border-radius: 50%;
+  border: 1px currentColor solid;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+}
+
+.selectedYearDot {
+  background-color: currentColor;
+}
+
+.electionRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.live {
+  flex-shrink: 0;
+  background-color: #e53935;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  font-size: (14rem / 16);
+  margin-left: 0.5rem;
+}
+
+.collapseWidget {
+  width: $collapse-caret-width;
+  margin-right: $collapse-caret-margin;
+  flex-shrink: 0;
+}
+
+.collapseCaret {
+  height: $collapse-caret-width;
+  transition: transform ease-out 0.15s;
+  opacity: 0.8;
+}
+
+.collapseCaretExpanded {
+  transform: rotate(90deg);
+}

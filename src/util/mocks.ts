@@ -146,13 +146,14 @@ export const mockResults: ElectionResults = {
   ],
 };
 
-const mockElectionList = [
+export const mockElectionList = [
   {
     date: "2019-05-26T00:00:00",
     title: "Alegeri EuroParlamentare",
     type: "european_parliament",
     electionId: 1,
     ballotId: 1,
+    live: true,
   },
   {
     date: "2016-12-11T00:00:00",

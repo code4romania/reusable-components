@@ -68,9 +68,10 @@ export type ElectionMeta = {
   title: string; // eg. "Alegeri locale"
   ballot?: string; // eg. "Primar", maybe find a better name for this?
   subtitle?: string; // eg. "Pentru trecerea la parlament unicameral și reducerea numărului de parlamentari"
+  live?: boolean; // Send true when the election is ongoing
 
   ballotId: number; // The ID of this Election (Ballot in the backend, a rename might be in order)
-  electionId?: number; // Used for grouping
+  electionId: number; // Used for grouping
 
   // TODO: I haven't the slightest idea what should go in here, but I assume some sort
   // of an URL/category ID for the blog API
