@@ -38,17 +38,17 @@ export const ElectionMap = themable<Props>(
   >(() => {
     if (scope.type === "locality" && scope.countyId != null) {
       return [
-        `${electionMapOverlayUrl}/dobrogea.geojson`,
+        `${electionMapOverlayUrl}/localities_${scope.countyId}.geojson`,
         scope.localityId,
         (localityId) => ({ ...scope, localityId }),
       ];
     }
     if ((scope.type === "locality" && scope.countyId == null) || scope.type === "county") {
-      return [`${electionMapOverlayUrl}/dobrogea.geojson`, scope.countyId, (countyId) => ({ ...scope, countyId })];
+      return [`${electionMapOverlayUrl}/counties.geojson`, scope.countyId, (countyId) => ({ ...scope, countyId })];
     }
     if (scope.type === "diaspora" || scope.type === "diaspora_country") {
       return [
-        `${electionMapOverlayUrl}/dobrogea.geojson`,
+        `${electionMapOverlayUrl}/diaspora_countries.geojson`,
         scope.type === "diaspora_country" && scope.countryId != null ? scope.countryId : null,
         (countryId) => ({ type: "diaspora_country", countryId }),
       ];
