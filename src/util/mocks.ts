@@ -31,6 +31,7 @@ export const mockPresidentialElectionMeta: ElectionMeta = {
   title: "Alegeri prezidențiale",
   ballot: "Turul 2",
   ballotId: 1,
+  electionId: 1,
 };
 
 export const mockLocalCouncilElectionMeta: ElectionMeta = {
@@ -39,6 +40,7 @@ export const mockLocalCouncilElectionMeta: ElectionMeta = {
   title: "Alegeri locale",
   ballot: "Consiliul Local",
   ballotId: 2,
+  electionId: 2,
 };
 
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
