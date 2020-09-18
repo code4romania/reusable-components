@@ -251,6 +251,24 @@ export const useElectionScopePickerGetTypeSelectProps = (
 
 const loadingMessage = () => "Se încarcă...";
 
+const typeSelectStyles = {
+  control: (provided) => ({
+    ...provided,
+    borderColor: "transparent",
+    borderWidth: 0,
+    cursor: "pointer",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    fontWeight: 600,
+    fontSize: `${30 / 16}rem`,
+    paddingLeft: 0,
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
 export const ElectionScopePicker = themable<Props>(
   "ElectionScopePicker",
   cssClasses,
@@ -277,10 +295,12 @@ export const ElectionScopePicker = themable<Props>(
     <div className={classes.root}>
       <Select
         {...typeSelect.selectProps}
+        isSearchable={false}
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
         theme={selectTheme}
         className={classes.typeSelect}
+        styles={typeSelectStyles}
       />
       <div className={classes.selects}>
         {selects.map(({ label, selectProps }, index) => (

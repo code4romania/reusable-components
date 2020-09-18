@@ -6,9 +6,10 @@
 }
 
 .typeSelect {
+  margin-top: 1.12rem;
   margin-right: 2rem;
   margin-bottom: 0.5rem;
-  width: 10rem;
+  width: 11rem;
 }
 
 .selects {
@@ -32,6 +33,10 @@
     flex-direction: column;
     align-items: stretch;
     flex-wrap: nowrap;
+  }
+
+  .typeSelect {
+    margin-top: 0;
   }
 
   .selects {
