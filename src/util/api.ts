@@ -29,7 +29,7 @@ export function useApiResponse<ResponseType>(
 
   useEffect(() => {
     const inv = makeInvocation();
-    const options: UseAPIResponseOptions<ResponseType> = typeof inv === "function" ? { invocation: inv } : {};
+    const options: UseAPIResponseOptions<ResponseType> = (typeof inv === "function" ? { invocation: inv } : inv) || {};
     const {
       invocation,
       discardPreviousData = false,
