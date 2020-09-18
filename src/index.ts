@@ -23,3 +23,4 @@ export * from "./components/ElectionResultsTableSection/ElectionResultsTableSect
 export * from "./components/ElectionResultsProcess/ElectionResultsProcess";
 export * from "./components/ElectionResultsStackedBar/ElectionResultsStackedBar";
 export * from "./components/ElectionTimeline/ElectionTimeline";
+export * from "./components/ElectionScopePicker/ElectionScopePicker";
