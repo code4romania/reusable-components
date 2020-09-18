@@ -15,6 +15,8 @@ import { ElectionResultsProcess } from "../components/ElectionResultsProcess/Ele
 import { ElectionResultsSeats } from "../components/ElectionResultsSeats/ElectionResultsSeats";
 import { ElectionResultsTableSection } from "../components/ElectionResultsTableSection/ElectionResultsTableSection";
 import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimeline";
+import { ElectionScope } from "../types/Election";
+import { ElectionScopePicker, useElectionScopePickerApi } from "../components/ElectionScopePicker/ElectionScopePicker";
 
 export default {
   title: "API integrations",
@@ -88,4 +90,11 @@ export const ElectionTimelineComponent = (args: { api: string; apiUrl: string })
       )}
     </>
   );
+};
+
+export const ElectionScopeComponent = (args: { api: string; apiUrl: string }) => {
+  const [scope, setScope] = useState<ElectionScope>({ type: "national" });
+  const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
+  const apiData = useElectionScopePickerApi(electionApi, scope);
+  return <ElectionScopePicker apiData={apiData} value={scope} onChange={setScope} />;
 };

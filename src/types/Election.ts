@@ -6,7 +6,7 @@ type ElectionScope_<T> =
   | { type: "diaspora_country"; countryId: T };
 
 export type ElectionScope = ElectionScope_<number>;
-export type ElectionScopeIncomplete = ElectionScope_<number | void>;
+export type ElectionScopeIncomplete = ElectionScope_<number | null>;
 
 export type ElectionScopeCompleteness = {
   complete: ElectionScope | null;

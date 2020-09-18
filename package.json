@@ -20,6 +20,7 @@
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/react": "^6.0.16",
     "@types/heremaps": "^3.1.1",
+    "@types/react-select": "^3.0.20",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "babel-eslint": "^10.1.0",
@@ -43,6 +44,7 @@
   },
   "dependencies": {
     "date-fns": "^2.16.1",
+    "react-select": "^3.1.0",
     "react-use-dimensions": "^1.2.1"
   },
   "peerDependencies": {

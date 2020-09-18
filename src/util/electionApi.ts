@@ -2,10 +2,12 @@ import { electionApiProductionUrl } from "../constants/servers";
 import { Election, ElectionMeta, ElectionScope } from "../types/Election";
 import { APIInvocation, JSONFetch, makeJsonFetch } from "./api";
 
+export type OptionWithID<K = number, N = string> = { id: K; name: N };
+
 export interface ElectionScopeAPI {
-  getCounties: () => APIInvocation<{ id: number; name: string }[]>;
-  getLocalities: (countyId: number) => APIInvocation<{ id: number; name: string }[]>;
-  getCountries: () => APIInvocation<{ id: number; name: string }[]>;
+  getCounties: () => APIInvocation<OptionWithID[]>;
+  getLocalities: (countyId: number) => APIInvocation<OptionWithID[]>;
+  getCountries: () => APIInvocation<OptionWithID[]>;
 }
 
 export interface ElectionAPI extends ElectionScopeAPI {
