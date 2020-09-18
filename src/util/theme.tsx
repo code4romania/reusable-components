@@ -24,6 +24,9 @@ export function overrideClasses(classes: IClassNames, overrides?: IClassNames | 
 export interface Theme extends ThemeConstants {
   colors: {
     primary: string;
+    primary75: string;
+    primary50: string;
+    primary25: string;
     secondary: string;
   };
   componentClasses: {
@@ -37,6 +40,9 @@ export interface Theme extends ThemeConstants {
 const defaultTheme: Theme = {
   colors: {
     primary: "#FFCC00",
+    primary75: "#FFCC00AF",
+    primary50: "#FFCC007F",
+    primary25: "#FFCC003F",
     secondary: "#352245",
   },
   componentClasses: {},

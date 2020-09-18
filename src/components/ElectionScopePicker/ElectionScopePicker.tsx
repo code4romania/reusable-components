@@ -3,7 +3,8 @@ import Select from "react-select";
 import { ElectionScope, ElectionScopeIncomplete } from "../../types/Election";
 import { APIRequestState, useApiResponse } from "../../util/api";
 import { ElectionScopeAPI, OptionWithID } from "../../util/electionApi";
-import { themable } from "../../util/theme";
+import { themable, useTheme } from "../../util/theme";
+import { Label } from "../Typography/Typography";
 import cssClasses from "./ElectionScopePicker.module.scss";
 
 type Props = {
@@ -76,11 +77,15 @@ export const useElectionScopePickerApi = (
 };
 
 export type ElectionScopePickerSelectProps<K = number> = {
-  value: OptionWithID<K> | null;
-  onChange: (value: OptionWithID<K> | null) => unknown;
-  options: OptionWithID<K>[];
-  isLoading: boolean;
-  isDisabled: boolean;
+  label: string;
+  selectProps: {
+    value: OptionWithID<K> | null;
+    onChange: (value: OptionWithID<K> | null) => unknown;
+    options: OptionWithID<K>[];
+    isLoading: boolean;
+    isDisabled: boolean;
+    placeholder?: string;
+  };
 };
 
 function resolveValue<K extends string | number>(x: K | OptionWithID<K> | null): K | null {
@@ -152,31 +157,43 @@ export const useElectionScopePickerGetSelectProps = (
 
   if (scope.type === "county" || scope.type === "locality") {
     selects.push({
-      value: resolveInMap(scope.countyId, countyMap),
-      onChange: onCountyChange,
-      options: apiData.countyData.data ?? [],
-      isLoading: apiData.countyData.loading,
-      isDisabled: false,
+      label: "Județ",
+      selectProps: {
+        value: resolveInMap(scope.countyId, countyMap),
+        onChange: onCountyChange,
+        options: apiData.countyData.data ?? [],
+        isLoading: apiData.countyData.loading,
+        isDisabled: false,
+        placeholder: "Selectează un județ",
+      },
     });
   }
 
   if (scope.type === "locality") {
     selects.push({
-      value: resolveInMap(scope.localityId, localityMap),
-      onChange: onLocalityChange,
-      options: apiData.localityData.data ?? [],
-      isLoading: apiData.localityData.loading,
-      isDisabled: scope.countyId == null,
+      label: "Localitate",
+      selectProps: {
+        value: resolveInMap(scope.localityId, localityMap),
+        onChange: onLocalityChange,
+        options: apiData.localityData.data ?? [],
+        isLoading: apiData.localityData.loading,
+        isDisabled: scope.countyId == null,
+        placeholder: "Selectează o localitate",
+      },
     });
   }
 
   if (scope.type === "diaspora" || scope.type === "diaspora_country") {
     selects.push({
-      value: resolveInMap(scope.type === "diaspora_country" ? scope.countryId : null, countryMap),
-      onChange: onCountryChange,
-      options: apiData.countryData.data ?? [],
-      isLoading: apiData.countryData.loading,
-      isDisabled: false,
+      label: "Țară",
+      selectProps: {
+        value: resolveInMap(scope.type === "diaspora_country" ? scope.countryId : null, countryMap),
+        onChange: onCountryChange,
+        options: apiData.countryData.data ?? [],
+        isLoading: apiData.countryData.loading,
+        isDisabled: false,
+        placeholder: "Selectează o țară",
+      },
     });
   }
 
@@ -221,27 +238,66 @@ export const useElectionScopePickerGetTypeSelectProps = (
 
   const value = scope.type === "diaspora_country" ? "diaspora" : scope.type;
   return {
-    value: { id: value, name: typeNames[value] },
-    onChange: onTypeChange,
-    options: typeOptions,
-    isLoading: false,
-    isDisabled: false,
+    label: "Diviziune",
+    selectProps: {
+      value: { id: value, name: typeNames[value] },
+      onChange: onTypeChange,
+      options: typeOptions,
+      isLoading: false,
+      isDisabled: false,
+    },
   };
 };
+
+const loadingMessage = () => "Se încarcă...";
 
 export const ElectionScopePicker = themable<Props>(
   "ElectionScopePicker",
   cssClasses,
 )(({ classes, apiData, value, onChange }) => {
-  console.log(apiData);
   const typeSelect = useElectionScopePickerGetTypeSelectProps(value, onChange);
   const selects = useElectionScopePickerGetSelectProps(apiData, value, onChange);
+  const theme = useTheme();
+
+  const selectTheme = useMemo(
+    () => (t) => ({
+      ...t,
+      colors: {
+        ...t.colors,
+        primary: theme.colors.primary,
+        primary75: theme.colors.primary75,
+        primary50: theme.colors.primary50,
+        primary25: theme.colors.primary25,
+      },
+    }),
+    [theme],
+  );
+
   return (
     <div className={classes.root}>
-      <Select {...typeSelect} getOptionLabel={getOptionLabel} getOptionValue={getOptionValue} />
-      {selects.map((props, index) => (
-        <Select key={index} {...props} getOptionLabel={getOptionLabel} getOptionValue={getOptionValue} />
-      ))}
+      <Select
+        {...typeSelect.selectProps}
+        getOptionLabel={getOptionLabel}
+        getOptionValue={getOptionValue}
+        theme={selectTheme}
+        className={classes.typeSelect}
+      />
+      <div className={classes.selects}>
+        {selects.map(({ label, selectProps }, index) => (
+          <div key={index} className={classes.selectContainer}>
+            <Label className={classes.selectLabel}>{label}</Label>
+            <Select
+              {...selectProps}
+              isClearable
+              getOptionLabel={getOptionLabel}
+              getOptionValue={getOptionValue}
+              theme={selectTheme}
+              className={classes.select}
+              loadingMessage={loadingMessage}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 });
