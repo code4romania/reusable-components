@@ -663,7 +663,8 @@ export const mockElectionAPI = makeElectionApi({
       (async () => {
         await delay(1000);
         return [
-          { id: 1, name: "Prahova" },
+          { id: 0, name: "Prahova" },
+          { id: 1, name: "Buzău" },
           { id: 2, name: "Brașov" },
           { id: 3, name: "Constanța" },
         ];
@@ -676,6 +677,7 @@ export const mockElectionAPI = makeElectionApi({
       (async () => {
         await delay(1000);
         return [
+          { id: 0, name: "Văleni de Munte" },
           { id: 1, name: "Ploiești" },
           { id: 2, name: "Slănic" },
           { id: 3, name: "Câmpina" },
