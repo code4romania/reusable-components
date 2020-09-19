@@ -6,5 +6,7 @@
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
         "types": ["@types/heremaps"],
+        "declaration": true,
+        "declarationDir": "./dist",
     },
 }

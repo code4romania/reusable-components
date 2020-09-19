@@ -1,7 +1,6 @@
-import babel from "@rollup/plugin-babel";
 import postcss from "rollup-plugin-postcss";
 import image from "@rollup/plugin-image";
-import typescript from "@rollup/plugin-typescript";
+import ts from "@wessberg/rollup-plugin-ts";
 import resolve from "@rollup/plugin-node-resolve";
 import fs from "fs";
 import path from "path";
@@ -38,11 +37,7 @@ export default {
       autoModules: true,
       use: ["sass"],
     }),
-    typescript(),
-    babel({
-      exclude: "node_modules/**",
-      babelHelpers: "bundled",
-    }),
+    ts({ transpiler: "babel" }),
   ],
   external,
 };
