@@ -56,6 +56,7 @@
   },
   "scripts": {
     "build": "npm run clean && rollup -c",
+    "prepare": "npm run build",
     "clean": "rm -rf dist",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
