@@ -67,12 +67,8 @@
       "pre-commit": "npm run lint && npm test"
     }
   },
-  "module": "./dist/index.mjs",
-  "main": "./dist/index.cjs",
-  "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs"
-  },
+  "module": "./dist/es/index.js",
+  "main": "./dist/cjs/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"

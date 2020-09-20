@@ -16,15 +16,13 @@ export default {
   },
   output: [
     {
-      dir: "dist",
-      entryFileNames: "[name].mjs",
+      dir: "dist/es",
       format: "es",
       sourcemap: true,
     },
     {
-      dir: "dist",
+      dir: "dist/cjs",
       format: "cjs",
-      entryFileNames: "[name].cjs",
       sourcemap: true,
     },
   ],
