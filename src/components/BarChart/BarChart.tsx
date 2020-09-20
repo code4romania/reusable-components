@@ -27,7 +27,7 @@ const defaultConstants = {
 
 export const BarChart = themable<Props>(
   "BarChart",
-  null,
+  undefined,
   defaultConstants,
 )(
   ({

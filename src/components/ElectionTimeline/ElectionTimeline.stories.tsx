@@ -10,7 +10,7 @@ export default {
 };
 
 export const SimpleExample = () => {
-  const [selectedBallotId, setSelectedBallotId] = useState<number>(null);
+  const [selectedBallotId, setSelectedBallotId] = useState<number | null>(null);
   return (
     <ElectionTimeline
       items={mockElectionList}

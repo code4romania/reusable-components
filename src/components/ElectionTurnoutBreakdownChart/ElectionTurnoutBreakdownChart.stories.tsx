@@ -10,18 +10,18 @@ export default {
 };
 
 export const NationalBreakdown = () => {
-  return <ElectionTurnoutBreakdownChart value={mockPresidentialElectionTurnout.breakdown[0]} />;
+  return <ElectionTurnoutBreakdownChart value={(mockPresidentialElectionTurnout.breakdown || [])[0]} />;
 };
 
 export const DiasporaBreakdown = () => {
-  return <ElectionTurnoutBreakdownChart value={mockPresidentialElectionTurnout.breakdown[1]} />;
+  return <ElectionTurnoutBreakdownChart value={(mockPresidentialElectionTurnout.breakdown || [])[1]} />;
 };
 
 export const FullScopeBreakdown = () => {
   return (
     <ElectionTurnoutBreakdownChart
       value={{
-        ...mockPresidentialElectionTurnout.breakdown[0],
+        ...(mockPresidentialElectionTurnout.breakdown || [])[0],
         type: "all",
       }}
     />

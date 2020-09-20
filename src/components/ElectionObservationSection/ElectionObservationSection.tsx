@@ -1,7 +1,7 @@
-import React from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 import { ElectionObservation } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
-import { themable, useTheme } from "../../util/theme";
+import { ClassNames, themable, useTheme } from "../../util/theme";
 import { DivBodyLarge, Heading2 } from "../Typography/Typography";
 import cssClasses from "./ElectionObservationSection.module.scss";
 import BallotDrop from "../../assets/ballot-drop.svg";
@@ -14,7 +14,12 @@ type Props = {
   observation: ElectionObservation;
 };
 
-const ShowcaseItem = ({ classes, icon, value, children }) => (
+const ShowcaseItem: React.FC<PropsWithChildren<{ classes: ClassNames; icon: ReactNode; value: number }>> = ({
+  classes,
+  icon,
+  value,
+  children,
+}) => (
   <div className={classes.showcaseItem}>
     <div className={classes.showcaseIcon}>{icon}</div>
     <div className={classes.showcaseValue}>{formatGroupedNumber(value)}</div>

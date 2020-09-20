@@ -47,10 +47,10 @@ const CandidateTable: React.FC<{
               (!(canCollapse && collapsed) || index < 5) && (
                 <tr key={index}>
                   <td className={classes.nameCell}>{candidate.name}</td>
-                  {hasCandidateCount && <th>{formatGroupedNumber(candidate.candidateCount)}</th>}
+                  {hasCandidateCount && <th>{formatGroupedNumber(candidate.candidateCount || 0)}</th>}
                   <td>{formatGroupedNumber(candidate.votes)}</td>
                   <td>{formatPercentage(fractionOf(candidate.votes, validVotes))}</td>
-                  {hasSeats && <td>{formatGroupedNumber(candidate.seats)}</td>}
+                  {hasSeats && <td>{formatGroupedNumber(candidate.seats || 0)}</td>}
                   {hasSeatsGained && (
                     <td>
                       {typeof candidate.seatsGained === "number"
@@ -81,11 +81,11 @@ export const ElectionResultsTableSection = themable<Props>(
   const hasSeats = electionHasSeats(meta.type, results);
 
   const qualified = hasSeats
-    ? results.candidates.filter((cand) => Number.isFinite(cand.seats) && cand.seats > 0)
+    ? results.candidates.filter((cand) => Number.isFinite(cand.seats) && (cand.seats || 0) > 0)
     : results.candidates;
 
   const unqualified = hasSeats
-    ? results.candidates.filter((cand) => !Number.isFinite(cand.seats) || cand.seats <= 0)
+    ? results.candidates.filter((cand) => !Number.isFinite(cand.seats) || (cand.seats || 0) <= 0)
     : null;
 
   if (unqualified && unqualified.length > 0) {

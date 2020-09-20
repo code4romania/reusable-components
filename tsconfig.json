@@ -8,5 +8,6 @@
         "types": ["@types/heremaps"],
         "declaration": true,
         "declarationDir": "./dist",
+        "strict": true,
     },
 }

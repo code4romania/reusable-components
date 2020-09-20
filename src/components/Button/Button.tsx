@@ -1,13 +1,16 @@
 import React, { ComponentProps, forwardRef } from "react";
-import { themable } from "../../util/theme";
+import { themable, ThemedComponent, ThemedComponentProps } from "../../util/theme";
 import cssClasses from "./Button.module.scss";
 
 export const Button = themable<ComponentProps<"button">>(
   "Button",
   cssClasses,
 )(
-  // eslint-disable-next-line react/display-name, @typescript-eslint/no-unused-vars
-  forwardRef(({ classes, className, constants, ...otherProps }, ref) => (
-    <button className={classes.root} {...otherProps} ref={ref} />
-  )),
+  // eslint-disable-next-line react/display-name
+  (forwardRef<HTMLButtonElement, ThemedComponentProps<ComponentProps<"button">>>(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ({ classes, className, constants, ref, ...otherProps }, forwardedRef) => (
+      <button className={classes.root} {...otherProps} ref={forwardedRef} />
+    ),
+  ) as unknown) as ThemedComponent<ComponentProps<"button">>,
 );

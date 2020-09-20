@@ -43,7 +43,7 @@
     "no-trailing-spaces": "warn",
     "no-unused-expressions": "error",
     "no-var": "error",
-    "max-len": ["error", { "code": 120 }],
+    "max-len": "off", // Prettier handles this already
     "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "overrides": [

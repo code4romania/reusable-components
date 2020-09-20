@@ -93,7 +93,7 @@ export const ElectionTurnoutSection = themable<Props>(
           mobileMap && classes.mapBreakdownContainerMobile,
         )}
       >
-        {turnout && completeness.complete && (turnout.breakdown?.length > 0 || turnout.eligibleVoters == null) && (
+        {turnout && completeness.complete && ((turnout.breakdown?.length ?? 0) > 0 || turnout.eligibleVoters == null) && (
           <div className={classes.breakdownContainer}>
             {turnout.eligibleVoters == null && (
               <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>

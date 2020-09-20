@@ -6,7 +6,7 @@ import cssClasses from "./ElectionTimeline.module.scss";
 
 type Props = {
   items: ElectionMeta[];
-  selectedBallotId?: number;
+  selectedBallotId?: number | null;
   onSelectBallot?: (meta: ElectionMeta) => unknown;
 };
 
@@ -46,7 +46,7 @@ export const ElectionTimeline = themable<Props>(
       const { electionId } = meta;
       let election = electionsById.get(electionId);
       if (!election) {
-        election = { electionId, title: meta.title, live: meta.live, ballots: [] };
+        election = { electionId, title: meta.title, live: !!meta.live, ballots: [] };
         currentYear.elections.push(election);
         electionsById.set(electionId, election);
       }
@@ -67,7 +67,7 @@ export const ElectionTimeline = themable<Props>(
   const [expandedElections, setExpandedElections] = useState<Set<number>>(() => new Set());
   useEffect(() => {
     setExpandedElections((set) => {
-      if (set.has(selectedElectionId)) return set;
+      if (selectedElectionId == null || set.has(selectedElectionId)) return set;
       const newSet = new Set(set);
       newSet.add(selectedElectionId);
       return newSet;

@@ -619,7 +619,7 @@ export const mockElectionList = [
 ];
 
 // To fake loading times
-const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
+const delay = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
 
 export const mockElectionAPI = makeElectionApi({
   fetch: mockFetch([

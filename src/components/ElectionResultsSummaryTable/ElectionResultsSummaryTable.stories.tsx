@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from "react";
 import { mockLocalCouncilElectionMeta, mockResults } from "../../util/mocks";
@@ -9,7 +10,7 @@ export default {
   component: ElectionResultsSummaryTable,
 };
 
-export const SimpleExample = (args) => {
+export const SimpleExample = (args: any) => {
   return <ElectionResultsSummaryTable {...args} />;
 };
 

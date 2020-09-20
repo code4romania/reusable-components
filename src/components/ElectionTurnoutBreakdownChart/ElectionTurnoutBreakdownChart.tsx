@@ -11,7 +11,7 @@ import RomaniaMap from "../../assets/romania-map.svg";
 
 type Props = {
   value: ElectionTurnoutBreakdown;
-  scope?: ElectionScope;
+  scope?: ElectionScope | null;
 };
 
 const categoryColors = {
@@ -33,6 +33,7 @@ const categoryLabels = {
 const breakdownTypeLabels = {
   national: "România",
   diaspora: "Diaspora",
+  all: "",
 };
 
 const adjustScale = (x: number) => {
@@ -78,7 +79,7 @@ export const ElectionTurnoutBreakdownChart = themable<Props>(
             yMax={
               value.total ?? adjustScale(value.categories.reduce((acc, category) => Math.max(acc, category.votes), 0))
             }
-            renderLabel={value.total != null ? (x) => formatPercentage(x / value.total) : formatGroupedNumber}
+            renderLabel={value.total != null ? (x) => formatPercentage(x / (value.total || 0)) : formatGroupedNumber}
             bars={value.categories.map(({ votes, type: categoryType }) => ({
               value: votes,
               color: categoryColors[categoryType] ?? categoryColors.default,

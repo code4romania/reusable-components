@@ -32,7 +32,7 @@ export const ElectionResultsStackedBar = themable<Props>(
     const items: (HorizontalStackedBarItem & {
       name: string;
       percent: number;
-      logo?: string;
+      logo?: string | null;
       index: number;
     })[] = [];
 

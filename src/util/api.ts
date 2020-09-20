@@ -17,7 +17,7 @@ export type UseAPIResponseOptions<ResponseType> = {
 };
 
 export function useApiResponse<ResponseType>(
-  makeInvocation: () => APIInvocation<ResponseType> | UseAPIResponseOptions<ResponseType> | void,
+  makeInvocation: () => APIInvocation<ResponseType> | UseAPIResponseOptions<ResponseType> | undefined | void | null,
   dependencies: unknown[],
 ): APIRequestState<ResponseType> {
   const [state, setState] = useState<APIRequestState<ResponseType>>({
@@ -65,7 +65,7 @@ export function useApiResponse<ResponseType>(
         if (!mounted) return;
         setState((prevState) => ({
           data: discardDataOnError ? null : prevState.data,
-          hasData: discardDataOnError ? null : prevState.hasData,
+          hasData: discardDataOnError ? false : prevState.hasData,
           loading: false,
           error,
         }));
@@ -85,7 +85,7 @@ export function useApiResponse<ResponseType>(
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type JSONFetchOptions<BodyType = unknown, QueryParamsType extends Record<string, any> = unknown> = {
+export type JSONFetchOptions<BodyType = unknown, QueryParamsType extends Record<string, any> = any> = {
   body?: BodyType;
   query?: QueryParamsType;
   headers?: Record<string, string>;
@@ -96,25 +96,21 @@ const defaultHttpErrorHandler = (response: Response) => {
   throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
 };
 
-export type JSONFetch = <
-  ResponseType = unknown,
-  BodyType extends Record<string, any> = unknown,
-  QueryParamsType = unknown
->(
-  method?: string,
-  endpoint?: string,
+export type JSONFetch = <ResponseType = unknown, BodyType extends Record<string, any> = any, QueryParamsType = unknown>(
+  method: string,
+  endpoint: string,
   options?: JSONFetchOptions<BodyType, QueryParamsType>,
 ) => APIInvocation<ResponseType>;
 
 export function makeJsonFetch(
   urlPrefix = "",
   defaultHeaders: Record<string, string> = {},
-  handleHttpError: (Response) => Promise<any> | never = defaultHttpErrorHandler,
-  handleData: (any) => any = (x) => x,
+  handleHttpError: (res: Response) => Promise<any> | never = defaultHttpErrorHandler,
+  handleData: (data: any) => any = (x) => x,
 ): JSONFetch {
   return function jsonFetch<
     ResponseType = unknown,
-    BodyType extends Record<string, any> = unknown,
+    BodyType extends Record<string, any> = any,
     QueryParamsType = unknown
   >(method: string, endpoint: string, options: JSONFetchOptions<BodyType, QueryParamsType> = {}) {
     const { body, query, headers, fetchOptions } = options;
@@ -123,7 +119,7 @@ export function makeJsonFetch(
       ["Accept"]: "application/json",
     };
     if (body != null) {
-      headers["Content-Type"] = "application/json";
+      sentHeaders["Content-Type"] = "application/json";
     }
     Object.assign(sentHeaders, defaultHeaders);
     Object.assign(sentHeaders, headers);
@@ -131,7 +127,7 @@ export function makeJsonFetch(
     const searchParams = new URLSearchParams();
     if (query) {
       for (const key in query) {
-        searchParams.set(key, query[key].toString());
+        searchParams.set(key, (query[key] as any).toString());
       }
     }
     const searchString = searchParams.toString();
@@ -160,10 +156,10 @@ export const jsonFetch = makeJsonFetch();
 export type APIMockHandler<
   ResponseType = unknown,
   BodyType = unknown,
-  QueryParamsType extends Record<string, any> = unknown
+  QueryParamsType extends Record<string, any> = any
 > = (request: {
   endpoint: string;
-  match: RegExpMatchArray;
+  match: RegExpMatchArray | null;
   body: BodyType;
   query: QueryParamsType;
 }) => ResponseType | Promise<ResponseType>;
@@ -171,12 +167,12 @@ export type APIMockHandler<
 export type APIMockEntry<
   ResponseType = unknown,
   BodyType = unknown,
-  QueryParamsType extends Record<string, any> = unknown
+  QueryParamsType extends Record<string, any> = any
 > = [string, RegExp | string, APIMockHandler<ResponseType, BodyType, QueryParamsType>];
 
 export function mockFetch(entries: APIMockEntry<any, any, any>[]): JSONFetch {
   return function (method: string, endpoint: string, options: JSONFetchOptions = {}) {
-    let match: RegExpMatchArray;
+    let match: RegExpMatchArray | null;
     const entry = entries.find(([mtod, regexp]) => {
       if (mtod !== method) return false;
 

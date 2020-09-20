@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
@@ -9,7 +10,7 @@ export default {
   component: ElectionResultsStackedBar,
 };
 
-export const SimpleExample = (args) => {
+export const SimpleExample = (args: any) => {
   return <ElectionResultsStackedBar {...args} />;
 };
 

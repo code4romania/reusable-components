@@ -2,7 +2,10 @@ import React, { createContext, forwardRef, useContext, useMemo } from "react";
 
 export type ClassNames = { [key: string]: string };
 
-export function mergeClasses(a: string | void, b: string | void): string | undefined {
+export function mergeClasses(
+  a: string | null | undefined | false,
+  b: string | null | undefined | false,
+): string | undefined {
   if (!a) {
     return b || undefined;
   }
@@ -18,7 +21,10 @@ export function overrideClasses(classes: ClassNames, overrides?: ClassNames | vo
   }
   const newClasses = Object.assign({}, classes);
   for (const key in overrides) {
-    newClasses[key] = mergeClasses(newClasses[key], overrides[key]);
+    const mergedClasses = mergeClasses(newClasses[key], overrides[key]);
+    if (mergedClasses) {
+      newClasses[key] = mergedClasses;
+    }
   }
   return newClasses;
 }
