@@ -62,7 +62,7 @@ const getHereMaps = (): Promise<HereMapsAPI> => {
 
 getHereMaps(); // Load on startup
 
-export const useHereMaps = (): HereMapsAPI | void => {
+const useHereMaps = (): HereMapsAPI | void => {
   const [savedH, setH] = useState<HereMapsAPI>(null);
   useEffect(() => {
     let set = setH;

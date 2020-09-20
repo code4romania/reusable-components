@@ -98,11 +98,18 @@ export type ElectionTurnout = {
   breakdown?: ElectionTurnoutBreakdown[];
 };
 
+// Open to extensions
+export type ElectionTurnoutBreakdownCategoryType =
+  | "permanent_lists"
+  | "supplementary_lists"
+  | "mobile_ballot_box"
+  | "vote_by_mail";
+
 export type ElectionTurnoutBreakdown = {
   type: "national" | "diaspora" | "all"; // Open to extensions. "all" means this chart applies to the whole scope
   total?: number;
   categories: {
-    type: "permanent_lists" | "supplementary_lists" | "mobile_ballot_box" | "vote_by_mail"; // Open to extensions
+    type: ElectionTurnoutBreakdownCategoryType;
     votes: number;
   }[];
 };

@@ -1,5 +1,7 @@
 import React, { createContext, forwardRef, useContext, useMemo } from "react";
 
+export type ClassNames = { [key: string]: string };
+
 export function mergeClasses(a: string | void, b: string | void): string | undefined {
   if (!a) {
     return b || undefined;
@@ -10,7 +12,7 @@ export function mergeClasses(a: string | void, b: string | void): string | undef
   return `${a} ${b}`;
 }
 
-export function overrideClasses(classes: IClassNames, overrides?: IClassNames | void): IClassNames {
+export function overrideClasses(classes: ClassNames, overrides?: ClassNames | void): ClassNames {
   if (!overrides) {
     return classes;
   }
@@ -30,7 +32,7 @@ export interface Theme extends ThemeConstants {
     secondary: string;
   };
   componentClasses: {
-    [componentName: string]: IClassNames;
+    [componentName: string]: ClassNames;
   };
   componentValues: {
     [componentName: string]: ThemeConstants;
@@ -59,10 +61,10 @@ export const ThemeProvider = ThemeContext.Provider;
 export function mergeThemeClasses(
   theme: Theme,
   componentName: string,
-  componentClasses?: IClassNames | void,
-  propsClasses?: IClassNames | void,
+  componentClasses?: ClassNames | void,
+  propsClasses?: ClassNames | void,
   propsClassName?: string | void,
-): IClassNames {
+): ClassNames {
   let classes = overrideClasses(componentClasses || {}, theme.componentClasses[componentName]);
   classes = overrideClasses(classes, propsClasses);
   if (propsClassName) {
@@ -101,11 +103,11 @@ export type ThemeConstants = { [key: string]: any };
 
 export type ThemableComponentProps<P extends PropsObject> = P & {
   className?: string;
-  classes?: IClassNames;
+  classes?: ClassNames;
   constants?: ThemeConstants;
 };
 export type ThemableComponent<P extends PropsObject> = React.ComponentType<ThemableComponentProps<P>>;
-export type ThemedComponentProps<P extends PropsObject> = P & { classes: IClassNames; constants: ThemeConstants };
+export type ThemedComponentProps<P extends PropsObject> = P & { classes: ClassNames; constants: ThemeConstants };
 export type ThemedComponent<P extends PropsObject> = React.ComponentType<ThemedComponentProps<P>>;
 export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>) => ThemableComponent<P>;
 
@@ -113,7 +115,7 @@ export type ThemableHOC<P extends PropsObject> = (Component: ThemedComponent<P>)
 // whenever those might become mainstream
 export const themable = <P extends PropsObject>(
   componentName: string,
-  componentClasses?: IClassNames,
+  componentClasses?: ClassNames,
   componentValues?: ThemeConstants,
 ): ThemableHOC<P> => {
   return (Component: ThemedComponent<P>) => {

@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { ElectionResults } from "../../types/Election";
 import { electionCandidateColor, formatGroupedNumber } from "../../util/format";
-import { mergeClasses, themable } from "../../util/theme";
+import { ClassNames, mergeClasses, themable } from "../../util/theme";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 import { DivBody, DivLabel } from "../Typography/Typography";
 import useDimensions from "react-use-dimensions";
@@ -21,7 +21,7 @@ const DecorativeIcon = () => (
 );
 
 const SeatsGraphic: React.FC<{
-  classes: IClassNames;
+  classes: ClassNames;
   results: ElectionResults;
   width: number;
   height: number;
