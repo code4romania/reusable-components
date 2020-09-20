@@ -1,6 +1,8 @@
 export * from "./util/theme";
 export * from "./util/api";
 export * from "./util/electionApi";
+export * from "./constants/servers";
+export * from "./types/Election";
 
 export * from "./components/Typography/Typography";
 export * from "./components/Button/Button";

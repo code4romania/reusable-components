@@ -9,8 +9,8 @@ import cssClasses from "./ElectionScopePicker.module.scss";
 
 type Props = {
   apiData: ElectionScopePickerAPIData;
-  value: ElectionScope;
-  onChange: (scope: ElectionScope) => unknown;
+  value: ElectionScopeIncomplete;
+  onChange: (scope: ElectionScopeIncomplete) => unknown;
 };
 
 export const electionScopePickerUpdateType = (

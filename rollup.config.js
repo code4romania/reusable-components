@@ -1,8 +1,14 @@
-import babel from "rollup-plugin-babel";
 import postcss from "rollup-plugin-postcss";
 import image from "@rollup/plugin-image";
-import typescript from "@rollup/plugin-typescript";
+import ts from "@wessberg/rollup-plugin-ts";
 import resolve from "@rollup/plugin-node-resolve";
+import fs from "fs";
+import path from "path";
+
+// Treat all dependencies and peerDependencies as external (don't bundle them)
+// If you want something bundled, add it to devDependencies instead
+const pkg = JSON.parse(fs.readFileSync(path.resolve("./package.json"), "utf-8"));
+const external = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
 
 export default {
   input: {
@@ -10,13 +16,18 @@ export default {
   },
   output: [
     {
-      dir: "dist",
+      dir: "dist/es",
       format: "es",
+      sourcemap: true,
+    },
+    {
+      dir: "dist/cjs",
+      format: "cjs",
       sourcemap: true,
     },
   ],
   plugins: [
-    resolve(),
+    resolve({ browser: true }),
     image(),
     postcss({
       extract: false,
@@ -24,10 +35,7 @@ export default {
       autoModules: true,
       use: ["sass"],
     }),
-    typescript(),
-    babel({
-      exclude: "node_modules/**",
-    }),
+    ts({ transpiler: "babel" }),
   ],
-  external: ["react", "react-dom", "prop-types"],
+  external,
 };

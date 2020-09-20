@@ -12,7 +12,7 @@ import cssClasses from "./ElectionResultsSummarySection.module.scss";
 import { ElectionResultsStackedBar } from "../ElectionResultsStackedBar/ElectionResultsStackedBar";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { getScopeName } from "../../util/format";
-import { DivBodyHuge, Heading2, Label } from "../..";
+import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 
