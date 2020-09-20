@@ -1,5 +1,5 @@
 import React from "react";
-import { electionHasSeats, ElectionMeta, ElectionResults } from "../../types/Election";
+import { electionHasSeats, ElectionBallotMeta, ElectionResults } from "../../types/Election";
 import { themable } from "../../util/theme";
 import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
@@ -8,7 +8,7 @@ import { electionCandidateColor, formatGroupedNumber, formatPercentage, fraction
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 
 type Props = {
-  meta: ElectionMeta;
+  meta: ElectionBallotMeta;
   results: ElectionResults;
 };
 

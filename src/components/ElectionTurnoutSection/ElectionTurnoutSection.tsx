@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  ElectionMeta,
+  ElectionBallotMeta,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
   ElectionTurnout,
@@ -18,9 +18,9 @@ import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 
 type Props = {
-  meta: ElectionMeta;
+  meta: ElectionBallotMeta;
   scope: ElectionScopeIncompleteResolved;
-  turnout?: ElectionTurnout;
+  turnout?: ElectionTurnout | null;
 };
 
 const defaultConstants = {

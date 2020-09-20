@@ -60,7 +60,7 @@ export const electionHasSeats = (electionType: ElectionType, results: ElectionRe
   electionTypeHasSeats(electionType) &&
   results.candidates.reduce<boolean>((acc, cand) => acc || cand.seats != null, false);
 
-export type ElectionMeta = {
+export type ElectionBallotMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
   // This is just for extra visual customisation like splitting local council results in two tables,
   // showing the parliament seats widget or showing disapora next to the map or not
@@ -81,9 +81,9 @@ export type ElectionMeta = {
 
 // You get one of these after making a request with an ID and the data in an ElectionScope
 // (url-encoded in the GET request or whatever)
-export type Election = {
+export type ElectionBallot = {
   scope: ElectionScopeResolved;
-  meta: ElectionMeta;
+  meta: ElectionBallotMeta;
 
   // These can be missing if the election doesn't support the current scope (eg. local elections with a national scope).
   turnout?: ElectionTurnout | null;

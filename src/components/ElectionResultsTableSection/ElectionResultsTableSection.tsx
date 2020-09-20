@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { ResultsTable } from "../ResultsTable/ResultsTable";
 import { Heading2 } from "../Typography/Typography";
-import { electionHasSeats, ElectionMeta, ElectionResults, ElectionResultsCandidate } from "../../types/Election";
+import { electionHasSeats, ElectionBallotMeta, ElectionResults, ElectionResultsCandidate } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
 import { ClassNames, themable } from "../../util/theme";
 import cssClasses from "./ElectionResultsTableSection.module.scss";
 import { Button } from "../Button/Button";
 
 type Props = {
-  meta: ElectionMeta;
+  meta: ElectionBallotMeta;
   results: ElectionResults;
 };
 
