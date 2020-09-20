@@ -13,6 +13,7 @@ const external = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peer
 export default {
   input: {
     index: "src/index.ts",
+    mocks: "src/util/mocks.ts",
   },
   output: [
     {
