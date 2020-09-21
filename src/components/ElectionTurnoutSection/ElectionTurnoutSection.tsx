@@ -18,7 +18,7 @@ import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 
 type Props = {
-  meta?: ElectionBallotMeta;
+  meta?: ElectionBallotMeta | null;
   scope: ElectionScopeIncompleteResolved;
   turnout?: ElectionTurnout | null;
 };

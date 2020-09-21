@@ -17,7 +17,7 @@ import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncomple
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 
 type Props = {
-  meta?: ElectionBallotMeta;
+  meta?: ElectionBallotMeta | null;
   scope: ElectionScopeIncompleteResolved;
   results?: ElectionResults | null;
   separator?: ReactNode;
