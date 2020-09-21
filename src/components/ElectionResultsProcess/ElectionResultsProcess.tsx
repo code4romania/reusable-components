@@ -51,7 +51,7 @@ export const ElectionResultsProcess = themable<Props>(
       <ShowcaseItem classes={classes} icon={<BallotFillIn />} value={results.validVotes}>
         Total voturi valabil exprimate
       </ShowcaseItem>
-      <ShowcaseItem classes={classes} icon={<NullTimes />} value={results.nullVotes}>
+      <ShowcaseItem classes={classes} icon={<NullTimes viewBox="-10 -10 97 97" />} value={results.nullVotes}>
         Total voturi nule
       </ShowcaseItem>
     </div>
