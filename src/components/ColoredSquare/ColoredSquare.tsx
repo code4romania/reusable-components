@@ -1,5 +1,5 @@
 import React from "react";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import cssClasses from "./ColoredSquare.module.scss";
 
 type Props = {

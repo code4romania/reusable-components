@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactNode } from "react";
 import { ElectionObservation } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
-import { ClassNames, themable, useTheme } from "../../util/theme";
+import { ClassNames, themable, useTheme } from "../../hooks/theme";
 import { DivBodyLarge, Heading2 } from "../Typography/Typography";
 import cssClasses from "./ElectionObservationSection.module.scss";
 import BallotDrop from "../../assets/ballot-drop.svg";

@@ -1,6 +1,6 @@
 import React from "react";
 import { formatGroupedNumber, formatPercentage } from "../../util/format";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 import { DivBody, Label } from "../Typography/Typography";
 import cssClasses from "./PartyResultInline.module.scss";

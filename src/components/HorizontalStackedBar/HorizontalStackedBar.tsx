@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import cssClasses from "./HorizontalStackedBar.module.scss";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import { DivBody } from "../Typography/Typography";
 
 export type HorizontalStackedBarItem = {

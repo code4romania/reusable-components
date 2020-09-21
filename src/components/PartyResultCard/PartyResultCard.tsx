@@ -1,6 +1,6 @@
 import React from "react";
 import cssClasses from "./PartyResultCard.module.scss";
-import { mergeClasses, themable } from "../../util/theme";
+import { mergeClasses, themable } from "../../hooks/theme";
 import { formatPercentage } from "../../util/format";
 import { DivBodyMedium, DivHeading1 } from "../Typography/Typography";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";

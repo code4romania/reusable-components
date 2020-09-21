@@ -1,5 +1,5 @@
 import React, { ComponentProps, forwardRef } from "react";
-import { themable, ThemedComponent, ThemedComponentProps } from "../../util/theme";
+import { themable, ThemedComponent, ThemedComponentProps } from "../../hooks/theme";
 import cssClasses from "./ResultsTable.module.scss";
 
 export const ResultsTable = themable<ComponentProps<"table">>(

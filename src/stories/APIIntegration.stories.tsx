@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React, { useMemo, useState } from "react";
-import { useApiResponse } from "../util/api";
+import { useApiResponse } from "../hooks/useApiResponse";
 import { ElectionAPI, makeElectionApi } from "../util/electionApi";
 import { mockElectionAPI } from "../util/mocks";
 import { ElectionObservationSection } from "../components/ElectionObservationSection/ElectionObservationSection";

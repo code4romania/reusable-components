@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
 import { ElectionScope, ElectionScopeIncomplete } from "../../types/Election";
-import { APIRequestState, useApiResponse } from "../../util/api";
+import { APIRequestState } from "../../util/api";
 import { ElectionScopeAPI, OptionWithID } from "../../util/electionApi";
-import { themable, useTheme } from "../../util/theme";
+import { themable, useTheme } from "../../hooks/theme";
 import { Label } from "../Typography/Typography";
 import cssClasses from "./ElectionScopePicker.module.scss";
+import { useApiResponse } from "../../hooks/useApiResponse";
 
 type Props = {
   apiData: ElectionScopePickerAPIData;

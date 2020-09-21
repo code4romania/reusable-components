@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ElectionResults } from "../../types/Election";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import { HorizontalStackedBar, HorizontalStackedBarItem } from "../HorizontalStackedBar/HorizontalStackedBar";
 import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
 import { PartyResultInline } from "../PartyResultInline/PartyResultInline";

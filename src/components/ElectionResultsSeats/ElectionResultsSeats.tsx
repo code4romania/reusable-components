@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { ElectionResults } from "../../types/Election";
 import { electionCandidateColor, formatGroupedNumber } from "../../util/format";
-import { ClassNames, mergeClasses, themable } from "../../util/theme";
+import { ClassNames, mergeClasses, themable } from "../../hooks/theme";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 import { DivBody, DivLabel } from "../Typography/Typography";
 import useDimensions from "react-use-dimensions";

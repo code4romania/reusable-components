@@ -1,7 +1,7 @@
 import { parseISO } from "date-fns";
 import React, { useEffect, useMemo, useState } from "react";
 import { ElectionBallotMeta } from "../../types/Election";
-import { mergeClasses, themable } from "../../util/theme";
+import { mergeClasses, themable } from "../../hooks/theme";
 import cssClasses from "./ElectionTimeline.module.scss";
 
 type Props = {

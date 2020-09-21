@@ -7,7 +7,7 @@ import {
   electionTypeInvolvesDiaspora,
 } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage, getScopeName } from "../../util/format";
-import { mergeClasses, themable } from "../../util/theme";
+import { mergeClasses, themable } from "../../hooks/theme";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars";
 import { ElectionTurnoutBreakdownChart } from "../ElectionTurnoutBreakdownChart/ElectionTurnoutBreakdownChart";
@@ -18,7 +18,7 @@ import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 
 type Props = {
-  meta: ElectionBallotMeta;
+  meta?: ElectionBallotMeta;
   scope: ElectionScopeIncompleteResolved;
   turnout?: ElectionTurnout | null;
 };
@@ -34,7 +34,7 @@ export const ElectionTurnoutSection = themable<Props>(
   cssClasses,
   defaultConstants,
 )(({ meta, scope, turnout, classes, constants }) => {
-  const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
+  const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
 

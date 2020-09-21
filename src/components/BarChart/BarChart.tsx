@@ -1,5 +1,5 @@
 import React, { ComponentType, ReactNode } from "react";
-import { themable, ThemableComponentProps } from "../../util/theme";
+import { themable, ThemableComponentProps } from "../../hooks/theme";
 
 type Props = {
   width: number;
