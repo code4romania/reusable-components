@@ -10,6 +10,9 @@ import path from "path";
 const pkg = JSON.parse(fs.readFileSync(path.resolve("./package.json"), "utf-8"));
 const external = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
 
+/* We use our custom styleInject function to solve CSS injection order */
+const styleInjectPath = require.resolve("./src/util/styleInject.ts").replace(/[\\/]+/g, "/");
+
 export default {
   input: {
     index: "src/index.ts",
@@ -35,6 +38,7 @@ export default {
       minimize: true,
       autoModules: true,
       use: ["sass"],
+      inject: (cssVar) => `import styleInject from '${styleInjectPath}';\nstyleInject(${cssVar});`,
     }),
     ts({ transpiler: "babel" }),
   ],
