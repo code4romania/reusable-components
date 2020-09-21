@@ -2,7 +2,7 @@ import React, { PropsWithChildren, ReactNode } from "react";
 import { ElectionResults } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
 import { ClassNames, themable } from "../../hooks/theme";
-import { DivBodyHuge, Heading2 } from "../Typography/Typography";
+import { DivBodyLarge, Heading2 } from "../Typography/Typography";
 import cssClasses from "./ElectionResultsProcess.module.scss";
 import BallotFillIn from "../../assets/ballot-fill-in.svg";
 import Citizens from "../../assets/citizens.svg";
@@ -24,7 +24,7 @@ const ShowcaseItem: React.FC<PropsWithChildren<{ classes: ClassNames; icon: Reac
     <div className={classes.showcaseIcon}>{icon}</div>
     <div className={classes.showcaseContainer}>
       <Heading2 className={classes.showcaseValue}>{formatGroupedNumber(value)}</Heading2>
-      <DivBodyHuge className={classes.showcaseText}>{children}</DivBodyHuge>
+      <DivBodyLarge className={classes.showcaseText}>{children}</DivBodyLarge>
     </div>
   </div>
 );
