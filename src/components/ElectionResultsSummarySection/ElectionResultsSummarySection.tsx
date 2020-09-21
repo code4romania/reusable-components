@@ -17,7 +17,7 @@ import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncomple
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 
 type Props = {
-  meta: ElectionBallotMeta;
+  meta?: ElectionBallotMeta;
   scope: ElectionScopeIncompleteResolved;
   results?: ElectionResults | null;
   separator?: ReactNode;
@@ -33,7 +33,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   cssClasses,
   defaultConstants,
 )(({ classes, results, meta, scope, constants, separator }) => {
-  const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
+  const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
 
@@ -74,7 +74,7 @@ export const ElectionResultsSummarySection = themable<Props>(
       {results && !mobileMap && separator}
       {!mobileMap && (
         <div className={classes.mapSummaryContainer}>
-          {!fullWidthMap && results && (
+          {!fullWidthMap && meta && results && (
             <ElectionResultsSummaryTable className={classes.mapSummaryTable} meta={meta} results={results} />
           )}
           {map}

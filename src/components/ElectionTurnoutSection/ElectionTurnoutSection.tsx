@@ -18,7 +18,7 @@ import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 
 type Props = {
-  meta: ElectionBallotMeta;
+  meta?: ElectionBallotMeta;
   scope: ElectionScopeIncompleteResolved;
   turnout?: ElectionTurnout | null;
 };
@@ -34,7 +34,7 @@ export const ElectionTurnoutSection = themable<Props>(
   cssClasses,
   defaultConstants,
 )(({ meta, scope, turnout, classes, constants }) => {
-  const involvesDiaspora = electionTypeInvolvesDiaspora(meta.type);
+  const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
 
