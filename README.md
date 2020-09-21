@@ -64,7 +64,7 @@ All the components in this repo are themed using [CSS Modules](https://github.co
 
 ### CSS injection order
 
-By default, CSS for these components is injected at the end of `<head>`. In case you want to override the CSS rules of this library, you might want to inject them earlier (before your own CSS). To do that, add a `<!--code4ro-style-inject-->` comment to your `<head>` where you want this library to inject its CSS.
+By default, CSS for these components is injected at the end of `<head>`. In case you want to override the CSS rules of this library, you might want to inject them earlier (before your own CSS). To do that, add a `<!--!code4ro-style-inject-->` comment to your `<head>` where you want this library to inject its CSS.
 
 ### Here Maps API key
 

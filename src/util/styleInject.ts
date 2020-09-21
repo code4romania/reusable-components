@@ -12,7 +12,7 @@ export default function styleInject(css: string): void {
     for (let i = 0; i < headNodes.length; i++) {
       const node = headNodes[i];
       if (node.nodeType === Node.COMMENT_NODE) {
-        if (node.nodeValue?.trim() === "code4ro-style-inject") {
+        if (node.nodeValue?.trim() === "!code4ro-style-inject") {
           insertAfter = node;
           break;
         }
