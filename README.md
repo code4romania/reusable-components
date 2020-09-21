@@ -62,6 +62,10 @@ Preview environments available automatically on each PR powered by [Vercel](http
 
 All the components in this repo are themed using [CSS Modules](https://github.com/css-modules/css-modules). In case you need to override any component's styles, pass the `classes` prop to any component individually or pass a theme to a `<ThemeProvider>`. See [theme.tsx](src/util/theme.tsx) for more details.
 
+### CSS injection order
+
+By default, CSS for these components is injected at the end of `<head>`. In case you want to override the CSS rules of this library, you might want to inject them earlier (before your own CSS). To do that, add a `<!--code4ro-style-inject-->` comment to your `<head>` where you want this library to inject its CSS.
+
 ### Here Maps API key
 
 When using components that contain maps, you'll need to provide a Here Maps API key:
