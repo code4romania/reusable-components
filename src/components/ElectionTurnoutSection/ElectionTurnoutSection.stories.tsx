@@ -34,7 +34,7 @@ export const LocalCouncilElection = () => {
       meta={mockLocalCouncilElectionMeta}
       turnout={{
         ...mockPresidentialElectionTurnout,
-        breakdown: [mockPresidentialElectionTurnout.breakdown[0]],
+        breakdown: [(mockPresidentialElectionTurnout.breakdown ?? [])[0]],
       }}
     />
   );
@@ -48,7 +48,7 @@ export const DiasporaElection = () => {
       turnout={{
         ...mockPresidentialElectionTurnout,
         eligibleVoters: null,
-        breakdown: [mockPresidentialElectionTurnout.breakdown[1]],
+        breakdown: [(mockPresidentialElectionTurnout.breakdown || [])[1]],
       }}
     />
   );

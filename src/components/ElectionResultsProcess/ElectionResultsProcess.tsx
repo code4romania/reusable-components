@@ -1,7 +1,7 @@
-import React from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 import { ElectionResults } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
-import { themable } from "../../util/theme";
+import { ClassNames, themable } from "../../util/theme";
 import { DivBodyHuge, Heading2 } from "../Typography/Typography";
 import cssClasses from "./ElectionResultsProcess.module.scss";
 import BallotFillIn from "../../assets/ballot-fill-in.svg";
@@ -14,7 +14,12 @@ type Props = {
   results: ElectionResults;
 };
 
-const ShowcaseItem = ({ classes, icon, value, children }) => (
+const ShowcaseItem: React.FC<PropsWithChildren<{ classes: ClassNames; icon: ReactNode; value: number }>> = ({
+  classes,
+  icon,
+  value,
+  children,
+}) => (
   <div className={classes.showcaseItem}>
     <div className={classes.showcaseIcon}>{icon}</div>
     <div className={classes.showcaseContainer}>

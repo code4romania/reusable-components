@@ -15,7 +15,7 @@ import { ElectionResultsProcess } from "../components/ElectionResultsProcess/Ele
 import { ElectionResultsSeats } from "../components/ElectionResultsSeats/ElectionResultsSeats";
 import { ElectionResultsTableSection } from "../components/ElectionResultsTableSection/ElectionResultsTableSection";
 import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimeline";
-import { ElectionScope } from "../types/Election";
+import { ElectionScopeIncomplete } from "../types/Election";
 import { ElectionScopePicker, useElectionScopePickerApi } from "../components/ElectionScopePicker/ElectionScopePicker";
 
 export default {
@@ -35,14 +35,14 @@ export default {
   },
 };
 
-const useApi = (api, apiUrl): ElectionAPI => {
+const useApi = (api: string, apiUrl: string): ElectionAPI => {
   return useMemo(() => (api === "mock" ? mockElectionAPI : makeElectionApi({ apiUrl })), [api, apiUrl]);
 };
 
 export const ElectionComponents = (args: { api: string; apiUrl: string; id: string } & ScopeArgs) => {
   const [scope, { api, apiUrl, id }] = useScopeFromArgs(args);
   const electionApi: ElectionAPI = useApi(api, apiUrl);
-  const { data, loading, error } = useApiResponse(() => electionApi.getElection(id, scope), [electionApi, id, scope]);
+  const { data, loading, error } = useApiResponse(() => electionApi.getBallot(id, scope), [electionApi, id, scope]);
 
   return (
     <>
@@ -71,9 +71,9 @@ ElectionComponents.argTypes = {
 
 export const ElectionTimelineComponent = (args: { api: string; apiUrl: string }) => {
   const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
-  const { data, loading, error } = useApiResponse(() => electionApi.getElections(), [electionApi]);
+  const { data, loading, error } = useApiResponse(() => electionApi.getBallots(), [electionApi]);
 
-  const [selectedBallotId, setSelectedBallotId] = useState<number>(null);
+  const [selectedBallotId, setSelectedBallotId] = useState<number | null>(null);
 
   return (
     <>
@@ -93,7 +93,7 @@ export const ElectionTimelineComponent = (args: { api: string; apiUrl: string })
 };
 
 export const ElectionScopeComponent = (args: { api: string; apiUrl: string }) => {
-  const [scope, setScope] = useState<ElectionScope>({ type: "national" });
+  const [scope, setScope] = useState<ElectionScopeIncomplete>({ type: "national" });
   const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
   const apiData = useElectionScopePickerApi(electionApi, scope);
   return <ElectionScopePicker apiData={apiData} value={scope} onChange={setScope} />;

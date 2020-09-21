@@ -9,7 +9,7 @@ type Props = {
   width: number;
   height: number;
   overlayUrl?: string;
-  selectedFeature?: number | void;
+  selectedFeature?: number | null | undefined;
   onFeatureSelect?: OnFeatureSelect;
   initialBounds?: {
     top: number; // Latitude
@@ -51,7 +51,7 @@ const loadHereMaps = async () => {
   return (window as any).H as HereMapsAPI;
 };
 
-let hereMapsPromise: Promise<HereMapsAPI> | void = null;
+let hereMapsPromise: Promise<HereMapsAPI> | null = null;
 const getHereMaps = (): Promise<HereMapsAPI> => {
   if (hereMapsPromise) {
     return hereMapsPromise;
@@ -62,10 +62,10 @@ const getHereMaps = (): Promise<HereMapsAPI> => {
 
 getHereMaps(); // Load on startup
 
-const useHereMaps = (): HereMapsAPI | void => {
-  const [savedH, setH] = useState<HereMapsAPI>(null);
+const useHereMaps = (): HereMapsAPI | null => {
+  const [savedH, setH] = useState<HereMapsAPI | null>(null);
   useEffect(() => {
-    let set = setH;
+    let set: typeof setH | null = setH;
     getHereMaps().then((H) => {
       if (set) {
         set(H);
@@ -88,13 +88,13 @@ const defaultValues = {
 };
 
 type InstanceVars = {
-  selectedFeature: number | void;
-  hoveredFeature: { id: number; name: string };
-  onFeatureSelect: OnFeatureSelect;
-  group: H.map.Group;
-  features: Map<number, H.map.Polygon>;
-  tooltipEl: HTMLDivElement;
-  tooltipClassName: string;
+  selectedFeature: number | undefined | null;
+  hoveredFeature: { id: number; name: string } | null;
+  onFeatureSelect: OnFeatureSelect | undefined | null;
+  group: H.map.Group | null;
+  features: Map<number, H.map.Polygon> | null;
+  tooltipEl: HTMLDivElement | null;
+  tooltipClassName: string | null;
   tooltipTop: number;
   tooltipLeft: number;
   centerOnOverlayBounds: boolean;
@@ -119,7 +119,7 @@ export const HereMap = themable<Props>(
     const H = useHereMaps();
     const apiKey = useContext(HereMapsAPIKeyContext);
     const mapRef = useRef<HTMLDivElement>(null);
-    const [map, setMap] = useState<H.Map>(null);
+    const [map, setMap] = useState<H.Map | null>(null);
 
     const featureStyles = useMemo(
       () =>
@@ -151,7 +151,7 @@ export const HereMap = themable<Props>(
       group: null,
       features: null,
       tooltipEl: null,
-      tooltipClassName: classes.tooltip,
+      tooltipClassName: classes.tooltip ?? null,
       tooltipTop: 0,
       tooltipLeft: 0,
       centerOnOverlayBounds,
@@ -203,6 +203,8 @@ export const HereMap = themable<Props>(
 
     // Whenever selectedFeature changes
     useLayoutEffect(() => {
+      if (!featureStyles) return;
+
       const self = inst.current;
       const { features, selectedFeature: lastSelectedFeature, hoveredFeature } = self;
       self.selectedFeature = selectedFeature;
@@ -241,17 +243,17 @@ export const HereMap = themable<Props>(
     }, [classes.tooltip]);
 
     useLayoutEffect(() => {
-      if (!H || !map || !overlayUrl) return;
+      if (!H || !map || !overlayUrl || !featureStyles) return;
       const self = inst.current;
 
-      const setHoveredFeature = (id?: number, name?: string) => {
+      const setHoveredFeature = (id: number | null, name: string | null) => {
         const hadTooltip = !!self.hoveredFeature;
-        const hasTooltip = id != null;
-        self.hoveredFeature = hasTooltip ? { id, name } : null;
+        const hasTooltip = id != null && name != null;
+        self.hoveredFeature = id != null && name != null ? { id, name } : null;
 
         if (!hadTooltip && hasTooltip) {
           const tooltipEl = document.createElement("div");
-          tooltipEl.className = self.tooltipClassName;
+          tooltipEl.className = self.tooltipClassName || "";
           tooltipEl.style.left = `${self.tooltipLeft}px`;
           tooltipEl.style.top = `${self.tooltipTop}px`;
           mapRef.current?.appendChild(tooltipEl);
@@ -261,7 +263,7 @@ export const HereMap = themable<Props>(
           self.tooltipEl = null;
         }
 
-        if (name) {
+        if (name && self.tooltipEl) {
           self.tooltipEl.innerText = name;
         }
       };
@@ -286,7 +288,7 @@ export const HereMap = themable<Props>(
           const id = data?.id;
           const isCurrent = id === self.selectedFeature;
           if (self.hoveredFeature?.id === id) {
-            setHoveredFeature();
+            setHoveredFeature(null, null);
           }
           mapObject.setStyle(isCurrent ? featureStyles.selected : featureStyles.default);
         }
@@ -316,7 +318,7 @@ export const HereMap = themable<Props>(
         },
       });
 
-      let group: H.map.Group;
+      let group: H.map.Group | null = null;
 
       reader.addEventListener("statechange", () => {
         if (reader.getState() !== H.data.AbstractReader.State.READY) return;

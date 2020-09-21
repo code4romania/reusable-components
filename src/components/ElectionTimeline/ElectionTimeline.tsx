@@ -1,16 +1,16 @@
 import { parseISO } from "date-fns";
 import React, { useEffect, useMemo, useState } from "react";
-import { ElectionMeta } from "../../types/Election";
+import { ElectionBallotMeta } from "../../types/Election";
 import { mergeClasses, themable } from "../../util/theme";
 import cssClasses from "./ElectionTimeline.module.scss";
 
 type Props = {
-  items: ElectionMeta[];
-  selectedBallotId?: number;
-  onSelectBallot?: (meta: ElectionMeta) => unknown;
+  items: ElectionBallotMeta[];
+  selectedBallotId?: number | null;
+  onSelectBallot?: (meta: ElectionBallotMeta) => unknown;
 };
 
-const dateComparator = (a: ElectionMeta, b: ElectionMeta): number => {
+const dateComparator = (a: ElectionBallotMeta, b: ElectionBallotMeta): number => {
   return parseISO(b.date).getTime() - parseISO(a.date).getTime();
 };
 
@@ -18,7 +18,7 @@ type TimelineElection = {
   electionId: number;
   title: string;
   live: boolean;
-  ballots: ElectionMeta[];
+  ballots: ElectionBallotMeta[];
 };
 type TimelineYear = { year: number; elections: TimelineElection[] };
 
@@ -34,7 +34,7 @@ export const ElectionTimeline = themable<Props>(
     let lastYear: number;
     let electionsById: Map<number, TimelineElection>;
 
-    sortedItems.forEach((meta: ElectionMeta) => {
+    sortedItems.forEach((meta: ElectionBallotMeta) => {
       const metaYear = parseISO(meta.date).getFullYear();
       if (metaYear !== lastYear) {
         lastYear = metaYear;
@@ -46,7 +46,7 @@ export const ElectionTimeline = themable<Props>(
       const { electionId } = meta;
       let election = electionsById.get(electionId);
       if (!election) {
-        election = { electionId, title: meta.title, live: meta.live, ballots: [] };
+        election = { electionId, title: meta.title, live: !!meta.live, ballots: [] };
         currentYear.elections.push(election);
         electionsById.set(electionId, election);
       }
@@ -67,7 +67,7 @@ export const ElectionTimeline = themable<Props>(
   const [expandedElections, setExpandedElections] = useState<Set<number>>(() => new Set());
   useEffect(() => {
     setExpandedElections((set) => {
-      if (set.has(selectedElectionId)) return set;
+      if (selectedElectionId == null || set.has(selectedElectionId)) return set;
       const newSet = new Set(set);
       newSet.add(selectedElectionId);
       return newSet;
@@ -94,7 +94,7 @@ export const ElectionTimeline = themable<Props>(
     });
   };
 
-  const onBallotClick = (meta: ElectionMeta) => () => {
+  const onBallotClick = (meta: ElectionBallotMeta) => () => {
     if (onSelectBallot) {
       onSelectBallot(meta);
     }

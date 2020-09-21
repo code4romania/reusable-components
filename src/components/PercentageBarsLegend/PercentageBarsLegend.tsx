@@ -16,7 +16,9 @@ type Props = {
   }[];
 };
 
-const exists = (x) => x || x === 0;
+function exists<T>(x: T | null | 0 | false): T | boolean {
+  return x || false;
+}
 
 export const PercentageBarsLegend = themable<Props>(
   "PercentageBarsLegend",

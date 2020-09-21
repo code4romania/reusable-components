@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
@@ -21,12 +22,12 @@ export default {
   },
 };
 
-export const SimpleExample = (args) => {
+export const SimpleExample = (args: any) => {
   const [scope, otherArgs] = scopeFromArgs(args);
   return <ElectionMap scope={scope} {...otherArgs} />;
 };
 
-export const ExampleWithChildren = (args) => {
+export const ExampleWithChildren = (args: any) => {
   const [scope, otherArgs] = scopeFromArgs(args);
   return (
     <ElectionMap scope={scope} {...otherArgs}>

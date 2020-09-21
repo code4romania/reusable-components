@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  ElectionMeta,
+  ElectionBallotMeta,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
   ElectionTurnout,
@@ -18,9 +18,9 @@ import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 
 type Props = {
-  meta: ElectionMeta;
+  meta: ElectionBallotMeta;
   scope: ElectionScopeIncompleteResolved;
-  turnout?: ElectionTurnout;
+  turnout?: ElectionTurnout | null;
 };
 
 const defaultConstants = {
@@ -93,7 +93,7 @@ export const ElectionTurnoutSection = themable<Props>(
           mobileMap && classes.mapBreakdownContainerMobile,
         )}
       >
-        {turnout && completeness.complete && (turnout.breakdown?.length > 0 || turnout.eligibleVoters == null) && (
+        {turnout && completeness.complete && ((turnout.breakdown?.length ?? 0) > 0 || turnout.eligibleVoters == null) && (
           <div className={classes.breakdownContainer}>
             {turnout.eligibleVoters == null && (
               <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>

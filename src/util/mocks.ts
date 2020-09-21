@@ -1,6 +1,6 @@
 import {
-  Election,
-  ElectionMeta,
+  ElectionBallot,
+  ElectionBallotMeta,
   ElectionObservation,
   ElectionResults,
   ElectionScopeResolved,
@@ -25,7 +25,7 @@ export const mockDiasporaCountryElectionScope: ElectionScopeResolved = {
   countryName: "Spania",
 };
 
-export const mockPresidentialElectionMeta: ElectionMeta = {
+export const mockPresidentialElectionMeta: ElectionBallotMeta = {
   type: "president",
   date: "2019-11-24",
   title: "Alegeri prezidențiale",
@@ -34,7 +34,7 @@ export const mockPresidentialElectionMeta: ElectionMeta = {
   electionId: 1,
 };
 
-export const mockLocalCouncilElectionMeta: ElectionMeta = {
+export const mockLocalCouncilElectionMeta: ElectionBallotMeta = {
   type: "local_council",
   date: "2016-06-05",
   title: "Alegeri locale",
@@ -619,7 +619,7 @@ export const mockElectionList = [
 ];
 
 // To fake loading times
-const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
+const delay = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
 
 export const mockElectionAPI = makeElectionApi({
   fetch: mockFetch([
@@ -645,7 +645,7 @@ export const mockElectionAPI = makeElectionApi({
           observation: mockObservation,
           results: mockResults,
         };
-      }) as APIMockHandler<Election, unknown, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
+      }) as APIMockHandler<ElectionBallot, unknown, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
     ],
 
     [
@@ -654,7 +654,7 @@ export const mockElectionAPI = makeElectionApi({
       (async () => {
         await delay(1000);
         return mockElectionList;
-      }) as APIMockHandler<ElectionMeta[]>,
+      }) as APIMockHandler<ElectionBallotMeta[]>,
     ],
 
     [

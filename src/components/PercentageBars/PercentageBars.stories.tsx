@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
@@ -11,7 +12,7 @@ export default {
   },
 };
 
-export const SimpleExample = ({ value1, label1, color1, value2, label2, color2, ...args }) => (
+export const SimpleExample = ({ value1, label1, color1, value2, label2, color2, ...args }: any) => (
   <PercentageBars
     {...args}
     items={[

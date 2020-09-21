@@ -76,11 +76,15 @@ export const useElectionScopePickerApi = (
   return { countyData, localityData, countryData };
 };
 
+export type ElectionScopePickerSelectOnChange<K = number> = (
+  value: OptionWithID<K> | ReadonlyArray<OptionWithID<K>> | null | undefined,
+) => void;
+
 export type ElectionScopePickerSelectProps<K = number> = {
   label: string;
   selectProps: {
     value: OptionWithID<K> | null;
-    onChange: (value: OptionWithID<K> | null) => unknown;
+    onChange: ElectionScopePickerSelectOnChange<K>;
     options: OptionWithID<K>[];
     isLoading: boolean;
     isDisabled: boolean;
@@ -88,12 +92,17 @@ export type ElectionScopePickerSelectProps<K = number> = {
   };
 };
 
-function resolveValue<K extends string | number>(x: K | OptionWithID<K> | null): K | null {
-  return typeof x === "object" ? x?.id : x;
+function resolveValue<K extends string | number>(
+  x: K | OptionWithID<K> | ReadonlyArray<OptionWithID<K>> | null | undefined,
+): K | null {
+  if (Array.isArray(x)) return x[0]?.id;
+  return (typeof x === "object" ? ((x as unknown) as OptionWithID<K> | null)?.id : x) ?? null;
 }
 
-const resolveInMap = (id, map) => (id == null ? null : { id, name: map.get(id)?.name });
-const buildMap = (list) => {
+const resolveInMap = <K,>(id: K | null | undefined, map: Map<K, OptionWithID<K>>): OptionWithID<K> | null =>
+  id == null ? null : { id, name: map.get(id)?.name || "" };
+
+const buildMap = <K,>(list: OptionWithID<K>[] | null | undefined): Map<K, OptionWithID<K>> => {
   const map = new Map();
   if (list) {
     list.forEach((item) => {
@@ -112,8 +121,8 @@ export const useElectionScopePickerGetSelectProps = (
   const localityMap = useMemo(() => buildMap(apiData.localityData.data), [apiData.localityData.data]);
   const countryMap = useMemo(() => buildMap(apiData.countyData.data), [apiData.countryData.data]);
 
-  const onCountyChange = useCallback(
-    (value: number | OptionWithID<number> | null) => {
+  const onCountyChange = useCallback<ElectionScopePickerSelectOnChange>(
+    (value) => {
       const countyId = resolveValue(value);
       if (scope.type === "county" && countyId !== (scope.countyId ?? null)) {
         onChangeScope({ type: "county", countyId });
@@ -124,8 +133,8 @@ export const useElectionScopePickerGetSelectProps = (
     [scope, onChangeScope],
   );
 
-  const onLocalityChange = useCallback(
-    (value: number | OptionWithID<number> | null) => {
+  const onLocalityChange = useCallback<ElectionScopePickerSelectOnChange>(
+    (value) => {
       const localityId = resolveValue(value);
       if (scope.type === "locality" && localityId !== (scope.localityId ?? null)) {
         onChangeScope({ type: "locality", countyId: scope.countyId, localityId });
@@ -134,8 +143,8 @@ export const useElectionScopePickerGetSelectProps = (
     [scope, onChangeScope],
   );
 
-  const onCountryChange = useCallback(
-    (value: number | OptionWithID<number> | null) => {
+  const onCountryChange = useCallback<ElectionScopePickerSelectOnChange>(
+    (value) => {
       const countryId = resolveValue(value);
       if (countryId == null) {
         if (scope.type === "diaspora_country") {
@@ -203,7 +212,7 @@ export const useElectionScopePickerGetSelectProps = (
 function getOptionLabel<K>({ name }: OptionWithID<K, string>): string {
   return name;
 }
-function getOptionValue<K>({ id }: OptionWithID<K>): string {
+function getOptionValue<K extends string | number>({ id }: OptionWithID<K>): string {
   return id.toString();
 }
 
@@ -225,9 +234,10 @@ export const useElectionScopePickerGetTypeSelectProps = (
   scope: ElectionScopeIncomplete,
   onChangeScope: (newScope: ElectionScopeIncomplete) => unknown,
 ): ElectionScopePickerSelectProps<ElectionScope["type"]> => {
-  const onTypeChange = useCallback(
-    (value: ElectionScope["type"] | OptionWithID<ElectionScope["type"]> | null) => {
+  const onTypeChange = useCallback<ElectionScopePickerSelectOnChange<ElectionScope["type"]>>(
+    (value) => {
       const type = resolveValue(value);
+      if (type === null) return;
       const newScope = electionScopePickerUpdateType(scope, type);
       if (newScope !== scope) {
         onChangeScope(newScope);
@@ -252,13 +262,15 @@ export const useElectionScopePickerGetTypeSelectProps = (
 const loadingMessage = () => "Se încarcă...";
 
 const typeSelectStyles = {
-  control: (provided) => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: (provided: any) => ({
     ...provided,
     borderColor: "transparent",
     borderWidth: 0,
     cursor: "pointer",
   }),
-  valueContainer: (provided) => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  valueContainer: (provided: any) => ({
     ...provided,
     fontWeight: 600,
     fontSize: `${30 / 16}rem`,
@@ -278,7 +290,8 @@ export const ElectionScopePicker = themable<Props>(
   const theme = useTheme();
 
   const selectTheme = useMemo(
-    () => (t) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    () => (t: any) => ({
       ...t,
       colors: {
         ...t.colors,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
@@ -35,7 +36,7 @@ export default {
   },
 };
 
-export const SimpleExample = ({ label1, color1, name1, note1, label2, color2, name2, note2 }) => {
+export const SimpleExample = ({ label1, color1, name1, note1, label2, color2, name2, note2 }: any) => {
   return (
     <PercentageBarsLegend
       items={[
@@ -68,7 +69,7 @@ export const BarsWithLegend = ({
   color2,
   name2,
   note2,
-}) => {
+}: any) => {
   const items = [
     {
       color: color1,

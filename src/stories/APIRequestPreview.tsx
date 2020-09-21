@@ -3,7 +3,7 @@ import React, { useState } from "react";
 type Props = {
   data: unknown;
   loading: boolean;
-  error?: Error;
+  error?: Error | null;
 };
 
 export const APIRequestPreview: React.FC<Props> = ({ data, loading, error }) => {

@@ -20,22 +20,28 @@ const DecorativeIcon = () => (
   />
 );
 
+type Dot = {
+  alpha: number;
+  R: number;
+  candidate: number | null;
+};
+
 const SeatsGraphic: React.FC<{
   classes: ClassNames;
   results: ElectionResults;
   width: number;
   height: number;
-  selectedCandidate: number;
-  onSelectCandidate: (number) => unknown;
+  selectedCandidate: number | null;
+  onSelectCandidate: (value: number | null) => unknown;
 }> = memo(function SeatsGraphicUnmemoized({ classes, results, width, height, selectedCandidate, onSelectCandidate }) {
-  const { totalSeats = 1 } = results;
+  const totalSeats = results.totalSeats || 1;
   // Scale the dot size with the total number of dots so that
   // the total area of the graph remains the same.
   const r = useMemo(() => 45.345892868 / Math.sqrt(totalSeats), [totalSeats]);
 
   const [dots, innerRadius] = useMemo(() => {
     const spacing = 2.3;
-    const dotsArray = [];
+    const dotsArray: Dot[] = [];
 
     // Determine how many dots fit in each row
     let R = 100 - r;
@@ -86,7 +92,7 @@ const SeatsGraphic: React.FC<{
     let fromStart = false; // Alternate each candidate left/right
     results.candidates.forEach((candidate, index) => {
       let { seats } = candidate;
-      if (Number.isFinite(seats) && seats > 0) {
+      if (Number.isFinite(seats) && seats != null && seats > 0) {
         fromStart = !fromStart;
         for (; seats > 0 && start <= end; seats -= 1) {
           dotsArray[fromStart ? start : end].candidate = index;
@@ -154,7 +160,7 @@ export const ElectionResultsSeats = themable<Props>(
   cssClasses,
   defaultConstants,
 )(({ classes, constants, results }) => {
-  const [measureRef, { width }] = useDimensions();
+  const [measureRef, { width = NaN }] = useDimensions();
   let svgHeight = constants.height;
   let svgWidth = constants.height * 2;
   if (svgWidth > width) {
@@ -164,13 +170,13 @@ export const ElectionResultsSeats = themable<Props>(
 
   const vertical = width < constants.breakpoint;
 
-  const [selectedCandidate, setSelectedCandidate] = useState<number>(null);
+  const [selectedCandidate, setSelectedCandidate] = useState<number | null>(null);
 
   return (
     <div className={mergeClasses(classes.root, vertical && classes.vertical)} ref={measureRef}>
       <div className={classes.legend}>
         {results.candidates.map((candidate, index) =>
-          Number.isFinite(candidate.seats) && candidate.seats > 0 ? (
+          Number.isFinite(candidate.seats) && candidate.seats != null && candidate.seats > 0 ? (
             <DivBody className={classes.legendItem} key={index}>
               <ColoredSquare className={classes.square} color={electionCandidateColor(candidate)} />
               <div

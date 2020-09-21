@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import {
-  ElectionMeta,
+  ElectionBallotMeta,
   ElectionResults,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
@@ -17,9 +17,9 @@ import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncomple
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 
 type Props = {
-  meta: ElectionMeta;
+  meta: ElectionBallotMeta;
   scope: ElectionScopeIncompleteResolved;
-  results?: ElectionResults;
+  results?: ElectionResults | null;
   separator?: ReactNode;
 };
 

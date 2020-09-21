@@ -1,5 +1,5 @@
 import React, { ComponentProps, ComponentType, forwardRef } from "react";
-import { mergeClasses, PropsObject, themable, ThemableComponent, ThemableComponentProps } from "../../util/theme";
+import { mergeClasses, PropsObject, themable, ThemableComponent, ThemedComponentProps } from "../../util/theme";
 import cssClasses from "./Typography.module.scss";
 
 export function makeTypographyComponent<Props extends PropsObject>(
@@ -14,7 +14,7 @@ export function makeTypographyComponent<Props extends PropsObject>(
     cssClasses,
   )(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    forwardRef(function TypographyInner({ classes, constants, ...otherProps }: ThemableComponentProps<Props>, ref) {
+    forwardRef(function TypographyInner({ classes, constants, ...otherProps }: ThemedComponentProps<Props>, ref) {
       const finalClassName = mergeClasses(mergeClasses(classes[className], extraClassName), classes.root);
       return <Component_ {...otherProps} className={finalClassName} ref={ref} />;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

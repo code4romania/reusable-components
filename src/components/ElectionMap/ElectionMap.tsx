@@ -34,17 +34,21 @@ export const ElectionMap = themable<Props>(
   }
 
   const [overlayUrl, selectedFeature, scopeModifier] = useMemo<
-    [string, number | void, (featureId: number) => ElectionScopeIncomplete]
+    [string, number | null, (featureId: number) => ElectionScopeIncomplete]
   >(() => {
     if (scope.type === "locality" && scope.countyId != null) {
       return [
         `${electionMapOverlayUrl}/localities_${scope.countyId}.geojson`,
-        scope.localityId,
+        scope.localityId ?? null,
         (localityId) => ({ ...scope, localityId }),
       ];
     }
     if ((scope.type === "locality" && scope.countyId == null) || scope.type === "county") {
-      return [`${electionMapOverlayUrl}/counties.geojson`, scope.countyId, (countyId) => ({ ...scope, countyId })];
+      return [
+        `${electionMapOverlayUrl}/counties.geojson`,
+        scope.countyId ?? null,
+        (countyId) => ({ ...scope, countyId }),
+      ];
     }
     if (scope.type === "diaspora" || scope.type === "diaspora_country") {
       return [
@@ -59,7 +63,7 @@ export const ElectionMap = themable<Props>(
   const onFeatureSelect = useMemo(
     () =>
       onScopeChange &&
-      ((featureId) => {
+      ((featureId: number) => {
         onScopeChange(scopeModifier(featureId));
       }),
     [onScopeChange, scopeModifier],
