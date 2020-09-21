@@ -7,7 +7,7 @@ import {
   electionTypeInvolvesDiaspora,
 } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage, getScopeName } from "../../util/format";
-import { mergeClasses, themable } from "../../util/theme";
+import { mergeClasses, themable } from "../../hooks/theme";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars";
 import { ElectionTurnoutBreakdownChart } from "../ElectionTurnoutBreakdownChart/ElectionTurnoutBreakdownChart";

@@ -1,6 +1,6 @@
 import React from "react";
 import { electionHasSeats, ElectionBallotMeta, ElectionResults } from "../../types/Election";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import { lightFormat, parseISO } from "date-fns";

@@ -1,7 +1,7 @@
 import React from "react";
 import { ElectionScope, ElectionTurnoutBreakdown } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage } from "../../util/format";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import { BarChart } from "../BarChart/BarChart";
 import { PercentageBarsLegend } from "../PercentageBarsLegend/PercentageBarsLegend";
 import cssClasses from "./ElectionTurnoutBreakdownChart.module.scss";

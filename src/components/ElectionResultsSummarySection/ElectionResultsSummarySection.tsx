@@ -6,7 +6,7 @@ import {
   electionScopeIsComplete,
   electionTypeInvolvesDiaspora,
 } from "../../types/Election";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import useDimensions from "react-use-dimensions";
 import cssClasses from "./ElectionResultsSummarySection.module.scss";
 import { ElectionResultsStackedBar } from "../ElectionResultsStackedBar/ElectionResultsStackedBar";

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import cssClasses from "./HereMap.module.scss";
 
 type OnFeatureSelect = (featureId: number) => unknown;

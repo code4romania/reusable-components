@@ -1,6 +1,6 @@
 import React from "react";
 import { formatGroupedNumber, formatPercentage } from "../../util/format";
-import { themable, useTheme } from "../../util/theme";
+import { themable, useTheme } from "../../hooks/theme";
 import { PercentageBars } from "../PercentageBars/PercentageBars";
 import { PercentageBarsLegend } from "../PercentageBarsLegend/PercentageBarsLegend";
 

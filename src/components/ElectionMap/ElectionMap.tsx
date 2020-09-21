@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useMemo } from "react";
 import { ElectionScopeIncomplete } from "../../types/Election";
-import { themable } from "../../util/theme";
+import { themable } from "../../hooks/theme";
 import cssClasses from "./ElectionMap.module.scss";
 import RomaniaMap from "../../assets/romania-map.svg";
 import WorldMap from "../../assets/world-map.svg";
