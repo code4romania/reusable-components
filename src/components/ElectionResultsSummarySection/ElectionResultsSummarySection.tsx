@@ -55,7 +55,7 @@ export const ElectionResultsSummarySection = themable<Props>(
       {mobileMap && showHeading && separator}
       {showHeading && (
         <>
-          <Heading2>Prezența la vot</Heading2>
+          <Heading2>Rezultate vot</Heading2>
           <div>
             <Label>{getScopeName(scope)}</Label>
           </div>
