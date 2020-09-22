@@ -75,23 +75,25 @@ export const ElectionTimeline = themable<Props>(
   }, [selectedElectionId]);
 
   const onElectionClick = (election: TimelineElection) => () => {
-    if (election.ballots.length === 1) {
+    const { electionId } = election;
+
+    if (election.ballots.length === 1 || (!expandedElections.has(electionId) && selectedElectionId !== electionId)) {
       if (onSelectBallot) {
         onSelectBallot(election.ballots[0]);
       }
-      return;
     }
 
-    const { electionId } = election;
-    setExpandedElections((set) => {
-      const newSet = new Set(set);
-      if (set.has(electionId)) {
-        newSet.delete(electionId);
-      } else {
-        newSet.add(electionId);
-      }
-      return newSet;
-    });
+    if (election.ballots.length > 1) {
+      setExpandedElections((set) => {
+        const newSet = new Set(set);
+        if (set.has(electionId)) {
+          newSet.delete(electionId);
+        } else {
+          newSet.add(electionId);
+        }
+        return newSet;
+      });
+    }
   };
 
   const onBallotClick = (meta: ElectionBallotMeta) => () => {

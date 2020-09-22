@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ElectionBallot, ElectionScope } from "../types/Election";
 import { APIRequestState } from "../util/api";
 import { ElectionAPI } from "../util/electionApi";
@@ -12,11 +12,16 @@ export const useBallotData = (
 ): APIRequestState<ElectionBallot> => {
   const [timerToken, setTimerToken] = useState<boolean>(false);
 
-  const state = useApiResponse(() => (ballotId != null && scope ? api.getBallot(ballotId, scope) : null), [
-    scope,
-    ballotId,
-    timerToken,
-  ]);
+  const lastBallotId = useRef<number | null>(null);
+  const state = useApiResponse(() => {
+    if (ballotId == null || !scope) return null;
+    const lastId = lastBallotId.current;
+    lastBallotId.current = ballotId;
+    return {
+      invocation: api.getBallot(ballotId, scope),
+      discardPreviousData: lastId !== ballotId,
+    };
+  }, [scope, ballotId, timerToken, api]);
 
   // Changing the timerToken will re-trigger useApiResponse
   useEffect(() => {

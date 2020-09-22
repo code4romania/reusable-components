@@ -73,10 +73,6 @@ export type ElectionBallotMeta = {
 
   ballotId: number; // The ID of this Election (Ballot in the backend, a rename might be in order)
   electionId: number; // Used for grouping
-
-  // TODO: I haven't the slightest idea what should go in here, but I assume some sort
-  // of an URL/category ID for the blog API
-  newsfeed?: string;
 };
 
 // You get one of these after making a request with an ID and the data in an ElectionScope
@@ -91,6 +87,8 @@ export type ElectionBallot = {
 
   // Send this only when it makes sense (for the national scope)
   observation?: ElectionObservation | null;
+
+  electionNews?: ElectionNewsFeed | null;
 };
 
 export type ElectionTurnout = {
@@ -144,3 +142,22 @@ export type ElectionResults = {
   totalSeats?: number | null; // For the parliament (maybe even council) seats widget
   candidates: ElectionResultsCandidate[]; // Sorted descending by votes
 };
+
+export type ElectionNews = {
+  id: number; // This is important to prevent re-renders on auto-updates
+  timestamp: string; // ISO 8601
+  author: {
+    name: string;
+    avatar?: string | null; // URL to image. I'll replace this with a blank avatar if it's missing
+  };
+  title?: string | null;
+  body: string;
+
+  // Directly URLs, or an object with thumbnails and full resolution images separated
+  pictures?: (string | { thumbnail?: string | null; image?: string | null })[] | null;
+
+  embed?: string | null; // Arbitrary HTML, since that's what most publish tools export
+  link?: string | null; // Link to the original story
+};
+
+export type ElectionNewsFeed = ElectionNews[];
