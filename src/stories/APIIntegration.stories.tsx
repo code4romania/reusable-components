@@ -17,6 +17,7 @@ import { ElectionResultsTableSection } from "../components/ElectionResultsTableS
 import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimeline";
 import { ElectionScopeIncomplete } from "../types/Election";
 import { ElectionScopePicker, useElectionScopePickerApi } from "../components/ElectionScopePicker/ElectionScopePicker";
+import { useBallotData } from "../hooks/electionApiHooks";
 
 export default {
   title: "API integrations",
@@ -42,7 +43,7 @@ const useApi = (api: string, apiUrl: string): ElectionAPI => {
 export const ElectionComponents = (args: { api: string; apiUrl: string; id: string } & ScopeArgs) => {
   const [scope, { api, apiUrl, id }] = useScopeFromArgs(args);
   const electionApi: ElectionAPI = useApi(api, apiUrl);
-  const { data, loading, error } = useApiResponse(() => electionApi.getBallot(id, scope), [electionApi, id, scope]);
+  const { data, loading, error } = useBallotData(electionApi, id, scope);
 
   return (
     <>
