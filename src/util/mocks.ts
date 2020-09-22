@@ -625,7 +625,7 @@ export const mockElectionNews: ElectionNews = {
   timestamp: formatISO(Date.now() - 60 * 5),
   author: {
     name: "Dan Dincu",
-    avatar: "https://i.pravatar.cc/300",
+    avatar: "https://tinyfac.es/data/avatars/03F55412-DE8A-4F83-AAA6-D67EE5CE48DA-200w.jpeg",
   },
   title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est imperdiet magnis sit urna curabitur enim.",
   pictures: ["https://picsum.photos/400/600", "https://picsum.photos/400/600"],
