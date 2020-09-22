@@ -21,7 +21,7 @@ export const useBallotData = (
       invocation: api.getBallot(ballotId, scope),
       discardPreviousData: lastId !== ballotId,
     };
-  }, [scope, ballotId, timerToken]);
+  }, [scope, ballotId, timerToken, api]);
 
   // Changing the timerToken will re-trigger useApiResponse
   useEffect(() => {
