@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ElectionBallotMeta } from "../../types/Election";
 import { mergeClasses, themable } from "../../hooks/theme";
 import cssClasses from "./ElectionTimeline.module.scss";
+import { DivLabel } from "../Typography/Typography";
 
 type Props = {
   items: ElectionBallotMeta[];
@@ -111,34 +112,39 @@ export const ElectionTimeline = themable<Props>(
           </div>
           {year.elections.map((election) => (
             <div key={election.electionId} className={classes.election}>
-              <div className={classes.electionRow} onClick={onElectionClick(election)}>
-                <div className={classes.collapseWidget}>
-                  {election.ballots.length > 1 && (
-                    <svg
-                      className={mergeClasses(
-                        classes.collapseCaret,
-                        expandedElections.has(election.electionId) && classes.collapseCaretExpanded,
-                      )}
-                      viewBox="0 0 7 10"
-                    >
-                      <path d="M 0 0 L 0 10 L 7 5 L 0 0" fill="currentColor" />
-                    </svg>
-                  )}
+              <div className={classes.electionColumn} onClick={onElectionClick(election)}>
+                <div className={classes.electionRow}>
+                  <div className={classes.collapseWidget}>
+                    {election.ballots.length > 1 && (
+                      <svg
+                        className={mergeClasses(
+                          classes.collapseCaret,
+                          expandedElections.has(election.electionId) && classes.collapseCaretExpanded,
+                        )}
+                        viewBox="0 0 7 10"
+                      >
+                        <path d="M 0 0 L 0 10 L 7 5 L 0 0" fill="currentColor" />
+                      </svg>
+                    )}
+                  </div>
+                  <div
+                    className={mergeClasses(
+                      classes.electionTitle,
+                      selectedElectionId === election.electionId && classes.selectedElection,
+                    )}
+                  >
+                    {election.title}
+                  </div>
+                  {election.live && <div className={classes.live}>LIVE</div>}
                 </div>
-                <div
-                  className={mergeClasses(
-                    classes.electionTitle,
-                    selectedElectionId === election.electionId && classes.selectedElection,
-                  )}
-                >
-                  {election.title}
-                </div>
-                {election.live && <div className={classes.live}>LIVE</div>}
+                {election.ballots.length === 1 && election.ballots[0].subtitle && (
+                  <DivLabel className={classes.electionSubtitle}>{election.ballots[0].subtitle}</DivLabel>
+                )}
               </div>
               {expandedElections.has(election.electionId) &&
                 election.ballots.length >= 2 &&
                 election.ballots.map((meta, index) => (
-                  <div key={meta.ballotId} className={classes.ballotRow} onClick={onBallotClick(meta)}>
+                  <div key={meta.ballotId} className={classes.ballotColumn} onClick={onBallotClick(meta)}>
                     <div
                       className={mergeClasses(
                         classes.ballotTitle,
@@ -147,6 +153,7 @@ export const ElectionTimeline = themable<Props>(
                     >
                       {meta.ballot || `${meta.title} ${index + 1}`}
                     </div>
+                    {meta.subtitle && <DivLabel className={classes.ballotSubtitle}>{meta.subtitle}</DivLabel>}
                   </div>
                 ))}
             </div>
