@@ -146,19 +146,16 @@ export type ElectionNews = {
   timestamp: string; // ISO 8601
   author: {
     name: string;
-    avatar?: string; // URL to image. I'll replace this with a blank avatar if it's missing
+    avatar?: string | null; // URL to image. I'll replace this with a blank avatar if it's missing
   };
-  title?: string;
+  title?: string | null;
   body: string;
 
   // Directly URLs, or an object with thumbnails and full resolution images separated
-  images?: (string | { thumbnail: string; image: string })[];
+  pictures?: (string | { thumbnail?: string | null; image?: string | null })[] | null;
 
-  embed?: {
-    url: string;
-    width?: number;
-    height?: number;
-  };
+  embed?: string | null; // Arbitrary HTML, since that's what most publish tools export
+  link?: string | null; // Link to the original story
 };
 
 export type ElectionNewsFeed = ElectionNews[];
