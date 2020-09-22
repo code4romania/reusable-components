@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
-import cssClasses from "./PercentageBarsLegend.module.scss";
 import { mergeClasses, themable } from "../../hooks/theme";
 import { DivBody } from "../Typography/Typography";
+import cssClasses from "./PercentageBarsLegend.module.scss";
 
 type Props = {
   items: {

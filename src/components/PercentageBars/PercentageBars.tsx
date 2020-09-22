@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import cssClasses from "./PercentageBars.module.scss";
 import { mergeClasses, themable } from "../../hooks/theme";
+import cssClasses from "./PercentageBars.module.scss";
 
 type Props = {
   total?: number; // Defaults to the max value in items

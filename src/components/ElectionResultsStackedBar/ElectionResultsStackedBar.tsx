@@ -5,8 +5,8 @@ import { HorizontalStackedBar, HorizontalStackedBarItem } from "../HorizontalSta
 import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
 import { PartyResultInline } from "../PartyResultInline/PartyResultInline";
 import { useDimensions } from "../../hooks/useDimensions";
-import cssClasses from "./ElectionResultsStackedBar.module.scss";
 import { electionCandidateColor, fractionOf } from "../../util/format";
+import cssClasses from "./ElectionResultsStackedBar.module.scss";
 
 type Props = {
   results: ElectionResults;
