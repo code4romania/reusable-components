@@ -18,6 +18,7 @@ import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimelin
 import { ElectionScopeIncomplete } from "../types/Election";
 import { ElectionScopePicker, useElectionScopePickerApi } from "../components/ElectionScopePicker/ElectionScopePicker";
 import { useBallotData } from "../hooks/electionApiHooks";
+import { ElectionNewsSection } from "../components/ElectionNewsSection/ElectionNewsSection";
 
 export default {
   title: "API integrations",
@@ -54,8 +55,11 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
           {data.observation && <ElectionObservationSection observation={data.observation} />}
           <ElectionResultsSummarySection meta={data.meta} scope={data.scope} results={data.results} />
           {data.results && <ElectionResultsProcess results={data.results} />}
-          {data.results && <ElectionResultsSeats results={data.results} />}
+          {data.results?.totalSeats != null && data.results.totalSeats > 0 && (
+            <ElectionResultsSeats results={data.results} />
+          )}
           {data.results && <ElectionResultsTableSection meta={data.meta} results={data.results} />}
+          {data.electionNews && data.electionNews.length > 0 && <ElectionNewsSection feed={data.electionNews} />}
         </>
       )}
     </>
