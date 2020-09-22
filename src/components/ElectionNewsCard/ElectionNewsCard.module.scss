@@ -30,6 +30,7 @@
 }
 
 .container {
+  flex: 1;
   margin-top: 1rem;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -87,7 +88,7 @@ a.title {
 }
 
 .pictures {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -97,6 +98,7 @@ a.title {
   width: 8rem;
   height: 8rem;
   margin-right: 0.5rem;
+  margin-top: 0.5rem;
   object-fit: cover;
   object-position: 50% 50%;
 }

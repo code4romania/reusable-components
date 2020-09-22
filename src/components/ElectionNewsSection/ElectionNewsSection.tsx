@@ -31,9 +31,13 @@ export const ElectionNewsSection = themable<Props>(
 
   return (
     <div className={classes.root}>
-      {shownFeed.map((news) => (
-        <ElectionNewsCard key={news.id} news={news} onImageClick={onImageClick} />
-      ))}
+      <div className={classes.feedContainer}>
+        <div className={classes.feed}>
+          {shownFeed.map((news) => (
+            <ElectionNewsCard key={news.id} news={news} onImageClick={onImageClick} />
+          ))}
+        </div>
+      </div>
       {!expanded && <Button onClick={onExpandClick}>Arată mai multe știri</Button>}
       {lightboxImage && <Lightbox src={lightboxImage} onRequestClose={onLightboxClose} />}
     </div>
