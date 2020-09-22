@@ -73,10 +73,12 @@ export const ElectionNewsCard = themable<Props>(
         <DivLabel className={classes.time}>{format(date, "HH:mm")}</DivLabel>
       </div>
       <div className={classes.container}>
-        <div className={classes.author}>
-          <Avatar image={news.author.avatar} name={news.author.name} classes={classes} />
-          <DivBody className={classes.authorName}>{news.author.name}</DivBody>
-        </div>
+        {news.author && (
+          <div className={classes.author}>
+            <Avatar image={news.author.avatar} name={news.author.name} classes={classes} />
+            <DivBody className={classes.authorName}>{news.author.name}</DivBody>
+          </div>
+        )}
         <div className={classes.content}>
           {news.title && !news.link && <Heading3 className={classes.title}>{news.title}</Heading3>}
           {news.title && news.link && (
