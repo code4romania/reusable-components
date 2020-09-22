@@ -3,6 +3,7 @@ import { themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
 import { Button } from "../Button/Button";
 import { ElectionNewsCard } from "../ElectionNewsCard/ElectionNewsCard";
+import { Lightbox } from "../Lightbox/Lightbox";
 import cssClasses from "./ElectionNewsSection.module.scss";
 
 type Props = {
@@ -19,12 +20,22 @@ export const ElectionNewsSection = themable<Props>(
     setExpanded(true);
   }, []);
 
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const onLightboxClose = useCallback(() => {
+    setLightboxImage(null);
+  }, []);
+
+  const onImageClick = useCallback((src) => {
+    setLightboxImage(src);
+  }, []);
+
   return (
     <div className={classes.root}>
       {shownFeed.map((news) => (
-        <ElectionNewsCard key={news.id} news={news} />
+        <ElectionNewsCard key={news.id} news={news} onImageClick={onImageClick} />
       ))}
       {!expanded && <Button onClick={onExpandClick}>Arată mai multe știri</Button>}
+      {lightboxImage && <Lightbox src={lightboxImage} onRequestClose={onLightboxClose} />}
     </div>
   );
 });
