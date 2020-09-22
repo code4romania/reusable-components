@@ -13,7 +13,7 @@ import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars"
 import { ElectionTurnoutBreakdownChart } from "../ElectionTurnoutBreakdownChart/ElectionTurnoutBreakdownChart";
 import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import cssClasses from "./ElectionTurnoutSection.module.scss";
-import useDimensions from "react-use-dimensions";
+import { useDimensions } from "../../hooks/useDimensions";
 import BallotCheckmark from "../../assets/ballot-checkmark.svg";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 

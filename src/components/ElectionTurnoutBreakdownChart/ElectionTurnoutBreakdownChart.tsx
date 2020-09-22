@@ -5,7 +5,7 @@ import { themable } from "../../hooks/theme";
 import { BarChart } from "../BarChart/BarChart";
 import { PercentageBarsLegend } from "../PercentageBarsLegend/PercentageBarsLegend";
 import cssClasses from "./ElectionTurnoutBreakdownChart.module.scss";
-import useDimensions from "react-use-dimensions";
+import { useDimensions } from "../../hooks/useDimensions";
 import WorldMap from "../../assets/world-map.svg";
 import RomaniaMap from "../../assets/romania-map.svg";
 

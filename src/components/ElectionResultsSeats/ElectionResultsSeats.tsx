@@ -4,7 +4,7 @@ import { electionCandidateColor, formatGroupedNumber } from "../../util/format";
 import { ClassNames, mergeClasses, themable } from "../../hooks/theme";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 import { DivBody, DivLabel } from "../Typography/Typography";
-import useDimensions from "react-use-dimensions";
+import { useDimensions } from "../../hooks/useDimensions";
 import cssClasses from "./ElectionResultsSeats.module.scss";
 
 type Props = {
