@@ -87,6 +87,8 @@ export type ElectionBallot = {
 
   // Send this only when it makes sense (for the national scope)
   observation?: ElectionObservation | null;
+
+  electionNews?: ElectionNewsFeed | null;
 };
 
 export type ElectionTurnout = {
