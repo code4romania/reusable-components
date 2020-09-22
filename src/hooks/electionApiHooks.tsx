@@ -14,11 +14,10 @@ export const useBallotData = (
 
   const lastBallotId = useRef<number | null>(null);
   const state = useApiResponse(() => {
-    if (ballotId == null || !scope) return null;
     const lastId = lastBallotId.current;
     lastBallotId.current = ballotId;
     return {
-      invocation: api.getBallot(ballotId, scope),
+      invocation: ballotId != null && scope ? api.getBallot(ballotId, scope) : null,
       discardPreviousData: lastId !== ballotId,
     };
   }, [scope, ballotId, timerToken, api]);
