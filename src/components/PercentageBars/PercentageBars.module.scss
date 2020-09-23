@@ -9,11 +9,20 @@
 }
 
 .label {
+  box-sizing: border-box;
   color: white;
   position: absolute;
   top: 0;
-  right: 0.5rem;
+  right: 0;
   font-size: (22rem / 16);
   font-weight: 600;
   line-height: 1.5;
+}
+
+.labelInner {
+  padding: 0 0.5rem;
+}
+
+.labelRight {
+  color: currentColor;
 }
