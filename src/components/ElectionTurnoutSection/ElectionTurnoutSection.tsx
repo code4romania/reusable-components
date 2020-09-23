@@ -1,6 +1,7 @@
 import React from "react";
 import {
   ElectionBallotMeta,
+  ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
   ElectionTurnout,
@@ -20,6 +21,7 @@ import cssClasses from "./ElectionTurnoutSection.module.scss";
 type Props = {
   meta?: ElectionBallotMeta | null;
   scope: ElectionScopeIncompleteResolved;
+  onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
   turnout?: ElectionTurnout | null;
 };
 
@@ -33,7 +35,7 @@ export const ElectionTurnoutSection = themable<Props>(
   "ElectionTurnoutSection",
   cssClasses,
   defaultConstants,
-)(({ meta, scope, turnout, classes, constants }) => {
+)(({ meta, scope, onScopeChange, turnout, classes, constants }) => {
   const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -41,7 +43,12 @@ export const ElectionTurnoutSection = themable<Props>(
   const completeness = electionScopeIsComplete(scope);
 
   const map = width != null && (
-    <ElectionMap scope={scope} involvesDiaspora={involvesDiaspora} className={classes.map}>
+    <ElectionMap
+      scope={scope}
+      onScopeChange={onScopeChange}
+      involvesDiaspora={involvesDiaspora}
+      className={classes.map}
+    >
       {scope.type === "national" && turnout && turnout.eligibleVoters && (
         <div className={classes.mapOverlay}>
           <div className={classes.mapOverlayPercentage}>

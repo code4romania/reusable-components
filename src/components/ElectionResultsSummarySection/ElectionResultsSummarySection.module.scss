@@ -26,3 +26,27 @@
   max-height: 24rem;
   align-self: flex-start;
 }
+
+.mapOverlay {
+  position: absolute;
+  left: 48%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+}
+
+.mapOverlayPercentage {
+  font-size: (50em / 18 * 0.55);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.mapOverlayLabel {
+  font-size: 0.65em;
+  line-height: 1.5;
+  font-weight: 600;
+}

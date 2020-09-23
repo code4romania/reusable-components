@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import {
   ElectionBallotMeta,
   ElectionResults,
+  ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
   electionTypeInvolvesDiaspora,
@@ -10,7 +11,7 @@ import { themable } from "../../hooks/theme";
 import { useDimensions } from "../../hooks/useDimensions";
 import { ElectionResultsStackedBar } from "../ElectionResultsStackedBar/ElectionResultsStackedBar";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
-import { getScopeName } from "../../util/format";
+import { electionCandidateColor, formatPercentage, fractionOf, getScopeName } from "../../util/format";
 import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
@@ -21,6 +22,7 @@ type Props = {
   scope: ElectionScopeIncompleteResolved;
   results?: ElectionResults | null;
   separator?: ReactNode;
+  onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
 };
 
 const defaultConstants = {
@@ -32,15 +34,32 @@ export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
   defaultConstants,
-)(({ classes, results, meta, scope, constants, separator }) => {
+)(({ classes, results, meta, scope, onScopeChange, constants, separator }) => {
   const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
 
+  const topCandidate = results?.candidates && results.candidates[0];
+
   const map = width != null && (
-    <ElectionMap scope={scope} involvesDiaspora={involvesDiaspora} className={classes.map} />
+    <ElectionMap
+      scope={scope}
+      onScopeChange={onScopeChange}
+      involvesDiaspora={involvesDiaspora}
+      className={classes.map}
+      selectedColor={topCandidate && electionCandidateColor(topCandidate)}
+    >
+      {topCandidate && (
+        <div className={classes.mapOverlay}>
+          <div className={classes.mapOverlayPercentage}>
+            {formatPercentage(fractionOf(topCandidate.votes, results?.validVotes || 0))}
+          </div>
+          <div className={classes.mapOverlayLabel}>{topCandidate.shortName || topCandidate.name}</div>
+        </div>
+      )}
+    </ElectionMap>
   );
 
   const { breakpoint1, breakpoint2 } = constants;
