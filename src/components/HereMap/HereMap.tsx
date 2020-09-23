@@ -85,6 +85,7 @@ const defaultValues = {
   featureStroke: "#FFCC00",
   featureFill: "rgba(255, 204, 0, 0.3)",
   featureHoverFill: "rgba(255, 204, 0, 0.6)",
+  selectedColor: null, // Defaults to featureStroke,
 };
 
 type InstanceVars = {
@@ -130,8 +131,8 @@ export const HereMap = themable<Props>(
             lineWidth: 2,
           }),
           selected: new H.map.SpatialStyle({
-            fillColor: constants.featureStroke,
-            strokeColor: constants.featureStroke,
+            fillColor: constants.selectedColor || constants.featureStroke,
+            strokeColor: constants.selectedColor || constants.featureStroke,
             lineWidth: 2,
           }),
           hover: new H.map.SpatialStyle({
