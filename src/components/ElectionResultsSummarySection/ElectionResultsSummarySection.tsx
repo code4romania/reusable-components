@@ -7,14 +7,14 @@ import {
   electionTypeInvolvesDiaspora,
 } from "../../types/Election";
 import { themable } from "../../hooks/theme";
-import useDimensions from "react-use-dimensions";
-import cssClasses from "./ElectionResultsSummarySection.module.scss";
+import { useDimensions } from "../../hooks/useDimensions";
 import { ElectionResultsStackedBar } from "../ElectionResultsStackedBar/ElectionResultsStackedBar";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { getScopeName } from "../../util/format";
 import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
+import cssClasses from "./ElectionResultsSummarySection.module.scss";
 
 type Props = {
   meta?: ElectionBallotMeta | null;

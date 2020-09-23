@@ -3,12 +3,12 @@ import { ElectionObservation } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
 import { ClassNames, themable, useTheme } from "../../hooks/theme";
 import { DivBodyLarge, Heading2 } from "../Typography/Typography";
-import cssClasses from "./ElectionObservationSection.module.scss";
 import BallotDrop from "../../assets/ballot-drop.svg";
 import RaisedHands from "../../assets/raised-hands.svg";
 import RomaniaCountyMap from "../../assets/romania-county-map.svg";
 import { PercentageBars } from "../PercentageBars/PercentageBars";
 import { PercentageBarsLegend } from "../PercentageBarsLegend/PercentageBarsLegend";
+import cssClasses from "./ElectionObservationSection.module.scss";
 
 type Props = {
   observation: ElectionObservation;

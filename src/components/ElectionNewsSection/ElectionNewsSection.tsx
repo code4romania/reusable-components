@@ -8,14 +8,15 @@ import cssClasses from "./ElectionNewsSection.module.scss";
 
 type Props = {
   feed: ElectionNews[];
+  maxShownItems?: number;
 };
 
 export const ElectionNewsSection = themable<Props>(
   "ElectionNewsSection",
   cssClasses,
-)(({ classes, feed }) => {
+)(({ classes, feed, maxShownItems = 5 }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
-  const shownFeed = useMemo(() => (expanded ? feed : feed.slice(0, 5)), [feed, expanded]);
+  const shownFeed = useMemo(() => (expanded ? feed : feed.slice(0, maxShownItems)), [feed, expanded, maxShownItems]);
   const onExpandClick = useCallback(() => {
     setExpanded(true);
   }, []);
@@ -38,7 +39,7 @@ export const ElectionNewsSection = themable<Props>(
           ))}
         </div>
       </div>
-      {!expanded && <Button onClick={onExpandClick}>Arată mai multe știri</Button>}
+      {!expanded && feed.length > maxShownItems && <Button onClick={onExpandClick}>Arată mai multe știri</Button>}
       {lightboxImage && <Lightbox src={lightboxImage} onRequestClose={onLightboxClose} />}
     </div>
   );

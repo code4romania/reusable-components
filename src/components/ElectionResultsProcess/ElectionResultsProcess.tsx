@@ -3,12 +3,12 @@ import { ElectionResults } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
 import { ClassNames, themable } from "../../hooks/theme";
 import { DivBodyLarge, Heading2 } from "../Typography/Typography";
-import cssClasses from "./ElectionResultsProcess.module.scss";
 import BallotFillIn from "../../assets/ballot-fill-in.svg";
 import Citizens from "../../assets/citizens.svg";
 import CitizensBuilding from "../../assets/citizens-building.svg";
 import VoteByMail from "../../assets/vote-by-mail.svg";
 import NullTimes from "../../assets/null-times.svg";
+import cssClasses from "./ElectionResultsProcess.module.scss";
 
 type Props = {
   results: ElectionResults;

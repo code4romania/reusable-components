@@ -4,9 +4,9 @@ import { themable } from "../../hooks/theme";
 import { HorizontalStackedBar, HorizontalStackedBarItem } from "../HorizontalStackedBar/HorizontalStackedBar";
 import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
 import { PartyResultInline } from "../PartyResultInline/PartyResultInline";
-import useDimensions from "react-use-dimensions";
-import cssClasses from "./ElectionResultsStackedBar.module.scss";
+import { useDimensions } from "../../hooks/useDimensions";
 import { electionCandidateColor, fractionOf } from "../../util/format";
+import cssClasses from "./ElectionResultsStackedBar.module.scss";
 
 type Props = {
   results: ElectionResults;

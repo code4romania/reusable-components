@@ -5,8 +5,8 @@ import { APIRequestState } from "../../util/api";
 import { ElectionScopeAPI, OptionWithID } from "../../util/electionApi";
 import { themable, useTheme } from "../../hooks/theme";
 import { Label } from "../Typography/Typography";
-import cssClasses from "./ElectionScopePicker.module.scss";
 import { useApiResponse } from "../../hooks/useApiResponse";
+import cssClasses from "./ElectionScopePicker.module.scss";
 
 type Props = {
   apiData: ElectionScopePickerAPIData;

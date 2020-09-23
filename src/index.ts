@@ -8,6 +8,7 @@ export * from "./types/Election";
 export * from "./hooks/theme";
 export * from "./hooks/useApiResponse";
 export * from "./hooks/electionApiHooks";
+export * from "./hooks/useDimensions";
 
 export * from "./components/Typography/Typography";
 export * from "./components/Button/Button";

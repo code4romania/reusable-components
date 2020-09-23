@@ -3,9 +3,9 @@ import { ClassNames, themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
 import { format, parseISO } from "date-fns";
 import { DivBody, DivLabel, Heading3, makeTypographyComponent } from "../Typography/Typography";
-import cssClasses from "./ElectionNewsCard.module.scss";
 import SVGCode4Romania from "../../assets/code4romania.svg";
 import LinkCircle from "../../assets/link-circle.svg";
+import cssClasses from "./ElectionNewsCard.module.scss";
 
 type Props = {
   news: ElectionNews;

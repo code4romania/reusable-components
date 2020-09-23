@@ -1,11 +1,11 @@
 import React from "react";
 import { electionHasSeats, ElectionBallotMeta, ElectionResults } from "../../types/Election";
 import { themable } from "../../hooks/theme";
-import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import { lightFormat, parseISO } from "date-fns";
 import { electionCandidateColor, formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
+import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 
 type Props = {
   meta: ElectionBallotMeta;
