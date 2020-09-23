@@ -27,11 +27,16 @@ export function useDimensions({ liveMeasure = true }: UseDimensionsArgs = {}): U
   }, []);
 
   useLayoutEffect(() => {
-    if (!node) {
-      return;
-    }
+    if (!node) return;
 
-    const measure = () => window.requestAnimationFrame(() => setDimensions(getDimensionObject(node)));
+    let rafHandle: number | null = null;
+    const measure = () => {
+      if (rafHandle != null) window.cancelAnimationFrame(rafHandle);
+      rafHandle = window.requestAnimationFrame(() => {
+        rafHandle = null;
+        setDimensions(getDimensionObject(node));
+      });
+    };
     measure();
 
     if (liveMeasure) {
@@ -39,12 +44,16 @@ export function useDimensions({ liveMeasure = true }: UseDimensionsArgs = {}): U
         const resizeObserver = new ResizeObserver(measure);
         resizeObserver.observe(node);
 
-        return resizeObserver.disconnect;
+        return () => {
+          if (rafHandle != null) window.cancelAnimationFrame(rafHandle);
+          resizeObserver.disconnect();
+        };
       } else {
         window.addEventListener("resize", measure);
         window.addEventListener("scroll", measure);
 
         return () => {
+          if (rafHandle != null) window.cancelAnimationFrame(rafHandle);
           window.removeEventListener("resize", measure);
           window.removeEventListener("scroll", measure);
         };

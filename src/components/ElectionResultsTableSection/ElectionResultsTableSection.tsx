@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { ResultsTable } from "../ResultsTable/ResultsTable";
 import { Heading2 } from "../Typography/Typography";
 import { electionHasSeats, ElectionBallotMeta, ElectionResults, ElectionResultsCandidate } from "../../types/Election";
@@ -74,21 +74,31 @@ const CandidateTable: React.FC<{
   );
 };
 
+const emptyToNull = <T,>(x: Array<T> | null) => (x && x.length >= 1 ? x : null);
+
 export const ElectionResultsTableSection = themable<Props>(
   "ElectionResultsTableSection",
   cssClasses,
 )(({ classes, results, meta }) => {
-  const hasSeats = electionHasSeats(meta.type, results);
+  const [qualified, unqualified, hasSeats] = useMemo(() => {
+    const hasSeats_ = electionHasSeats(meta.type, results);
 
-  const qualified = hasSeats
-    ? results.candidates.filter((cand) => Number.isFinite(cand.seats) && (cand.seats || 0) > 0)
-    : results.candidates;
+    const qualified_ = hasSeats_
+      ? results.candidates.filter((cand) => Number.isFinite(cand.seats) && (cand.seats || 0) > 0)
+      : results.candidates;
 
-  const unqualified = hasSeats
-    ? results.candidates.filter((cand) => !Number.isFinite(cand.seats) || (cand.seats || 0) <= 0)
-    : null;
+    const unqualified_ = hasSeats_
+      ? results.candidates.filter((cand) => !Number.isFinite(cand.seats) || (cand.seats || 0) <= 0)
+      : null;
 
-  if (unqualified && unqualified.length > 0) {
+    return [emptyToNull(qualified_), emptyToNull(unqualified_), hasSeats_];
+  }, [results, meta.type]);
+
+  if (!qualified && !unqualified) {
+    return null;
+  }
+
+  if (qualified && unqualified) {
     return (
       <>
         <Heading2 className={classes.heading}>Partide care au îndeplinit pragul electoral</Heading2>
@@ -100,6 +110,11 @@ export const ElectionResultsTableSection = themable<Props>(
   }
 
   return (
-    <CandidateTable classes={classes} candidates={qualified} hasSeats={hasSeats} validVotes={results.validVotes} />
+    <CandidateTable
+      classes={classes}
+      candidates={qualified || unqualified || []}
+      hasSeats={hasSeats}
+      validVotes={results.validVotes}
+    />
   );
 });
