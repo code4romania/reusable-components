@@ -141,7 +141,7 @@ export const HereMap = themable<Props>(
             lineWidth: 2,
           }),
         },
-      [H, constants.featureFill, constants.featureStroke, constants.featureHoverFill],
+      [H, constants.featureFill, constants.featureStroke, constants.featureHoverFill, constants.selectedColor],
     );
 
     // Instance vars
