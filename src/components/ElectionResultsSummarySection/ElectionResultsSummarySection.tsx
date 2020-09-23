@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import {
   ElectionBallotMeta,
   ElectionResults,
+  ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
   electionTypeInvolvesDiaspora,
@@ -21,6 +22,7 @@ type Props = {
   scope: ElectionScopeIncompleteResolved;
   results?: ElectionResults | null;
   separator?: ReactNode;
+  onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
 };
 
 const defaultConstants = {
@@ -32,7 +34,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
   defaultConstants,
-)(({ classes, results, meta, scope, constants, separator }) => {
+)(({ classes, results, meta, scope, onScopeChange, constants, separator }) => {
   const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -40,7 +42,12 @@ export const ElectionResultsSummarySection = themable<Props>(
   const completeness = electionScopeIsComplete(scope);
 
   const map = width != null && (
-    <ElectionMap scope={scope} involvesDiaspora={involvesDiaspora} className={classes.map} />
+    <ElectionMap
+      scope={scope}
+      onScopeChange={onScopeChange}
+      involvesDiaspora={involvesDiaspora}
+      className={classes.map}
+    />
   );
 
   const { breakpoint1, breakpoint2 } = constants;
