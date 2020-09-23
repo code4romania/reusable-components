@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useMemo } from "react";
+import React, { createContext, PropsWithChildren, useContext, useMemo } from "react";
 import { ElectionScopeIncomplete } from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
@@ -20,6 +20,8 @@ type Props = PropsWithChildren<{
 const defaultAspectRatio = 21 / 15;
 const defaultDiasporaAspectRatio = 38 / 25;
 const defaultMaxHeight = 460;
+
+export const ElectionMapOverlayURLContext = createContext<string>(electionMapOverlayUrl);
 
 export const ElectionMap = themable<Props>(
   "ElectionMap",
@@ -44,32 +46,29 @@ export const ElectionMap = themable<Props>(
       height = 0;
     }
 
+    const overlayBaseUrl = useContext(ElectionMapOverlayURLContext);
     const [overlayUrl, selectedFeature, scopeModifier] = useMemo<
       [string, number | null, (featureId: number) => ElectionScopeIncomplete]
     >(() => {
       if (scope.type === "locality" && scope.countyId != null) {
         return [
-          `${electionMapOverlayUrl}/localities_${scope.countyId}.geojson`,
+          `${overlayBaseUrl}/localities_${scope.countyId}.geojson`,
           scope.localityId ?? null,
           (localityId) => ({ ...scope, localityId }),
         ];
       }
       if ((scope.type === "locality" && scope.countyId == null) || scope.type === "county") {
-        return [
-          `${electionMapOverlayUrl}/counties.geojson`,
-          scope.countyId ?? null,
-          (countyId) => ({ ...scope, countyId }),
-        ];
+        return [`${overlayBaseUrl}/counties.geojson`, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
       }
       if (scope.type === "diaspora" || scope.type === "diaspora_country") {
         return [
-          `${electionMapOverlayUrl}/diaspora_countries.geojson`,
+          `${overlayBaseUrl}/diaspora_countries.geojson`,
           scope.type === "diaspora_country" && scope.countryId != null ? scope.countryId : null,
           (countryId) => ({ type: "diaspora_country", countryId }),
         ];
       }
-      return [`${electionMapOverlayUrl}/dobrogea.geojson`, null, (countyId) => ({ type: "county", countyId })];
-    }, [scope]);
+      return [`${overlayBaseUrl}/counties.geojson`, null, (countyId) => ({ type: "county", countyId })];
+    }, [scope, overlayBaseUrl]);
 
     const onFeatureSelect = useMemo(
       () =>
