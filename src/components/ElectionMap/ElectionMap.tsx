@@ -78,14 +78,17 @@ export const ElectionMap = themable<Props>(
       return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
     }, [scope, overlayBaseUrl]);
 
-    const overlayUrl = useMemo(() => {
+    const [overlayUrl, maskUrl] = useMemo(() => {
       switch (mapScope.type) {
         case "county":
-          return `${overlayBaseUrl}/localities_${mapScope.countyId}.geojson`;
+          return [
+            `${overlayBaseUrl}/localities_${mapScope.countyId}.geojson`,
+            `${overlayBaseUrl}/mask_county_${mapScope.countyId}.geojson`,
+          ];
         case "national":
-          return `${overlayBaseUrl}/counties.geojson`;
+          return [`${overlayBaseUrl}/counties.geojson`, `${overlayBaseUrl}/mask_romania.geojson`];
         case "diaspora":
-          return `${overlayBaseUrl}/countries.geojson`;
+          return [`${overlayBaseUrl}/countries.geojson`, undefined];
       }
     }, [mapScope.type, mapScope.type === "county" && mapScope.countyId]);
 
@@ -178,6 +181,7 @@ export const ElectionMap = themable<Props>(
                   scope.type === "diaspora" || scope.type === "diaspora_country" ? worldMapBounds : romaniaMapBounds
                 }
                 overlayUrl={overlayUrl}
+                maskOverlayUrl={maskUrl}
                 selectedFeature={selectedFeature}
                 onFeatureSelect={onFeatureSelect}
                 getFeatureColor={getFeatureColor}

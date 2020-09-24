@@ -13,6 +13,7 @@ type Props = {
   height: number;
   overlayUrl?: string;
   overlayData?: unknown;
+  maskOverlayUrl?: string;
   getFeatureColor?: (id: number, featureProps: any) => string | null;
   renderFeatureTooltip?: (id: number, featureProps: any) => Node | string | null; // Returns a HTML element or string
   selectedFeature?: number | null | undefined;
@@ -139,6 +140,7 @@ export const HereMap = themable<Props>(
     height,
     overlayUrl,
     overlayData,
+    maskOverlayUrl,
     getFeatureColor,
     renderFeatureTooltip,
     selectedFeature,
@@ -405,6 +407,25 @@ export const HereMap = themable<Props>(
         }
       };
     }, [H, map, overlayUrl]);
+
+    useLayoutEffect(() => {
+      if (!H || !map || !maskOverlayUrl) return;
+      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(overlayData || overlayUrl, {
+        disableLegacyMode: true,
+        style: (mapObject: H.map.Object) => {
+          if (mapObject instanceof H.map.Polygon) {
+            mapObject.setStyle({
+              fillColor: "rgba(255, 255, 255, 0.8)",
+              strokeColor: "rgba(255, 255, 255, 0.8)",
+              lineWidth: 0,
+            });
+          }
+        },
+      });
+
+      reader.parse();
+      map.addLayer(reader.getLayer());
+    }, [H, map, maskOverlayUrl]);
 
     if (!H || !apiKey) {
       return null;
