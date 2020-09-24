@@ -15,9 +15,11 @@ import { electionCandidateColor, formatPercentage, fractionOf, getScopeName } fr
 import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
 import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
+import { ElectionMapAPI } from "../../util/electionApi";
 import cssClasses from "./ElectionResultsSummarySection.module.scss";
 
 type Props = {
+  api?: ElectionMapAPI;
   meta?: ElectionBallotMeta | null;
   scope: ElectionScopeIncompleteResolved;
   results?: ElectionResults | null;
@@ -34,7 +36,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
   defaultConstants,
-)(({ classes, results, meta, scope, onScopeChange, constants, separator }) => {
+)(({ classes, results, meta, api, scope, onScopeChange, constants, separator }) => {
   const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -50,6 +52,8 @@ export const ElectionResultsSummarySection = themable<Props>(
       involvesDiaspora={involvesDiaspora}
       className={classes.map}
       selectedColor={topCandidate && electionCandidateColor(topCandidate)}
+      api={api}
+      ballotId={meta?.ballotId}
     >
       {topCandidate && (
         <div className={classes.mapOverlay}>

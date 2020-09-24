@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import React from "react";
+import React, { useMemo } from "react";
+import { electionApiProductionUrl } from "../../constants/servers";
 import { scopeFromArgs, scopeArgTypes } from "../../stories/util";
+import { ElectionAPI, makeElectionApi } from "../../util/electionApi";
+import { mockElectionAPI } from "../../util/mocks";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
@@ -12,7 +15,7 @@ export default {
     ...scopeArgTypes,
     scopeType: {
       ...scopeArgTypes.scopeType,
-      defaultValue: "locality",
+      defaultValue: "county",
     },
     involvesDiaspora: {
       control: "boolean",
@@ -20,18 +23,36 @@ export default {
     },
     selectedColor: { control: "color" },
     onScopeChange: { action: "onScopeChange" },
+    ballotId: { control: "number", defaultValue: 1 },
+    api: {
+      defaultValue: "mock",
+      control: {
+        type: "radio",
+        options: ["mock", "real"],
+      },
+    },
+    apiUrl: {
+      defaultValue: electionApiProductionUrl,
+      control: "text",
+    },
   },
 };
 
+const useApi = (api: string, apiUrl: string): ElectionAPI => {
+  return useMemo(() => (api === "mock" ? mockElectionAPI : makeElectionApi({ apiUrl })), [api, apiUrl]);
+};
+
 export const SimpleExample = (args: any) => {
-  const [scope, otherArgs] = scopeFromArgs(args);
-  return <ElectionMap scope={scope} {...otherArgs} />;
+  const [scope, { api, apiUrl, ...otherArgs }] = scopeFromArgs(args);
+  const electionApi = useApi(api, apiUrl);
+  return <ElectionMap scope={scope} api={electionApi} {...otherArgs} />;
 };
 
 export const ExampleWithChildren = (args: any) => {
-  const [scope, otherArgs] = scopeFromArgs(args);
+  const [scope, { api, apiUrl, ...otherArgs }] = scopeFromArgs(args);
+  const electionApi = useApi(api, apiUrl);
   return (
-    <ElectionMap scope={scope} {...otherArgs}>
+    <ElectionMap scope={scope} api={electionApi} {...otherArgs}>
       <div
         style={{
           position: "absolute",
