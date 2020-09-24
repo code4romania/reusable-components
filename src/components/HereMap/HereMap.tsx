@@ -431,7 +431,16 @@ export const HereMap = themable<Props>(
       });
 
       reader.parse();
-      map.addLayer(reader.getLayer());
+      const layer = reader.getLayer();
+      map.addLayer(layer);
+
+      return () => {
+        reader.dispose();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (!(map as any).disposed) {
+          map.removeLayer(layer);
+        }
+      };
     }, [H, map, maskOverlayUrl]);
 
     if (!H || !apiKey) {
