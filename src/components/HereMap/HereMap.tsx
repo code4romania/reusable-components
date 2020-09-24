@@ -279,7 +279,11 @@ export const HereMap = themable<Props>(
       const self = inst.current;
       self.features?.forEach((feature) => {
         const id = feature.getData()?.id;
-        updateFeatureStyle(feature, id === self.selectedFeature, id === self.hoveredFeature?.id);
+        updateFeatureStyle(
+          feature,
+          id != null && id === self.selectedFeature,
+          id != null && id === self.hoveredFeature?.id,
+        );
       });
     }, [updateFeatureStyle]);
 
@@ -321,6 +325,7 @@ export const HereMap = themable<Props>(
         if (mapObject instanceof H.map.Polygon) {
           const data = mapObject.getData();
           const id = data?.id;
+          if (id == null) return;
           if (self.hoveredFeature?.id !== id) setHoveredFeature(id, data);
           updateFeatureStyle(mapObject, id === self.selectedFeature, true);
         }
@@ -332,7 +337,7 @@ export const HereMap = themable<Props>(
           const data = mapObject.getData();
           const id = data?.id;
           if (self.hoveredFeature?.id === id) setHoveredFeature(null, null);
-          updateFeatureStyle(mapObject, id === self.selectedFeature, false);
+          updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
         }
       };
 
@@ -353,7 +358,8 @@ export const HereMap = themable<Props>(
         style: (mapObject: H.map.Object) => {
           if (mapObject instanceof H.map.Polygon) {
             const data = mapObject.getData();
-            updateFeatureStyle(mapObject, data?.id === self.selectedFeature, false);
+            const id = data?.id;
+            updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
             mapObject.addEventListener("pointerenter", onPointerEnter);
             mapObject.addEventListener("pointerleave", onPointerLeave);
           }
