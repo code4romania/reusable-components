@@ -410,7 +410,7 @@ export const HereMap = themable<Props>(
 
     useLayoutEffect(() => {
       if (!H || !map || !maskOverlayUrl) return;
-      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(overlayData || overlayUrl, {
+      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(maskOverlayUrl, {
         disableLegacyMode: true,
         style: (mapObject: H.map.Object) => {
           if (mapObject instanceof H.map.Polygon) {
