@@ -1,5 +1,5 @@
-import React, { createContext, PropsWithChildren, useContext, useMemo } from "react";
-import { ElectionScopeIncomplete } from "../../types/Election";
+import React, { createContext, PropsWithChildren, useContext, useCallback, useMemo } from "react";
+import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete } from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import WorldMap from "../../assets/world-map.svg";
@@ -7,6 +7,9 @@ import { useDimensions } from "../../hooks/useDimensions";
 import { HereMap, romaniaMapBounds, worldMapBounds } from "../HereMap/HereMap";
 import { electionMapOverlayUrl } from "../../constants/servers";
 import cssClasses from "./ElectionMap.module.scss";
+import { ElectionMapAPI } from "../../util/electionApi";
+import { useApiResponse } from "../../hooks/useApiResponse";
+import { electionCandidateColor, formatPercentage, fractionOf } from "../../util/format";
 
 type Props = PropsWithChildren<{
   scope: ElectionScopeIncomplete;
@@ -15,6 +18,9 @@ type Props = PropsWithChildren<{
   aspectRatio?: number;
   maxHeight?: number;
   selectedColor?: string;
+
+  api?: ElectionMapAPI;
+  ballotId?: number | null;
 }>;
 
 const defaultAspectRatio = 21 / 15;
@@ -36,6 +42,8 @@ export const ElectionMap = themable<Props>(
     maxHeight = defaultMaxHeight,
     children,
     selectedColor,
+    api,
+    ballotId,
   }) => {
     const [ref, { width = 0 }] = useDimensions();
 
@@ -47,28 +55,65 @@ export const ElectionMap = themable<Props>(
     }
 
     const overlayBaseUrl = useContext(ElectionMapOverlayURLContext);
-    const [overlayUrl, selectedFeature, scopeModifier] = useMemo<
-      [string, number | null, (featureId: number) => ElectionScopeIncomplete]
+    const [mapScope, selectedFeature, scopeModifier] = useMemo<
+      [ElectionMapScope, number | null, (featureId: number) => ElectionScopeIncomplete]
     >(() => {
       if (scope.type === "locality" && scope.countyId != null) {
         return [
-          `${overlayBaseUrl}/localities_${scope.countyId}.geojson`,
+          { type: "county", countyId: scope.countyId },
           scope.localityId ?? null,
           (localityId) => ({ ...scope, localityId }),
         ];
       }
       if ((scope.type === "locality" && scope.countyId == null) || scope.type === "county") {
-        return [`${overlayBaseUrl}/counties.geojson`, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
+        return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
       }
       if (scope.type === "diaspora" || scope.type === "diaspora_country") {
         return [
-          `${overlayBaseUrl}/diaspora_countries.geojson`,
+          { type: "diaspora" },
           scope.type === "diaspora_country" && scope.countryId != null ? scope.countryId : null,
           (countryId) => ({ type: "diaspora_country", countryId }),
         ];
       }
-      return [`${overlayBaseUrl}/counties.geojson`, null, (countyId) => ({ type: "county", countyId })];
+      return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
     }, [scope, overlayBaseUrl]);
+
+    const [overlayUrl, maskUrl] = useMemo(() => {
+      switch (mapScope.type) {
+        case "county":
+          return [
+            `${overlayBaseUrl}/localities_${mapScope.countyId}.geojson`,
+            `${overlayBaseUrl}/mask_county_${mapScope.countyId}.geojson`,
+          ];
+        case "national":
+          return [`${overlayBaseUrl}/counties.geojson`, `${overlayBaseUrl}/mask_romania.geojson`];
+        case "diaspora":
+          return [`${overlayBaseUrl}/countries.geojson`, undefined];
+      }
+    }, [mapScope.type, mapScope.type === "county" && mapScope.countyId]);
+
+    const winners = useApiResponse(() => {
+      return {
+        invocation: (api && ballotId != null && api.getWinnerMap(ballotId, mapScope)) || undefined,
+        discardPreviousData: true,
+      };
+    }, [api, ballotId, mapScope.type, mapScope.type === "county" && mapScope.countyId]);
+    console.log(api, ballotId, mapScope, winners);
+
+    const [winnerColors, winnerRegistry] = useMemo(() => {
+      const colors = new Map<number, string>();
+      const registry = new Map<number, ElectionMapWinner>();
+
+      if (winners.data) {
+        winners.data.forEach((winner) => {
+          const { id } = winner;
+          colors.set(id, electionCandidateColor(winner.winner));
+          registry.set(id, winner);
+        });
+      }
+
+      return [colors, registry];
+    }, [winners.data]);
 
     const onFeatureSelect = useMemo(
       () =>
@@ -78,6 +123,36 @@ export const ElectionMap = themable<Props>(
         }),
       [onScopeChange, scopeModifier],
     );
+
+    const renderFeatureTooltip = useCallback(
+      (id, { name }) => {
+        if (!name) return null;
+        const root = document.createElement("div");
+        root.className = classes.tooltip;
+
+        root.appendChild(new Text(name));
+
+        const winner = winnerRegistry.get(id);
+        if (winner) {
+          root.appendChild(document.createElement("br"));
+          const winnerEl = document.createElement("span");
+          winnerEl.className = classes.tooltipWinner;
+
+          const winnerName = document.createElement("span");
+          winnerName.className = classes.tooltipName;
+          winnerName.textContent = winner.winner.shortName || winner.winner.name;
+
+          winnerEl.appendChild(winnerName);
+          winnerEl.appendChild(new Text(` - ${formatPercentage(fractionOf(winner.winner.votes, winner.validVotes))}`));
+
+          root.appendChild(winnerEl);
+        }
+        return root;
+      },
+      [winnerRegistry],
+    );
+
+    const getFeatureColor = useCallback((id) => winnerColors.get(id) || null, [winnerColors]);
 
     return (
       <div className={classes.root} ref={ref} style={{ height }}>
@@ -106,9 +181,12 @@ export const ElectionMap = themable<Props>(
                   scope.type === "diaspora" || scope.type === "diaspora_country" ? worldMapBounds : romaniaMapBounds
                 }
                 overlayUrl={overlayUrl}
+                maskOverlayUrl={maskUrl}
                 selectedFeature={selectedFeature}
                 onFeatureSelect={onFeatureSelect}
-                constants={selectedColor ? { selectedColor } : undefined}
+                getFeatureColor={getFeatureColor}
+                renderFeatureTooltip={renderFeatureTooltip}
+                constants={selectedColor ? { selectedFeatureColor: selectedColor } : undefined}
               />
             )
           )}

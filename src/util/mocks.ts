@@ -2,6 +2,7 @@ import { formatISO } from "date-fns";
 import {
   ElectionBallot,
   ElectionBallotMeta,
+  ElectionMapWinners,
   ElectionNews,
   ElectionObservation,
   ElectionResults,
@@ -789,6 +790,13 @@ export const mockElectionNews: ElectionNews = {
   link: "https://twitter.com/code4romania",
 };
 
+export const mockElectionMapWinners: ElectionMapWinners = [
+  { id: 1, winner: { name: "PSD", partyColor: "red", votes: 800 }, validVotes: 1000 },
+  { id: 16392, winner: { name: "PNL", partyColor: "yellow", votes: 700 }, validVotes: 1000 },
+  { id: 13933, winner: { name: "USR", partyColor: "blue", votes: 600 }, validVotes: 1000 },
+  { id: 4862, winner: { name: "UDMR", partyColor: "green", votes: 550 }, validVotes: 1000 },
+];
+
 // To fake loading times
 const delay = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
 
@@ -868,5 +876,9 @@ export const mockElectionAPI = makeElectionApi({
         ];
       }) as APIMockHandler<{ id: number; name: string }[]>,
     ],
+
+    ["GET", "/winners/counties", (async () => mockElectionMapWinners) as APIMockHandler<ElectionMapWinners>],
+    ["GET", "/winners/countries", (async () => mockElectionMapWinners) as APIMockHandler<ElectionMapWinners>],
+    ["GET", "/winners/localities", (async () => mockElectionMapWinners) as APIMockHandler<ElectionMapWinners>],
   ]),
 });

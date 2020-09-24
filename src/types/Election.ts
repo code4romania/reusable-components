@@ -161,3 +161,18 @@ export type ElectionNews = {
 };
 
 export type ElectionNewsFeed = ElectionNews[];
+
+export type ElectionMapScope = { type: "national" } | { type: "county"; countyId: number } | { type: "diaspora" };
+
+export type ElectionMapWinner = {
+  id: number; // The ID of the map feature (countyId / countryId / localityId)
+  validVotes: number; // Needed to calculate percentages in map tooltips
+  winner: {
+    name: string; // eg. "Uniunea Salvați România",
+    shortName?: string | null; // eg. "USR"
+    partyColor?: string | null;
+    votes: number;
+  };
+};
+
+export type ElectionMapWinners = ElectionMapWinner[];
