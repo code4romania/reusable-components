@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, useContext, useMemo } from "react";
+import React, { createContext, PropsWithChildren, useContext, useCallback, useMemo } from "react";
 import { ElectionScopeIncomplete } from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
@@ -79,6 +79,11 @@ export const ElectionMap = themable<Props>(
       [onScopeChange, scopeModifier],
     );
 
+    const renderFeatureTooltip = useCallback((id, { name }) => {
+      if (!name) return null;
+      return new Text(name);
+    }, []);
+
     return (
       <div className={classes.root} ref={ref} style={{ height }}>
         <div className={classes.container} style={{ width, height }}>
@@ -108,7 +113,8 @@ export const ElectionMap = themable<Props>(
                 overlayUrl={overlayUrl}
                 selectedFeature={selectedFeature}
                 onFeatureSelect={onFeatureSelect}
-                constants={selectedColor ? { selectedColor } : undefined}
+                renderFeatureTooltip={renderFeatureTooltip}
+                constants={selectedColor ? { selectedFeatureColor: selectedColor } : undefined}
               />
             )
           )}

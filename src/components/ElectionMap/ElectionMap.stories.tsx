@@ -18,6 +18,7 @@ export default {
       control: "boolean",
       defaultValue: true,
     },
+    selectedColor: { control: "color" },
     onScopeChange: { action: "onScopeChange" },
   },
 };

@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { themable } from "../../hooks/theme";
 import cssClasses from "./HereMap.module.scss";
+import Color from "color";
 
 type OnFeatureSelect = (featureId: number) => unknown;
 
@@ -9,6 +12,9 @@ type Props = {
   width: number;
   height: number;
   overlayUrl?: string;
+  overlayData?: unknown;
+  getFeatureColor?: (id: number, featureProps: any) => string | null;
+  renderFeatureTooltip?: (id: number, featureProps: any) => Node | string | null; // Returns a HTML element or string
   selectedFeature?: number | null | undefined;
   onFeatureSelect?: OnFeatureSelect;
   initialBounds?: {
@@ -82,15 +88,15 @@ export const HereMapsAPIKeyContext = createContext<string>("");
 export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
 
 const defaultValues = {
-  featureStroke: "#FFCC00",
-  featureFill: "rgba(255, 204, 0, 0.3)",
-  featureHoverFill: "rgba(255, 204, 0, 0.6)",
-  selectedColor: null, // Defaults to featureStroke,
+  featureDefaultColor: "#FFCC00",
+  selectedFeatureColor: null, // Defaults to featureDefaultColor,
+  featureFillAlpha: 0.3,
+  featureFillHoverAlpha: 0.6,
 };
 
 type InstanceVars = {
   selectedFeature: number | undefined | null;
-  hoveredFeature: { id: number; name: string } | null;
+  hoveredFeature: { id: number; props: any } | null;
   onFeatureSelect: OnFeatureSelect | undefined | null;
   group: H.map.Group | null;
   features: Map<number, H.map.Polygon> | null;
@@ -99,6 +105,26 @@ type InstanceVars = {
   tooltipTop: number;
   tooltipLeft: number;
   centerOnOverlayBounds: boolean;
+};
+
+const stylesFromColor = (H: HereMapsAPI, color: string, defaultAlpha: number, hoverAlpha: number) => {
+  return {
+    default: new H.map.SpatialStyle({
+      fillColor: new Color(color).fade(1.0 - defaultAlpha).toString(),
+      strokeColor: color,
+      lineWidth: 2,
+    }),
+    selected: new H.map.SpatialStyle({
+      fillColor: color,
+      strokeColor: color,
+      lineWidth: 2,
+    }),
+    hover: new H.map.SpatialStyle({
+      fillColor: new Color(color).fade(1.0 - hoverAlpha).toString(),
+      strokeColor: color,
+      lineWidth: 2,
+    }),
+  };
 };
 
 export const HereMap = themable<Props>(
@@ -112,6 +138,9 @@ export const HereMap = themable<Props>(
     width,
     height,
     overlayUrl,
+    overlayData,
+    getFeatureColor,
+    renderFeatureTooltip,
     selectedFeature,
     onFeatureSelect,
     initialBounds = worldMapBounds,
@@ -122,27 +151,29 @@ export const HereMap = themable<Props>(
     const mapRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<H.Map | null>(null);
 
-    const featureStyles = useMemo(
-      () =>
-        H && {
-          default: new H.map.SpatialStyle({
-            fillColor: constants.featureFill,
-            strokeColor: constants.featureStroke,
-            lineWidth: 2,
-          }),
-          selected: new H.map.SpatialStyle({
-            fillColor: constants.selectedColor || constants.featureStroke,
-            strokeColor: constants.selectedColor || constants.featureStroke,
-            lineWidth: 2,
-          }),
-          hover: new H.map.SpatialStyle({
-            fillColor: constants.featureHoverFill,
-            strokeColor: constants.featureHoverFill,
-            lineWidth: 2,
-          }),
-        },
-      [H, constants.featureFill, constants.featureStroke, constants.featureHoverFill, constants.selectedColor],
-    );
+    const { featureDefaultColor, selectedFeatureColor, featureFillAlpha, featureFillHoverAlpha } = constants;
+
+    const updateFeatureStyle = useMemo(() => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      if (!H) return () => {};
+
+      const styleCache = new Map();
+
+      return (feature: H.map.Polygon, selected: boolean, hover: boolean) => {
+        const data = feature.getData();
+        const id = data?.id;
+        if (id == null) return;
+        const color =
+          (getFeatureColor && getFeatureColor(id, data)) || (selected && selectedFeatureColor) || featureDefaultColor;
+        let styles = styleCache.get(color);
+        if (!styles) {
+          styles = stylesFromColor(H, color, featureFillAlpha, featureFillHoverAlpha);
+          styleCache.set(color, styles);
+        }
+        const style = selected ? styles.selected : hover ? styles.hover : styles.default;
+        feature.setStyle(style);
+      };
+    }, [H, getFeatureColor, featureDefaultColor, selectedFeatureColor, featureFillAlpha, featureFillHoverAlpha]);
 
     // Instance vars
     const inst = useRef<InstanceVars>({
@@ -204,8 +235,6 @@ export const HereMap = themable<Props>(
 
     // Whenever selectedFeature changes
     useLayoutEffect(() => {
-      if (!featureStyles) return;
-
       const self = inst.current;
       const { features, selectedFeature: lastSelectedFeature, hoveredFeature } = self;
       self.selectedFeature = selectedFeature;
@@ -214,7 +243,7 @@ export const HereMap = themable<Props>(
       if (features && typeof lastSelectedFeature === "number") {
         const feature = features.get(lastSelectedFeature);
         if (feature) {
-          feature.setStyle(lastSelectedFeature === hoveredFeature?.id ? featureStyles.hover : featureStyles.default);
+          updateFeatureStyle(feature, false, lastSelectedFeature === hoveredFeature?.id);
         }
       }
 
@@ -222,7 +251,7 @@ export const HereMap = themable<Props>(
       if (features && typeof selectedFeature === "number") {
         const feature = features.get(selectedFeature);
         if (feature) {
-          feature.setStyle(featureStyles.selected);
+          updateFeatureStyle(feature, true, false);
         }
       }
     }, [selectedFeature]);
@@ -244,13 +273,22 @@ export const HereMap = themable<Props>(
     }, [classes.tooltip]);
 
     useLayoutEffect(() => {
-      if (!H || !map || !overlayUrl || !featureStyles) return;
+      const self = inst.current;
+      self.features?.forEach((feature) => {
+        const id = feature.getData()?.id;
+        updateFeatureStyle(feature, id === self.selectedFeature, id === self.hoveredFeature?.id);
+      });
+    }, [updateFeatureStyle]);
+
+    useLayoutEffect(() => {
+      if (!H || !map || (!overlayUrl && !overlayData)) return;
       const self = inst.current;
 
-      const setHoveredFeature = (id: number | null, name: string | null) => {
+      const setHoveredFeature = (id: number | null, props: any) => {
         const hadTooltip = !!self.hoveredFeature;
-        const hasTooltip = id != null && name != null;
-        self.hoveredFeature = id != null && name != null ? { id, name } : null;
+        const tooltipData = id != null && renderFeatureTooltip ? renderFeatureTooltip(id, props) : null;
+        const hasTooltip = !!tooltipData;
+        self.hoveredFeature = id != null ? { id, props } : null;
 
         if (!hadTooltip && hasTooltip) {
           const tooltipEl = document.createElement("div");
@@ -264,8 +302,14 @@ export const HereMap = themable<Props>(
           self.tooltipEl = null;
         }
 
-        if (name && self.tooltipEl) {
-          self.tooltipEl.innerText = name;
+        const { tooltipEl } = self;
+        if (tooltipData && tooltipEl) {
+          if (typeof tooltipData === "string") {
+            tooltipEl.innerHTML = tooltipData;
+          } else {
+            tooltipEl.textContent = null;
+            tooltipEl.appendChild(tooltipData);
+          }
         }
       };
 
@@ -274,11 +318,8 @@ export const HereMap = themable<Props>(
         if (mapObject instanceof H.map.Polygon) {
           const data = mapObject.getData();
           const id = data?.id;
-          const isCurrent = id === self.selectedFeature;
-          setHoveredFeature(id, data?.name);
-          if (!isCurrent) {
-            mapObject.setStyle(featureStyles.hover);
-          }
+          if (self.hoveredFeature?.id !== id) setHoveredFeature(id, data);
+          updateFeatureStyle(mapObject, id === self.selectedFeature, true);
         }
       };
 
@@ -287,11 +328,8 @@ export const HereMap = themable<Props>(
         if (mapObject instanceof H.map.Polygon) {
           const data = mapObject.getData();
           const id = data?.id;
-          const isCurrent = id === self.selectedFeature;
-          if (self.hoveredFeature?.id === id) {
-            setHoveredFeature(null, null);
-          }
-          mapObject.setStyle(isCurrent ? featureStyles.selected : featureStyles.default);
+          if (self.hoveredFeature?.id === id) setHoveredFeature(null, null);
+          updateFeatureStyle(mapObject, id === self.selectedFeature, false);
         }
       };
 
@@ -307,12 +345,12 @@ export const HereMap = themable<Props>(
       };
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(overlayUrl, {
+      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(overlayData || overlayUrl, {
         disableLegacyMode: true,
         style: (mapObject: H.map.Object) => {
           if (mapObject instanceof H.map.Polygon) {
             const data = mapObject.getData();
-            mapObject.setStyle(data?.id === self.selectedFeature ? featureStyles.selected : featureStyles.default);
+            updateFeatureStyle(mapObject, data?.id === self.selectedFeature, false);
             mapObject.addEventListener("pointerenter", onPointerEnter);
             mapObject.addEventListener("pointerleave", onPointerLeave);
           }
