@@ -164,9 +164,10 @@ export const HereMap = themable<Props>(
       return (feature: H.map.Polygon, selected: boolean, hover: boolean) => {
         const data = feature.getData();
         const id = data?.id;
-        if (id == null) return;
         const color =
-          (getFeatureColor && getFeatureColor(id, data)) || (selected && selectedFeatureColor) || featureDefaultColor;
+          (id !== null && getFeatureColor && getFeatureColor(id, data)) ||
+          (selected && selectedFeatureColor) ||
+          featureDefaultColor;
         let styles = styleCache.get(color);
         if (!styles) {
           styles = stylesFromColor(H, color, featureFillAlpha, featureFillHoverAlpha);
