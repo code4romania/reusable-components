@@ -125,17 +125,24 @@ export const ElectionMap = themable<Props>(
       (id, { name }) => {
         if (!name) return null;
         const root = document.createElement("div");
+        root.className = classes.tooltip;
+
         root.appendChild(new Text(name));
+
         const winner = winnerRegistry.get(id);
         if (winner) {
           root.appendChild(document.createElement("br"));
-          root.appendChild(
-            new Text(
-              `${winner.winner.shortName || winner.winner.name} - ${formatPercentage(
-                fractionOf(winner.winner.votes, winner.validVotes),
-              )}`,
-            ),
-          );
+          const winnerEl = document.createElement("span");
+          winnerEl.className = classes.tooltipWinner;
+
+          const winnerName = document.createElement("span");
+          winnerName.className = classes.tooltipName;
+          winnerName.textContent = winner.winner.shortName || winner.winner.name;
+
+          winnerEl.appendChild(winnerName);
+          winnerEl.appendChild(new Text(` - ${formatPercentage(fractionOf(winner.winner.votes, winner.validVotes))}`));
+
+          root.appendChild(winnerEl);
         }
         return root;
       },
