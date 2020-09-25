@@ -90,10 +90,10 @@ export const HereMapsAPIKeyContext = createContext<string>("");
 export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
 
 const defaultValues = {
-  featureDefaultColor: "#cccccc",
+  featureDefaultColor: "#aaaaaa",
   selectedFeatureColor: null, // Defaults to featureDefaultColor,
-  featureFillAlpha: 0.4,
-  featureFillHoverAlpha: 0.7,
+  featureFillAlpha: 0.6,
+  featureFillHoverAlpha: 0.8,
 };
 
 type InstanceVars = {
@@ -115,18 +115,18 @@ const stylesFromColor = (H: HereMapsAPI, color: string, defaultAlpha: number, ho
   return {
     default: new H.map.SpatialStyle({
       fillColor: new Color(color).fade(1.0 - defaultAlpha).toString(),
-      strokeColor: color,
-      lineWidth: 2,
+      strokeColor: "#ffffff",
+      lineWidth: 1,
     }),
     selected: new H.map.SpatialStyle({
       fillColor: color,
-      strokeColor: color,
+      strokeColor: "#ffffff",
       lineWidth: 2,
     }),
     hover: new H.map.SpatialStyle({
       fillColor: new Color(color).fade(1.0 - hoverAlpha).toString(),
-      strokeColor: color,
-      lineWidth: 2,
+      strokeColor: "#ffffff",
+      lineWidth: 1,
     }),
   };
 };
