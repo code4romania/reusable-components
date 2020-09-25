@@ -25,6 +25,7 @@ type Props = {
   results?: ElectionResults | null;
   separator?: ReactNode;
   onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
+  loader?: ReactNode;
 };
 
 const defaultConstants = {
@@ -36,7 +37,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
   defaultConstants,
-)(({ classes, results, meta, api, scope, onScopeChange, constants, separator }) => {
+)(({ classes, results, meta, api, scope, onScopeChange, loader, constants, separator }) => {
   const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -87,11 +88,15 @@ export const ElectionResultsSummarySection = themable<Props>(
       {!completeness.complete && (
         <ElectionScopeIncompleteWarning className={classes.warning} completeness={completeness} page="results" />
       )}
-      {results == null && completeness.complete && (
-        <DivBodyHuge className={classes.warning}>
-          Nu există date despre prezența la vot pentru acest nivel de detaliu.
-        </DivBodyHuge>
-      )}
+      {results == null &&
+        completeness.complete &&
+        (loader ? (
+          loader
+        ) : (
+          <DivBodyHuge className={classes.warning}>
+            Nu există date despre prezența la vot pentru acest nivel de detaliu.
+          </DivBodyHuge>
+        ))}
       {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} />}
       <div style={{ width: "100%" }} ref={measureRef} />
       {results && !mobileMap && separator}
