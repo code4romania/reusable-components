@@ -90,7 +90,7 @@ export const ElectionResultsSummarySection = themable<Props>(
           loader
         ) : (
           <DivBodyHuge className={classes.warning}>
-            Nu există date despre prezența la vot pentru acest nivel de detaliu.
+            Nu există date disponibile pentru această unitate administrativ teritorială. Fie nu există date disponibile, fie câștigătorii pentru această unitate au fost aleși în primul tur de scrutin.
           </DivBodyHuge>
         ))}
       {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} />}
