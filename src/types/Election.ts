@@ -155,6 +155,11 @@ export type ElectionNews = {
 
   // Directly URLs, or an object with thumbnails and full resolution images separated
   pictures?: (string | { thumbnail?: string | null; image?: string | null })[] | null;
+  images?: {
+    id: number,
+    url: string,
+    articleId: number,
+  }[]
 
   embed?: string | null; // Arbitrary HTML, since that's what most publish tools export
   link?: string | null; // Link to the original story
