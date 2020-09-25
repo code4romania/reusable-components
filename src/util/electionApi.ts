@@ -38,7 +38,7 @@ const scopeToQuery = (scope: ElectionScope) => {
     case "locality":
       return { Division: "locality", CountyId: scope.countyId, LocalityId: scope.localityId };
     case "diaspora_country":
-      return { Division: "diaspora_country", LocalityId: scope.countryId };
+      return { Division: "diaspora_country", CountryId: scope.countryId };
   }
 };
 
