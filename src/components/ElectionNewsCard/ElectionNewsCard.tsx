@@ -89,14 +89,11 @@ export const ElectionNewsCard = themable<Props>(
             </Heading3Link>
           )}
           {news.body && <DivBody className={classes.body}>{news.body}</DivBody>}
-          {news.pictures && news.pictures?.length > 0 && (
+          {news.images && news.images?.length > 0 && (
             <div className={classes.pictures}>
-              {news.pictures.map((picture, index) => {
-                const pic = typeof picture === "string" ? { thumbnail: picture, image: picture } : picture;
-                if (!pic) return null;
-                const src = pic.thumbnail || pic.image;
+              {news.images.map((picture, index) => {
+                const src = picture.url;
                 if (!src) return null;
-                const fullSrc = pic.image || pic.thumbnail || "";
                 return (
                   <img
                     key={index}
@@ -104,7 +101,7 @@ export const ElectionNewsCard = themable<Props>(
                     style={{ cursor: onImageClick ? "pointer" : undefined }}
                     src={src}
                     onClick={() => {
-                      if (onImageClick) onImageClick(fullSrc);
+                      if (onImageClick) onImageClick(src);
                     }}
                   />
                 );
