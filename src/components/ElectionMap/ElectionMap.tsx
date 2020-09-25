@@ -98,7 +98,6 @@ export const ElectionMap = themable<Props>(
         discardPreviousData: true,
       };
     }, [api, ballotId, mapScope.type, mapScope.type === "county" && mapScope.countyId]);
-    console.log(api, ballotId, mapScope, winners);
 
     const [winnerColors, winnerRegistry] = useMemo(() => {
       const colors = new Map<number, string>();

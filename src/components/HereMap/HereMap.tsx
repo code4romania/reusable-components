@@ -164,9 +164,10 @@ export const HereMap = themable<Props>(
       return (feature: H.map.Polygon, selected: boolean, hover: boolean) => {
         const data = feature.getData();
         const id = data?.id;
-        if (id == null) return;
         const color =
-          (getFeatureColor && getFeatureColor(id, data)) || (selected && selectedFeatureColor) || featureDefaultColor;
+          (id !== null && getFeatureColor && getFeatureColor(id, data)) ||
+          (selected && selectedFeatureColor) ||
+          featureDefaultColor;
         let styles = styleCache.get(color);
         if (!styles) {
           styles = stylesFromColor(H, color, featureFillAlpha, featureFillHoverAlpha);
@@ -278,7 +279,11 @@ export const HereMap = themable<Props>(
       const self = inst.current;
       self.features?.forEach((feature) => {
         const id = feature.getData()?.id;
-        updateFeatureStyle(feature, id === self.selectedFeature, id === self.hoveredFeature?.id);
+        updateFeatureStyle(
+          feature,
+          id != null && id === self.selectedFeature,
+          id != null && id === self.hoveredFeature?.id,
+        );
       });
     }, [updateFeatureStyle]);
 
@@ -320,6 +325,7 @@ export const HereMap = themable<Props>(
         if (mapObject instanceof H.map.Polygon) {
           const data = mapObject.getData();
           const id = data?.id;
+          if (id == null) return;
           if (self.hoveredFeature?.id !== id) setHoveredFeature(id, data);
           updateFeatureStyle(mapObject, id === self.selectedFeature, true);
         }
@@ -331,7 +337,7 @@ export const HereMap = themable<Props>(
           const data = mapObject.getData();
           const id = data?.id;
           if (self.hoveredFeature?.id === id) setHoveredFeature(null, null);
-          updateFeatureStyle(mapObject, id === self.selectedFeature, false);
+          updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
         }
       };
 
@@ -352,7 +358,8 @@ export const HereMap = themable<Props>(
         style: (mapObject: H.map.Object) => {
           if (mapObject instanceof H.map.Polygon) {
             const data = mapObject.getData();
-            updateFeatureStyle(mapObject, data?.id === self.selectedFeature, false);
+            const id = data?.id;
+            updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
             mapObject.addEventListener("pointerenter", onPointerEnter);
             mapObject.addEventListener("pointerleave", onPointerLeave);
           }
@@ -410,7 +417,7 @@ export const HereMap = themable<Props>(
 
     useLayoutEffect(() => {
       if (!H || !map || !maskOverlayUrl) return;
-      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(overlayData || overlayUrl, {
+      const reader: H.data.AbstractReader = new (H.data as any).geojson.Reader(maskOverlayUrl, {
         disableLegacyMode: true,
         style: (mapObject: H.map.Object) => {
           if (mapObject instanceof H.map.Polygon) {
@@ -424,7 +431,16 @@ export const HereMap = themable<Props>(
       });
 
       reader.parse();
-      map.addLayer(reader.getLayer());
+      const layer = reader.getLayer();
+      map.addLayer(layer);
+
+      return () => {
+        reader.dispose();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (!(map as any).disposed) {
+          map.removeLayer(layer);
+        }
+      };
     }, [H, map, maskOverlayUrl]);
 
     if (!H || !apiKey) {
