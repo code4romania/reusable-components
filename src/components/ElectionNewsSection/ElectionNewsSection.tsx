@@ -7,7 +7,7 @@ import { Lightbox } from "../Lightbox/Lightbox";
 import cssClasses from "./ElectionNewsSection.module.scss";
 
 type Props = {
-  ballotId?: number,
+  ballotId?: number;
   feed: ElectionNews[];
   maxShownItems?: number;
   renderCardFooterLeft?: (news: ElectionNews, index: number) => ReactNode;
