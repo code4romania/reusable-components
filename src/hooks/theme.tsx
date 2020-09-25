@@ -86,7 +86,14 @@ const mergeConstants = (a?: ThemeConstants | void, b?: ThemeConstants | void): T
   if (!b) {
     return a;
   }
-  return Object.assign({}, a, b);
+  const result = { ...a };
+  for (const key in b) {
+    const value = b[key];
+    if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+  return result;
 };
 
 const emptyValues: ThemeConstants = {};
