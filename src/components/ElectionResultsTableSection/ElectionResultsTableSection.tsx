@@ -105,16 +105,28 @@ export const ElectionResultsTableSection = themable<Props>(
         <CandidateTable classes={classes} candidates={qualified} hasSeats={hasSeats} validVotes={results.validVotes} />
         <Heading2 className={classes.heading}>Partide care nu au îndeplinit pragul electoral</Heading2>
         <CandidateTable classes={classes} candidates={unqualified} hasSeats={false} validVotes={results.validVotes} />
+
+        <p>
+          * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului de
+          distribuire şi redistribuire a mandatelor de către birourile electorale.
+        </p>
       </>
     );
   }
 
   return (
-    <CandidateTable
-      classes={classes}
-      candidates={qualified || unqualified || []}
-      hasSeats={hasSeats}
-      validVotes={results.validVotes}
-    />
+    <>
+      <CandidateTable
+        classes={classes}
+        candidates={qualified || unqualified || []}
+        hasSeats={hasSeats}
+        validVotes={results.validVotes}
+      />
+
+      <p>
+        * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului de
+        distribuire şi redistribuire a mandatelor de către birourile electorale.
+      </p>
+    </>
   );
 });
