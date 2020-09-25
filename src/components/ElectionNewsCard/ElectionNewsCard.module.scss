@@ -20,11 +20,14 @@
   flex-direction: column;
 }
 
-.date, .year, .time {
+.date,
+.year,
+.time {
   font-size: (12rem / 16);
 }
 
-.date, .year {
+.date,
+.year {
   color: #000000;
   font-weight: 600;
 }
@@ -66,10 +69,6 @@
   margin-left: 0.5rem;
 }
 
-.content {
-  margin-bottom: 1rem;
-}
-
 .title {
   font-size: 1rem;
   display: block;
@@ -85,6 +84,7 @@ a.title {
 
 .body {
   line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
 .pictures {
@@ -108,22 +108,30 @@ a.title {
   width: 100%;
 }
 
+.hLine {
+  border: 0 none;
+  border-top: 1px solid #d7d7d7;
+  width: 100%;
+  margin: 1rem 0 0.5rem;
+}
+
 .footer {
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
 .footerLink {
   opacity: 0.7;
+  line-height: 0;
+  margin-left: 0.5rem;
   &:hover {
     opacity: 1;
   }
 }
 
 .footerLinkIcon {
-  height: 1.5rem;
+  height: 1.7rem;
 }
 
 .separator {
@@ -131,5 +139,5 @@ a.title {
 }
 
 .logo {
-  height: 1.5rem;
+  height: 1.7rem;
 }

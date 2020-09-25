@@ -2,7 +2,6 @@ import React, { createContext, PropsWithChildren, useContext, useCallback, useMe
 import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete } from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
-import WorldMap from "../../assets/world-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
 import { HereMap, romaniaMapBounds, worldMapBounds } from "../HereMap/HereMap";
 import { electionMapOverlayUrl } from "../../constants/servers";
@@ -14,7 +13,6 @@ import { electionCandidateColor, formatPercentage, fractionOf } from "../../util
 type Props = PropsWithChildren<{
   scope: ElectionScopeIncomplete;
   onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
-  involvesDiaspora?: boolean; // electionTypeInvolvesDiaspora(election.meta.type)
   aspectRatio?: number;
   maxHeight?: number;
   selectedColor?: string;
@@ -25,7 +23,6 @@ type Props = PropsWithChildren<{
 }>;
 
 const defaultAspectRatio = 21 / 15;
-const defaultDiasporaAspectRatio = 38 / 25;
 const defaultMaxHeight = 460;
 
 export const ElectionMapOverlayURLContext = createContext<string>(electionMapOverlayUrl);
@@ -38,7 +35,6 @@ export const ElectionMap = themable<Props>(
     classes,
     scope,
     onScopeChange,
-    involvesDiaspora,
     aspectRatio,
     maxHeight = defaultMaxHeight,
     children,
@@ -50,7 +46,7 @@ export const ElectionMap = themable<Props>(
     const [ref, { width = 0 }] = useDimensions();
 
     const showsSimpleMap = scope.type === "national";
-    const ar = aspectRatio ?? (showsSimpleMap && involvesDiaspora ? defaultDiasporaAspectRatio : defaultAspectRatio);
+    const ar = aspectRatio ?? defaultAspectRatio;
     let height = Math.min(maxHeight, width / ar);
     if (!Number.isFinite(height)) {
       height = 0;
@@ -164,12 +160,6 @@ export const ElectionMap = themable<Props>(
                 <RomaniaMap className={classes.staticMapRomania} style={{ color: selectedColor }} />
                 {children}
               </div>
-              {involvesDiaspora && (
-                <div className={classes.staticMapWorldContainer} style={{ fontSize: Math.min(16, height * ar * 0.05) }}>
-                  <div className={classes.staticMapWorldLabel}>Diaspora</div>
-                  <WorldMap className={classes.staticMapWorld} style={{ color: selectedColor }} />
-                </div>
-              )}
             </div>
           ) : (
             width > 0 &&

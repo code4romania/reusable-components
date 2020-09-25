@@ -5,6 +5,8 @@ import { format, parseISO } from "date-fns";
 import { DivBody, DivLabel, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import SVGCode4Romania from "../../assets/code4romania.svg";
 import LinkCircle from "../../assets/link-circle.svg";
+import TwitterLogo from "../../assets/twitter.svg";
+import FacebookLogo from "../../assets/facebook.svg";
 import cssClasses from "./ElectionNewsCard.module.scss";
 
 type Props = {
@@ -89,14 +91,19 @@ export const ElectionNewsCard = themable<Props>(
             </Heading3Link>
           )}
           {news.body && <DivBody className={classes.body}>{news.body}</DivBody>}
-          {news.pictures && news.pictures?.length > 0 && (
+          {news.link && (
+            <div className={classes.footer}>
+              <span>Link: </span>
+              <a className={classes.footerLink} href={news.link} target="_blank" rel="noopener noreferrer">
+                <LinkCircle width="25" height="25" className={classes.footerLinkIcon} />
+              </a>
+            </div>
+          )}
+          {news.images && news.images?.length > 0 && (
             <div className={classes.pictures}>
-              {news.pictures.map((picture, index) => {
-                const pic = typeof picture === "string" ? { thumbnail: picture, image: picture } : picture;
-                if (!pic) return null;
-                const src = pic.thumbnail || pic.image;
+              {news.images.map((picture, index) => {
+                const src = picture.url;
                 if (!src) return null;
-                const fullSrc = pic.image || pic.thumbnail || "";
                 return (
                   <img
                     key={index}
@@ -104,7 +111,7 @@ export const ElectionNewsCard = themable<Props>(
                     style={{ cursor: onImageClick ? "pointer" : undefined }}
                     src={src}
                     onClick={() => {
-                      if (onImageClick) onImageClick(fullSrc);
+                      if (onImageClick) onImageClick(src);
                     }}
                   />
                 );
@@ -113,17 +120,35 @@ export const ElectionNewsCard = themable<Props>(
           )}
           {news.embed && <div className={classes.embed} ref={embedRef} />}
         </div>
+        <hr className={classes.hLine} />
         <div className={classes.footer}>
           {news.link && (
-            <a className={classes.footerLink} href={news.link} target="_blank" rel="noopener noreferrer">
-              <LinkCircle className={classes.footerLinkIcon} />
-            </a>
+            <>
+              <span>Share on: </span>
+              <a
+                className={classes.footerLink}
+                href={`https://twitter.com/home?status=${news.link}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TwitterLogo width="25" height="25" className={classes.footerLinkIcon} />
+              </a>
+              <a
+                className={classes.footerLink}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${news.link}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookLogo width="25" height="25" className={classes.footerLinkIcon} />
+              </a>
+            </>
           )}
+
           {footerLeft}
           <div className={classes.separator} />
           {footerRight}
           <a href="https://code4.ro" target="_blank" rel="noopener noreferrer">
-            <SVGCode4Romania className={classes.logo} />
+            <SVGCode4Romania height="25" className={classes.logo} />
           </a>
         </div>
       </div>

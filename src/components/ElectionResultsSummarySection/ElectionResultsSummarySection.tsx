@@ -5,7 +5,6 @@ import {
   ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
-  electionTypeInvolvesDiaspora,
 } from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import { useDimensions } from "../../hooks/useDimensions";
@@ -38,8 +37,6 @@ export const ElectionResultsSummarySection = themable<Props>(
   cssClasses,
   defaultConstants,
 )(({ classes, results, meta, api, scope, onScopeChange, loader, constants, separator }) => {
-  const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
-
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
@@ -50,7 +47,6 @@ export const ElectionResultsSummarySection = themable<Props>(
     <ElectionMap
       scope={scope}
       onScopeChange={onScopeChange}
-      involvesDiaspora={involvesDiaspora}
       className={classes.map}
       selectedColor={topCandidate && electionCandidateColor(topCandidate)}
       api={api}
@@ -94,7 +90,8 @@ export const ElectionResultsSummarySection = themable<Props>(
           loader
         ) : (
           <DivBodyHuge className={classes.warning}>
-            Nu există date despre prezența la vot pentru acest nivel de detaliu.
+            Nu există date disponibile pentru această unitate administrativ teritorială. Fie nu există date disponibile,
+            fie câștigătorii pentru această unitate au fost aleși în primul tur de scrutin.
           </DivBodyHuge>
         ))}
       {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} />}
