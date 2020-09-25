@@ -90,7 +90,7 @@ export const HereMapsAPIKeyContext = createContext<string>("");
 export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
 
 const defaultValues = {
-  featureDefaultColor: "#FFCC00",
+  featureDefaultColor: "#cccccc",
   selectedFeatureColor: null, // Defaults to featureDefaultColor,
   featureFillAlpha: 0.4,
   featureFillHoverAlpha: 0.7,
