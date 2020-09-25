@@ -127,7 +127,7 @@ export const ElectionNewsCard = themable<Props>(
               <span>Share on: </span>
               <a
                 className={classes.footerLink}
-                href={`https://twitter.com/home?status=${news.link}`}
+                href={`https://twitter.com/intent/tweet?url=${news.link}&text=${news.body}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
