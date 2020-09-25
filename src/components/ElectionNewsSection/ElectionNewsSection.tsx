@@ -7,6 +7,7 @@ import { Lightbox } from "../Lightbox/Lightbox";
 import cssClasses from "./ElectionNewsSection.module.scss";
 
 type Props = {
+  ballotId?: number,
   feed: ElectionNews[];
   maxShownItems?: number;
   renderCardFooterLeft?: (news: ElectionNews, index: number) => ReactNode;
@@ -16,7 +17,7 @@ type Props = {
 export const ElectionNewsSection = themable<Props>(
   "ElectionNewsSection",
   cssClasses,
-)(({ classes, feed, maxShownItems = 5, renderCardFooterLeft, renderCardFooterRight }) => {
+)(({ classes, feed, maxShownItems = 5, renderCardFooterLeft, renderCardFooterRight, ballotId }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const shownFeed = useMemo(() => (expanded ? feed : feed.slice(0, maxShownItems)), [feed, expanded, maxShownItems]);
   const onExpandClick = useCallback(() => {
@@ -32,6 +33,8 @@ export const ElectionNewsSection = themable<Props>(
     setLightboxImage(src);
   }, []);
 
+  const feedLink = (newsItemId: number) => `${window.location?.origin}/feed/${ballotId}/news/${newsItemId}`;
+
   return (
     <div className={classes.root}>
       <div className={classes.feedContainer}>
@@ -40,6 +43,7 @@ export const ElectionNewsSection = themable<Props>(
             <ElectionNewsCard
               key={news.id}
               news={news}
+              feedLink={feedLink(news.id)}
               onImageClick={onImageClick}
               footerLeft={renderCardFooterLeft && renderCardFooterLeft(news, index)}
               footerRight={renderCardFooterRight && renderCardFooterRight(news, index)}

@@ -14,6 +14,7 @@ type Props = {
   onImageClick?: (src: string) => unknown;
   footerLeft?: ReactNode;
   footerRight?: ReactNode;
+  feedLink?: string;
 };
 
 const Heading3Link = makeTypographyComponent<ComponentProps<"a">>("a", "h3");
@@ -57,7 +58,7 @@ function nodeScriptClone(node: HTMLScriptElement) {
 export const ElectionNewsCard = themable<Props>(
   "ElectionNewsCard",
   cssClasses,
-)(({ classes, news, onImageClick, footerLeft, footerRight }) => {
+)(({ classes, news, onImageClick, footerLeft, footerRight, feedLink }) => {
   const date = parseISO(news.timestamp);
 
   const embedRef = useCallback(
@@ -127,7 +128,7 @@ export const ElectionNewsCard = themable<Props>(
               <span>Share on: </span>
               <a
                 className={classes.footerLink}
-                href={`https://twitter.com/intent/tweet?url=${news.link}&text=${news.body}`}
+                href={`https://twitter.com/intent/tweet?url=${feedLink}&text=${news.body}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -135,7 +136,7 @@ export const ElectionNewsCard = themable<Props>(
               </a>
               <a
                 className={classes.footerLink}
-                href={`https://www.facebook.com/sharer/sharer.php?u=${news.link}`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${feedLink}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
