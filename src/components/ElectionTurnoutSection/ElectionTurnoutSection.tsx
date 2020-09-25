@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   ElectionBallotMeta,
   ElectionScopeIncomplete,
@@ -23,6 +23,7 @@ type Props = {
   scope: ElectionScopeIncompleteResolved;
   onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
   turnout?: ElectionTurnout | null;
+  loader?: ReactNode;
 };
 
 const defaultConstants = {
@@ -35,7 +36,7 @@ export const ElectionTurnoutSection = themable<Props>(
   "ElectionTurnoutSection",
   cssClasses,
   defaultConstants,
-)(({ meta, scope, onScopeChange, turnout, classes, constants }) => {
+)(({ meta, scope, onScopeChange, turnout, loader, classes, constants }) => {
   const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
 
   const [measureRef, { width }] = useDimensions();
@@ -81,11 +82,15 @@ export const ElectionTurnoutSection = themable<Props>(
       {!completeness.complete && (
         <ElectionScopeIncompleteWarning className={classes.warning} completeness={completeness} page="turnout" />
       )}
-      {turnout == null && completeness.complete && (
-        <DivBodyHuge className={classes.warning}>
-          Nu există date despre prezența la vot pentru acest nivel de detaliu.
-        </DivBodyHuge>
-      )}
+      {turnout == null &&
+        completeness.complete &&
+        (loader ? (
+          loader
+        ) : (
+          <DivBodyHuge className={classes.warning}>
+            Nu există date despre prezența la vot pentru acest nivel de detaliu.
+          </DivBodyHuge>
+        ))}
       {turnout && turnout.eligibleVoters != null && (
         <ElectionTurnoutBars
           className={classes.percentageBars}
