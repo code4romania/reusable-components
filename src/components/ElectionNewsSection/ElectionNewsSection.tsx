@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { ReactNode, useCallback, useMemo, useState } from "react";
 import { themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
 import { Button } from "../Button/Button";
@@ -9,12 +9,14 @@ import cssClasses from "./ElectionNewsSection.module.scss";
 type Props = {
   feed: ElectionNews[];
   maxShownItems?: number;
+  renderCardFooterLeft?: (news: ElectionNews, index: number) => ReactNode;
+  renderCardFooterRight?: (news: ElectionNews, index: number) => ReactNode;
 };
 
 export const ElectionNewsSection = themable<Props>(
   "ElectionNewsSection",
   cssClasses,
-)(({ classes, feed, maxShownItems = 5 }) => {
+)(({ classes, feed, maxShownItems = 5, renderCardFooterLeft, renderCardFooterRight }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const shownFeed = useMemo(() => (expanded ? feed : feed.slice(0, maxShownItems)), [feed, expanded, maxShownItems]);
   const onExpandClick = useCallback(() => {
@@ -34,8 +36,14 @@ export const ElectionNewsSection = themable<Props>(
     <div className={classes.root}>
       <div className={classes.feedContainer}>
         <div className={classes.feed}>
-          {shownFeed.map((news) => (
-            <ElectionNewsCard key={news.id} news={news} onImageClick={onImageClick} />
+          {shownFeed.map((news, index) => (
+            <ElectionNewsCard
+              key={news.id}
+              news={news}
+              onImageClick={onImageClick}
+              footerLeft={renderCardFooterLeft && renderCardFooterLeft(news, index)}
+              footerRight={renderCardFooterRight && renderCardFooterRight(news, index)}
+            />
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { ComponentProps, useCallback } from "react";
+import React, { ComponentProps, ReactNode, useCallback } from "react";
 import { ClassNames, themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
 import { format, parseISO } from "date-fns";
@@ -10,6 +10,8 @@ import cssClasses from "./ElectionNewsCard.module.scss";
 type Props = {
   news: ElectionNews;
   onImageClick?: (src: string) => unknown;
+  footerLeft?: ReactNode;
+  footerRight?: ReactNode;
 };
 
 const Heading3Link = makeTypographyComponent<ComponentProps<"a">>("a", "h3");
@@ -53,7 +55,7 @@ function nodeScriptClone(node: HTMLScriptElement) {
 export const ElectionNewsCard = themable<Props>(
   "ElectionNewsCard",
   cssClasses,
-)(({ classes, news, onImageClick }) => {
+)(({ classes, news, onImageClick, footerLeft, footerRight }) => {
   const date = parseISO(news.timestamp);
 
   const embedRef = useCallback(
@@ -117,7 +119,9 @@ export const ElectionNewsCard = themable<Props>(
               <LinkCircle className={classes.footerLinkIcon} />
             </a>
           )}
+          {footerLeft}
           <div className={classes.separator} />
+          {footerRight}
           <a href="https://code4.ro" target="_blank" rel="noopener noreferrer">
             <SVGCode4Romania className={classes.logo} />
           </a>
