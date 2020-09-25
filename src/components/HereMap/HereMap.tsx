@@ -6,6 +6,7 @@ import cssClasses from "./HereMap.module.scss";
 import Color from "color";
 
 type OnFeatureSelect = (featureId: number) => unknown;
+type RenderFeatureTooltip = (id: number, featureProps: any) => Node | string | null;
 
 type Props = {
   className?: string;
@@ -15,7 +16,7 @@ type Props = {
   overlayData?: unknown;
   maskOverlayUrl?: string;
   getFeatureColor?: (id: number, featureProps: any) => string | null;
-  renderFeatureTooltip?: (id: number, featureProps: any) => Node | string | null; // Returns a HTML element or string
+  renderFeatureTooltip?: RenderFeatureTooltip; // Returns a HTML element or string
   selectedFeature?: number | null | undefined;
   onFeatureSelect?: OnFeatureSelect;
   initialBounds?: {
@@ -89,10 +90,10 @@ export const HereMapsAPIKeyContext = createContext<string>("");
 export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
 
 const defaultValues = {
-  featureDefaultColor: "#FFCC00",
+  featureDefaultColor: "#aaaaaa",
   selectedFeatureColor: null, // Defaults to featureDefaultColor,
-  featureFillAlpha: 0.4,
-  featureFillHoverAlpha: 0.7,
+  featureFillAlpha: 0.6,
+  featureFillHoverAlpha: 0.8,
 };
 
 type InstanceVars = {
@@ -106,24 +107,26 @@ type InstanceVars = {
   tooltipTop: number;
   tooltipLeft: number;
   centerOnOverlayBounds: boolean;
+  updateFeatureStyle: (feature: H.map.Polygon, selected: boolean, hover: boolean) => void;
+  renderFeatureTooltip: RenderFeatureTooltip | undefined;
 };
 
 const stylesFromColor = (H: HereMapsAPI, color: string, defaultAlpha: number, hoverAlpha: number) => {
   return {
     default: new H.map.SpatialStyle({
       fillColor: new Color(color).fade(1.0 - defaultAlpha).toString(),
-      strokeColor: color,
-      lineWidth: 2,
+      strokeColor: "#ffffff",
+      lineWidth: 1,
     }),
     selected: new H.map.SpatialStyle({
       fillColor: color,
-      strokeColor: color,
+      strokeColor: "#ffffff",
       lineWidth: 2,
     }),
     hover: new H.map.SpatialStyle({
       fillColor: new Color(color).fade(1.0 - hoverAlpha).toString(),
-      strokeColor: color,
-      lineWidth: 2,
+      strokeColor: "#ffffff",
+      lineWidth: 1,
     }),
   };
 };
@@ -190,6 +193,8 @@ export const HereMap = themable<Props>(
       tooltipTop: 0,
       tooltipLeft: 0,
       centerOnOverlayBounds,
+      updateFeatureStyle: updateFeatureStyle,
+      renderFeatureTooltip: renderFeatureTooltip,
     });
 
     useLayoutEffect(() => {
@@ -277,6 +282,8 @@ export const HereMap = themable<Props>(
 
     useLayoutEffect(() => {
       const self = inst.current;
+      self.updateFeatureStyle = updateFeatureStyle;
+
       self.features?.forEach((feature) => {
         const id = feature.getData()?.id;
         updateFeatureStyle(
@@ -288,12 +295,18 @@ export const HereMap = themable<Props>(
     }, [updateFeatureStyle]);
 
     useLayoutEffect(() => {
+      const self = inst.current;
+      self.renderFeatureTooltip = renderFeatureTooltip;
+    }, [renderFeatureTooltip]);
+
+    useLayoutEffect(() => {
       if (!H || !map || (!overlayUrl && !overlayData)) return;
       const self = inst.current;
 
       const setHoveredFeature = (id: number | null, props: any) => {
         const hadTooltip = !!self.hoveredFeature;
-        const tooltipData = id != null && renderFeatureTooltip ? renderFeatureTooltip(id, props) : null;
+        const renderFeatureTooltip_ = self.renderFeatureTooltip;
+        const tooltipData = id != null && renderFeatureTooltip_ ? renderFeatureTooltip_(id, props) : null;
         const hasTooltip = !!tooltipData;
         self.hoveredFeature = id != null ? { id, props } : null;
 
@@ -327,7 +340,7 @@ export const HereMap = themable<Props>(
           const id = data?.id;
           if (id == null) return;
           if (self.hoveredFeature?.id !== id) setHoveredFeature(id, data);
-          updateFeatureStyle(mapObject, id === self.selectedFeature, true);
+          self.updateFeatureStyle(mapObject, id === self.selectedFeature, true);
         }
       };
 
@@ -337,7 +350,7 @@ export const HereMap = themable<Props>(
           const data = mapObject.getData();
           const id = data?.id;
           if (self.hoveredFeature?.id === id) setHoveredFeature(null, null);
-          updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
+          self.updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
         }
       };
 
@@ -359,7 +372,7 @@ export const HereMap = themable<Props>(
           if (mapObject instanceof H.map.Polygon) {
             const data = mapObject.getData();
             const id = data?.id;
-            updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
+            self.updateFeatureStyle(mapObject, id != null && id === self.selectedFeature, false);
             mapObject.addEventListener("pointerenter", onPointerEnter);
             mapObject.addEventListener("pointerleave", onPointerLeave);
           }

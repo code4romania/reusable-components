@@ -16,6 +16,7 @@ type Props = PropsWithChildren<{
   aspectRatio?: number;
   maxHeight?: number;
   selectedColor?: string;
+  defaultColor?: string;
 
   api?: ElectionMapAPI;
   ballotId?: number | null;
@@ -38,6 +39,7 @@ export const ElectionMap = themable<Props>(
     maxHeight = defaultMaxHeight,
     children,
     selectedColor,
+    defaultColor,
     api,
     ballotId,
   }) => {
@@ -175,7 +177,14 @@ export const ElectionMap = themable<Props>(
                 onFeatureSelect={onFeatureSelect}
                 getFeatureColor={getFeatureColor}
                 renderFeatureTooltip={renderFeatureTooltip}
-                constants={selectedColor ? { selectedFeatureColor: selectedColor } : undefined}
+                constants={
+                  selectedColor || defaultColor
+                    ? {
+                        selectedFeatureColor: selectedColor,
+                        featureDefaultColor: defaultColor,
+                      }
+                    : undefined
+                }
               />
             )
           )}

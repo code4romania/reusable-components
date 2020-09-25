@@ -6,7 +6,7 @@ import {
   ElectionTurnout,
 } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage, getScopeName } from "../../util/format";
-import { mergeClasses, themable } from "../../hooks/theme";
+import { mergeClasses, themable, useTheme } from "../../hooks/theme";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { ElectionTurnoutBars } from "../ElectionTurnoutBars/ElectionTurnoutBars";
 import { ElectionTurnoutBreakdownChart } from "../ElectionTurnoutBreakdownChart/ElectionTurnoutBreakdownChart";
@@ -36,9 +36,15 @@ export const ElectionTurnoutSection = themable<Props>(
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
+  const theme = useTheme();
 
   const map = width != null && (
-    <ElectionMap scope={scope} onScopeChange={onScopeChange} className={classes.map}>
+    <ElectionMap
+      scope={scope}
+      onScopeChange={onScopeChange}
+      className={classes.map}
+      defaultColor={theme.colors.secondary}
+    >
       {scope.type === "national" && turnout && turnout.eligibleVoters && (
         <div className={classes.mapOverlay}>
           <div className={classes.mapOverlayPercentage}>
