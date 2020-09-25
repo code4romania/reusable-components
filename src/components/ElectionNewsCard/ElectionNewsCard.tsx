@@ -89,12 +89,13 @@ export const ElectionNewsCard = themable<Props>(
             </Heading3Link>
           )}
           {news.body && <DivBody className={classes.body}>{news.body}</DivBody>}
-          {news.pictures && news.pictures?.length > 0 && (
+          {news.images && news.images?.length > 0 && (
             <div className={classes.pictures}>
-              {news.pictures.map((picture, index) => {
+              {news.images.map((picture, index) => {
                 const pic = typeof picture === "string" ? { thumbnail: picture, image: picture } : picture;
                 if (!pic) return null;
-                const src = pic.thumbnail || pic.image;
+                // const src = pic.thumbnail || pic.image;
+                const src = picture.url;
                 if (!src) return null;
                 const fullSrc = pic.image || pic.thumbnail || "";
                 return (
