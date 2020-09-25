@@ -120,7 +120,7 @@ export const useElectionScopePickerGetSelectProps = (
 ): ElectionScopePickerSelectProps[] => {
   const countyMap = useMemo(() => buildMap(apiData.countyData.data), [apiData.countyData.data]);
   const localityMap = useMemo(() => buildMap(apiData.localityData.data), [apiData.localityData.data]);
-  const countryMap = useMemo(() => buildMap(apiData.countyData.data), [apiData.countryData.data]);
+  const countryMap = useMemo(() => buildMap(apiData.countryData.data), [apiData.countryData.data]);
 
   const onCountyChange = useCallback<ElectionScopePickerSelectOnChange>(
     (value) => {
