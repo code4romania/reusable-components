@@ -1,11 +1,9 @@
 import React, { ReactNode } from "react";
 import {
-  ElectionBallotMeta,
   ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
   ElectionTurnout,
-  electionTypeInvolvesDiaspora,
 } from "../../types/Election";
 import { formatGroupedNumber, formatPercentage, getScopeName } from "../../util/format";
 import { mergeClasses, themable } from "../../hooks/theme";
@@ -19,7 +17,6 @@ import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncomple
 import cssClasses from "./ElectionTurnoutSection.module.scss";
 
 type Props = {
-  meta?: ElectionBallotMeta | null;
   scope: ElectionScopeIncompleteResolved;
   onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
   turnout?: ElectionTurnout | null;
@@ -27,29 +24,21 @@ type Props = {
 };
 
 const defaultConstants = {
-  breakpoint1: 1000,
-  breakpoint2: 840,
-  breakpoint3: 480,
+  breakpoint1: 840,
+  breakpoint2: 480,
 };
 
 export const ElectionTurnoutSection = themable<Props>(
   "ElectionTurnoutSection",
   cssClasses,
   defaultConstants,
-)(({ meta, scope, onScopeChange, turnout, loader, classes, constants }) => {
-  const involvesDiaspora = !!meta && electionTypeInvolvesDiaspora(meta.type);
-
+)(({ scope, onScopeChange, turnout, loader, classes, constants }) => {
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
 
   const map = width != null && (
-    <ElectionMap
-      scope={scope}
-      onScopeChange={onScopeChange}
-      involvesDiaspora={involvesDiaspora}
-      className={classes.map}
-    >
+    <ElectionMap scope={scope} onScopeChange={onScopeChange} className={classes.map}>
       {scope.type === "national" && turnout && turnout.eligibleVoters && (
         <div className={classes.mapOverlay}>
           <div className={classes.mapOverlayPercentage}>
@@ -61,10 +50,9 @@ export const ElectionTurnoutSection = themable<Props>(
     </ElectionMap>
   );
 
-  const { breakpoint1, breakpoint2, breakpoint3 } = constants;
-  const mobileMap = width != null && width <= breakpoint3;
-  const fullWidthMap =
-    !mobileMap && width != null && width <= (scope.type === "national" && involvesDiaspora ? breakpoint1 : breakpoint2);
+  const { breakpoint1, breakpoint2 } = constants;
+  const mobileMap = width != null && width <= breakpoint2;
+  const fullWidthMap = !mobileMap && width != null && width <= (scope.type === "national" && breakpoint1);
 
   const showHeading = turnout != null && completeness.complete;
 
