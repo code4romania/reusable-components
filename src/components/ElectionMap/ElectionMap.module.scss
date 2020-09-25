@@ -35,22 +35,7 @@
   height: 100%;
 }
 
-.staticMapWorldContainer {
-  margin-left: -10%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.staticMapWorldLabel {
-  font-size: 18em / 16;
-  font-weight: 600;
-  color: #3E3E3E;
-  margin-bottom: 0.5em;
-}
-
-.staticMapRomania, .staticMapWorld {
+.staticMapRomania {
   color: #FFDC01;
 }
 
