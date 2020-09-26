@@ -6,7 +6,7 @@ import {
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
 } from "../../types/Election";
-import { themable } from "../../hooks/theme";
+import { themable, useTheme } from "../../hooks/theme";
 import { useDimensions } from "../../hooks/useDimensions";
 import { ElectionResultsStackedBar } from "../ElectionResultsStackedBar/ElectionResultsStackedBar";
 import { ElectionMap } from "../ElectionMap/ElectionMap";
@@ -47,6 +47,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   if (meta && meta.type === "referendum" && topCandidate && results && results.eligibleVoters) {
     percentage = formatPercentage(fractionOf(topCandidate.votes, results.eligibleVoters));
   }
+  const theme = useTheme();
 
   const map = width != null && (
     <ElectionMap
@@ -54,6 +55,7 @@ export const ElectionResultsSummarySection = themable<Props>(
       onScopeChange={onScopeChange}
       className={classes.map}
       selectedColor={topCandidate && electionCandidateColor(topCandidate)}
+      defaultColor={theme.colors.secondary}
       api={api}
       ballotId={meta?.ballotId}
     >
