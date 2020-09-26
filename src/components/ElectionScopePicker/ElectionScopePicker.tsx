@@ -228,7 +228,7 @@ const typeOptions: OptionWithID<ElectionScope["type"]>[] = [
   { id: "national", name: typeNames.national },
   { id: "county", name: typeNames.county },
   { id: "locality", name: typeNames.locality },
-  { id: "diaspora", name: typeNames.diaspora },
+  // { id: "diaspora", name: typeNames.diaspora },
 ];
 
 export const useElectionScopePickerGetTypeSelectProps = (
