@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren, useContext, useCallback, useMemo } from "react";
 import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete } from "../../types/Election";
-import { themable } from "../../hooks/theme";
+import { mergeClasses, themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
 import { HereMap, romaniaMapBounds, worldMapBounds } from "../HereMap/HereMap";
@@ -9,6 +9,7 @@ import cssClasses from "./ElectionMap.module.scss";
 import { ElectionMapAPI } from "../../util/electionApi";
 import { useApiResponse } from "../../hooks/useApiResponse";
 import { electionCandidateColor, formatPercentage, fractionOf } from "../../util/format";
+import Color from "color";
 
 type Props = PropsWithChildren<{
   scope: ElectionScopeIncomplete;
@@ -150,14 +151,20 @@ export const ElectionMap = themable<Props>(
     );
 
     const getFeatureColor = useCallback((id) => winnerColors.get(id) || null, [winnerColors]);
+    const simpleMapColor = (showsSimpleMap && (selectedColor || defaultColor)) || undefined;
 
     return (
       <div className={classes.root} ref={ref} style={{ height }}>
         <div className={classes.container} style={{ width, height }}>
           {showsSimpleMap ? (
             <div className={classes.staticMap} style={{ maxWidth: height * ar, fontSize: height * ar * 0.05 }}>
-              <div className={classes.staticMapRomaniaContainer}>
-                <RomaniaMap className={classes.staticMapRomania} style={{ color: selectedColor }} />
+              <div
+                className={mergeClasses(
+                  classes.staticMapRomaniaContainer,
+                  simpleMapColor && new Color(simpleMapColor).isDark() ? classes.staticDark : classes.staticLight,
+                )}
+              >
+                <RomaniaMap className={classes.staticMapRomania} style={{ color: simpleMapColor }} />
                 {children}
               </div>
             </div>
