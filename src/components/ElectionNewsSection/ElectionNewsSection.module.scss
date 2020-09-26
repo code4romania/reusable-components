@@ -13,8 +13,5 @@
 .feed {
   margin-left: auto;
   margin-right: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  flex-basis: 36rem;
+  width: 100%;
 }
