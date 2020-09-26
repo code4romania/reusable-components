@@ -175,6 +175,7 @@ export const ElectionMap = themable<Props>(
                 className={classes.hereMap}
                 width={width}
                 height={height}
+                scopeType={scope.type}
                 initialBounds={
                   scope.type === "diaspora" || scope.type === "diaspora_country" ? worldMapBounds : romaniaMapBounds
                 }

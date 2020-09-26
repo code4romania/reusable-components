@@ -10,6 +10,7 @@ type RenderFeatureTooltip = (id: number, featureProps: any) => Node | string | n
 
 type Props = {
   className?: string;
+  scopeType: string;
   width: number;
   height: number;
   overlayUrl?: string;
@@ -150,6 +151,7 @@ export const HereMap = themable<Props>(
     onFeatureSelect,
     initialBounds = worldMapBounds,
     centerOnOverlayBounds = true,
+    scopeType,
   }) => {
     const H = useHereMaps();
     const mapRef = useRef<HTMLDivElement>(null);
@@ -206,6 +208,7 @@ export const HereMap = themable<Props>(
       const blankLayer = new H.map.layer.Layer();
       const hMap = new H.Map(mapRef.current, blankLayer, {
         bounds: new H.geo.Rect(initialBounds.top, initialBounds.left, initialBounds.bottom, initialBounds.right),
+        noWrap: true,
         pixelRatio: window.devicePixelRatio || 1,
       });
       setMap(hMap);
@@ -403,7 +406,13 @@ export const HereMap = themable<Props>(
         map.addObject(group);
 
         if (self.centerOnOverlayBounds) {
-          map.getViewModel().setLookAtData({ bounds: group.getBoundingBox() }, true);
+          const lookAtDataOptions: any = {
+            // bounds: group.getBoundingBox()
+          };
+          if (scopeType === "diaspora" || scopeType === "diaspora_country") {
+            lookAtDataOptions.zoom = 2;
+          }
+          map.getViewModel().setLookAtData(lookAtDataOptions, true);
         }
       });
       reader.parse();
