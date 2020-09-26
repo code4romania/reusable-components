@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { themable } from "../../hooks/theme";
 import cssClasses from "./HereMap.module.scss";
 import Color from "color";
@@ -92,8 +92,8 @@ export const HereMapsAPIKeyProvider = HereMapsAPIKeyContext.Provider;
 const defaultValues = {
   featureDefaultColor: "#aaaaaa",
   selectedFeatureColor: null, // Defaults to featureDefaultColor,
-  featureFillAlpha: 0.6,
-  featureFillHoverAlpha: 0.8,
+  featureSelectedDarken: 0.25,
+  featureHoverDarken: 0.15,
 };
 
 type InstanceVars = {
@@ -111,20 +111,20 @@ type InstanceVars = {
   renderFeatureTooltip: RenderFeatureTooltip | undefined;
 };
 
-const stylesFromColor = (H: HereMapsAPI, color: string, defaultAlpha: number, hoverAlpha: number) => {
+const stylesFromColor = (H: HereMapsAPI, color: string, featureSelectedDarken: number, featureHoverDarken: number) => {
   return {
     default: new H.map.SpatialStyle({
-      fillColor: new Color(color).fade(1.0 - defaultAlpha).toString(),
+      fillColor: color,
       strokeColor: "#ffffff",
       lineWidth: 1,
     }),
     selected: new H.map.SpatialStyle({
-      fillColor: color,
+      fillColor: new Color(color).darken(featureSelectedDarken).toString(),
       strokeColor: "#ffffff",
       lineWidth: 2,
     }),
     hover: new H.map.SpatialStyle({
-      fillColor: new Color(color).fade(1.0 - hoverAlpha).toString(),
+      fillColor: new Color(color).darken(featureHoverDarken).toString(),
       strokeColor: "#ffffff",
       lineWidth: 1,
     }),
@@ -152,11 +152,10 @@ export const HereMap = themable<Props>(
     centerOnOverlayBounds = true,
   }) => {
     const H = useHereMaps();
-    const apiKey = useContext(HereMapsAPIKeyContext);
     const mapRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<H.Map | null>(null);
 
-    const { featureDefaultColor, selectedFeatureColor, featureFillAlpha, featureFillHoverAlpha } = constants;
+    const { featureDefaultColor, selectedFeatureColor, featureSelectedDarken, featureHoverDarken } = constants;
 
     const updateFeatureStyle = useMemo(() => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -173,13 +172,13 @@ export const HereMap = themable<Props>(
           featureDefaultColor;
         let styles = styleCache.get(color);
         if (!styles) {
-          styles = stylesFromColor(H, color, featureFillAlpha, featureFillHoverAlpha);
+          styles = stylesFromColor(H, color, featureSelectedDarken, featureHoverDarken);
           styleCache.set(color, styles);
         }
         const style = selected ? styles.selected : hover ? styles.hover : styles.default;
         feature.setStyle(style);
       };
-    }, [H, getFeatureColor, featureDefaultColor, selectedFeatureColor, featureFillAlpha, featureFillHoverAlpha]);
+    }, [H, getFeatureColor, featureDefaultColor, selectedFeatureColor, featureSelectedDarken, featureHoverDarken]);
 
     // Instance vars
     const inst = useRef<InstanceVars>({
@@ -198,24 +197,21 @@ export const HereMap = themable<Props>(
     });
 
     useLayoutEffect(() => {
-      if (!H || !apiKey || !mapRef.current) {
+      if (!H || !mapRef.current) {
         return;
       }
 
       const self = inst.current;
 
-      const platform = new H.service.Platform({
-        apikey: apiKey,
-      });
-      const defaultLayers = platform.createDefaultLayers();
-      const hMap = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
+      const blankLayer = new H.map.layer.Layer();
+      const hMap = new H.Map(mapRef.current, blankLayer, {
         bounds: new H.geo.Rect(initialBounds.top, initialBounds.left, initialBounds.bottom, initialBounds.right),
         pixelRatio: window.devicePixelRatio || 1,
       });
       setMap(hMap);
 
       new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
-      H.ui.UI.createDefault(hMap, defaultLayers);
+      new H.ui.UI(hMap, { zoom: { alignment: H.ui.LayoutAlignment.RIGHT_BOTTOM } });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       hMap.addEventListener("pointermove", (evt: any) => {
@@ -233,7 +229,7 @@ export const HereMap = themable<Props>(
         (hMap as any).disposed = true; // eslint-disable-line @typescript-eslint/no-explicit-any
         setMap((state) => (state === hMap ? null : state));
       };
-    }, [H, apiKey, mapRef]);
+    }, [H, mapRef]);
 
     useLayoutEffect(() => {
       if (map) {
@@ -435,8 +431,8 @@ export const HereMap = themable<Props>(
         style: (mapObject: H.map.Object) => {
           if (mapObject instanceof H.map.Polygon) {
             mapObject.setStyle({
-              fillColor: "rgba(255, 255, 255, 0.8)",
-              strokeColor: "rgba(255, 255, 255, 0.8)",
+              fillColor: "#ffffff",
+              strokeColor: "#ffffff",
               lineWidth: 0,
             });
           }
@@ -456,7 +452,7 @@ export const HereMap = themable<Props>(
       };
     }, [H, map, maskOverlayUrl]);
 
-    if (!H || !apiKey) {
+    if (!H) {
       return null;
     }
 
