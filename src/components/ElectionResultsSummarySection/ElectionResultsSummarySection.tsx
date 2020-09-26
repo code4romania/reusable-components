@@ -44,13 +44,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   const topCandidate = results?.candidates && results.candidates[0];
   const votes = topCandidate?.votes;
   let percentage = formatPercentage(fractionOf(votes || 0, results?.validVotes || 0));
-  if (
-    meta &&
-    meta.type === "referendum" &&
-    topCandidate &&
-    results &&
-    results.eligibleVoters
-  ) {
+  if (meta && meta.type === "referendum" && topCandidate && results && results.eligibleVoters) {
     percentage = formatPercentage(fractionOf(topCandidate.votes, results.eligibleVoters));
   }
 
@@ -99,7 +93,8 @@ export const ElectionResultsSummarySection = themable<Props>(
           loader
         ) : (
           <DivBodyHuge className={classes.warning}>
-            Nu există date disponibile pentru această unitate administrativ teritorială.
+            Nu există date disponibile pentru această unitate administrativ teritorială. Fie nu există date disponibile,
+            fie câștigătorii pentru această unitate au fost aleși în primul tur de scrutin.
           </DivBodyHuge>
         ))}
       {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} meta={meta} />}
