@@ -123,28 +123,25 @@ export const ElectionNewsCard = themable<Props>(
         </div>
         <hr className={classes.hLine} />
         <div className={classes.footer}>
-          {news.link && (
-            <>
-              <span>Share on: </span>
-              <a
-                className={classes.footerLink}
-                href={`https://twitter.com/intent/tweet?url=${feedLink}&text=${news.body}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <TwitterLogo width="25" height="25" className={classes.footerLinkIcon} />
-              </a>
-              <a
-                className={classes.footerLink}
-                href={`https://www.facebook.com/sharer/sharer.php?u=${feedLink}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FacebookLogo width="25" height="25" className={classes.footerLinkIcon} />
-              </a>
-            </>
-          )}
-
+          <>
+            <span>Share on: </span>
+            <a
+              className={classes.footerLink}
+              href={`https://twitter.com/intent/tweet?url=${feedLink}&text=${news.body}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <TwitterLogo width="25" height="25" className={classes.footerLinkIcon} />
+            </a>
+            <a
+              className={classes.footerLink}
+              href={`https://www.facebook.com/sharer/sharer.php?u=${feedLink}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FacebookLogo width="25" height="25" className={classes.footerLinkIcon} />
+            </a>
+          </>
           {footerLeft}
           <div className={classes.separator} />
           {footerRight}
