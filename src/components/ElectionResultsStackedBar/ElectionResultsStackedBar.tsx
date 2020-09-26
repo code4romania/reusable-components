@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { ElectionResults } from "../../types/Election";
+import { ElectionBallotMeta, ElectionResults } from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import { HorizontalStackedBar, HorizontalStackedBarItem } from "../HorizontalStackedBar/HorizontalStackedBar";
 import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
@@ -10,6 +10,7 @@ import cssClasses from "./ElectionResultsStackedBar.module.scss";
 
 type Props = {
   results: ElectionResults;
+  meta?: ElectionBallotMeta | null;
 };
 
 const defaultConstants = {
@@ -24,7 +25,7 @@ export const ElectionResultsStackedBar = themable<Props>(
   "ElectionResultsStackedBar",
   cssClasses,
   defaultConstants,
-)(({ classes, results, constants }) => {
+)(({ classes, results, constants, meta }) => {
   const { candidates } = results;
   const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = constants;
 
@@ -41,7 +42,11 @@ export const ElectionResultsStackedBar = themable<Props>(
       const candidate = candidates[i];
       if (candidate) {
         const color = electionCandidateColor(candidate);
-        const percent = fractionOf(candidate.votes, results.validVotes);
+        let percent = fractionOf(candidate.votes, results.validVotes);
+        if (meta && meta.type === "referendum" && candidate.name === "NU AU VOTAT" && results.eligibleVoters) {
+          const eligibleVoters = results.eligibleVoters;
+          percent = fractionOf(candidate.votes, eligibleVoters);
+        }
         items.push({
           name: candidate.shortName ?? candidate.name,
           color,
