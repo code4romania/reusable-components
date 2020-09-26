@@ -28,7 +28,7 @@ type Props = {
   centerOnOverlayBounds?: boolean; // Default true
 };
 
-export const worldMapBounds = { top: 65, left: 0, bottom: -60, right: 180 };
+export const worldMapBounds = { top: 65, left: 0, bottom: -60, right: 90 };
 export const romaniaMapBounds = {
   top: 48.26534497800004,
   bottom: 43.618995545000075,
