@@ -1,7 +1,7 @@
 import React, { ComponentProps, ReactNode, useCallback } from "react";
 import { ClassNames, themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, addHours } from "date-fns";
 import { DivBody, DivLabel, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import SVGCode4Romania from "../../assets/code4romania.svg";
 import LinkCircle from "../../assets/link-circle.svg";
@@ -59,7 +59,9 @@ export const ElectionNewsCard = themable<Props>(
   "ElectionNewsCard",
   cssClasses,
 )(({ classes, news, onImageClick, footerLeft, footerRight, feedLink }) => {
-  const date = parseISO(news.timestamp);
+  const utcOffset = (new Date()).getTimezoneOffset() / 60; 
+  const parsedDate = parseISO(news.timestamp);
+  const date = addHours(parsedDate, -utcOffset);
 
   const embedRef = useCallback(
     (el: HTMLDivElement | null) => {
