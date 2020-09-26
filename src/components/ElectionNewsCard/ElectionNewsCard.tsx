@@ -59,7 +59,7 @@ export const ElectionNewsCard = themable<Props>(
   "ElectionNewsCard",
   cssClasses,
 )(({ classes, news, onImageClick, footerLeft, footerRight, feedLink }) => {
-  const utcOffset = (new Date()).getTimezoneOffset() / 60; 
+  const utcOffset = new Date().getTimezoneOffset() / 60;
   const parsedDate = parseISO(news.timestamp);
   const date = addHours(parsedDate, -utcOffset);
 
