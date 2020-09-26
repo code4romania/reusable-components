@@ -17,7 +17,8 @@ const CandidateTable: React.FC<{
   validVotes: number;
   candidates: ElectionResultsCandidate[];
   hasSeats: boolean;
-}> = ({ classes, validVotes, candidates, hasSeats }) => {
+  meta: ElectionBallotMeta;
+}> = ({ classes, validVotes, candidates, hasSeats, meta }) => {
   const hasSeatsGained = hasSeats && candidates.reduce((acc, candidate) => acc || candidate.seatsGained != null, false);
   const hasCandidateCount = candidates.reduce((acc, candidate) => acc || candidate.candidateCount != null, false);
 
@@ -27,6 +28,10 @@ const CandidateTable: React.FC<{
   const onToggleCollapsed = useCallback(() => {
     setCollapsed((x) => !x);
   }, []);
+
+  if (meta && meta.type === "referendum") {
+    return null;
+  }
 
   return (
     <div className={classes.tableContainer}>
@@ -98,13 +103,29 @@ export const ElectionResultsTableSection = themable<Props>(
     return null;
   }
 
+  if (meta && meta.type === "referendum") {
+    return null;
+  }
+
   if (qualified && unqualified) {
     return (
       <>
         <Heading2 className={classes.heading}>Partide care au îndeplinit pragul electoral</Heading2>
-        <CandidateTable classes={classes} candidates={qualified} hasSeats={hasSeats} validVotes={results.validVotes} />
+        <CandidateTable
+          classes={classes}
+          candidates={qualified}
+          hasSeats={hasSeats}
+          validVotes={results.validVotes}
+          meta={meta}
+        />
         <Heading2 className={classes.heading}>Partide care nu au îndeplinit pragul electoral</Heading2>
-        <CandidateTable classes={classes} candidates={unqualified} hasSeats={false} validVotes={results.validVotes} />
+        <CandidateTable
+          classes={classes}
+          candidates={unqualified}
+          hasSeats={false}
+          validVotes={results.validVotes}
+          meta={meta}
+        />
 
         <p>
           * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului de
@@ -121,6 +142,7 @@ export const ElectionResultsTableSection = themable<Props>(
         candidates={qualified || unqualified || []}
         hasSeats={hasSeats}
         validVotes={results.validVotes}
+        meta={meta}
       />
 
       <p>

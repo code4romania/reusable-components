@@ -48,7 +48,6 @@ export const ElectionResultsSummarySection = themable<Props>(
     meta &&
     meta.type === "referendum" &&
     topCandidate &&
-    topCandidate.name === "NU AU VOTAT" &&
     results &&
     results.eligibleVoters
   ) {

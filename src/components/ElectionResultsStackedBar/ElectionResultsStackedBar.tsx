@@ -43,7 +43,7 @@ export const ElectionResultsStackedBar = themable<Props>(
       if (candidate) {
         const color = electionCandidateColor(candidate);
         let percent = fractionOf(candidate.votes, results.validVotes);
-        if (meta && meta.type === "referendum" && candidate.name === "NU AU VOTAT" && results.eligibleVoters) {
+        if (meta && meta.type === "referendum" && results.eligibleVoters) {
           const eligibleVoters = results.eligibleVoters;
           percent = fractionOf(candidate.votes, eligibleVoters);
         }

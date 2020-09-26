@@ -20,10 +20,19 @@ export const ElectionResultsSummaryTable = themable<Props>(
   cssClasses,
 )(({ classes, results, meta }) => {
   const hasSeats = electionHasSeats(meta.type, results);
-  const maxFraction = results.candidates.reduce(
-    (acc, cand) => Math.max(acc, fractionOf(cand.votes, results.validVotes)),
-    0,
-  );
+  const maxFraction =
+    meta && meta.type !== "referendum"
+      ? results.candidates.reduce((acc, cand) => Math.max(acc, fractionOf(cand.votes, results.validVotes)), 0)
+      : results.candidates.reduce((acc, cand) => Math.max(acc, fractionOf(cand.votes, results.eligibleVoters || 1)), 0);
+
+  const percentages =
+    meta && meta.type !== "referendum"
+      ? results.candidates.map((candidate) => {
+          return fractionOf(candidate.votes, results.validVotes);
+        })
+      : results.candidates.map((candidate) => {
+          return fractionOf(candidate.votes, results.eligibleVoters || 1);
+        });
 
   return (
     <div className={classes.root}>
@@ -53,14 +62,12 @@ export const ElectionResultsSummaryTable = themable<Props>(
                 </TCell>
                 {hasSeats && <TCell>{candidate.seats != null && formatGroupedNumber(candidate.seats)}</TCell>}
                 <TCell>{formatGroupedNumber(candidate.votes)}</TCell>
-                <TCell className={classes.percentage}>
-                  {formatPercentage(fractionOf(candidate.votes, results.validVotes))}
-                </TCell>
+                <TCell className={classes.percentage}>{formatPercentage(percentages[index])}</TCell>
                 <td className={classes.barContainer}>
                   <div
                     className={classes.bar}
                     style={{
-                      width: `${100 * fractionOf(fractionOf(candidate.votes, results.validVotes), maxFraction)}%`,
+                      width: `${100 * fractionOf(percentages[index], maxFraction)}%`,
                       backgroundColor: electionCandidateColor(candidate),
                     }}
                   />
