@@ -94,7 +94,7 @@ export const ElectionResultsSummarySection = themable<Props>(
             fie câștigătorii pentru această unitate au fost aleși în primul tur de scrutin.
           </DivBodyHuge>
         ))}
-      {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} />}
+      {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} meta={meta} />}
       <div style={{ width: "100%" }} ref={measureRef} />
       {results && !mobileMap && separator}
       {!mobileMap && (
