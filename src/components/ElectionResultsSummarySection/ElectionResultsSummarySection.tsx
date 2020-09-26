@@ -42,6 +42,18 @@ export const ElectionResultsSummarySection = themable<Props>(
   const completeness = electionScopeIsComplete(scope);
 
   const topCandidate = results?.candidates && results.candidates[0];
+  const votes = topCandidate?.votes;
+  let percentage = formatPercentage(fractionOf(votes || 0, results?.validVotes || 0));
+  if (
+    meta &&
+    meta.type === "referendum" &&
+    topCandidate &&
+    topCandidate.name === "NU AU VOTAT" &&
+    results &&
+    results.eligibleVoters
+  ) {
+    percentage = formatPercentage(fractionOf(topCandidate.votes, results.eligibleVoters));
+  }
 
   const map = width != null && (
     <ElectionMap
@@ -54,9 +66,7 @@ export const ElectionResultsSummarySection = themable<Props>(
     >
       {topCandidate && (
         <div className={classes.mapOverlay}>
-          <div className={classes.mapOverlayPercentage}>
-            {formatPercentage(fractionOf(topCandidate.votes, results?.validVotes || 0))}
-          </div>
+          <div className={classes.mapOverlayPercentage}>{percentage}</div>
           <div className={classes.mapOverlayLabel}>{topCandidate.shortName || topCandidate.name}</div>
         </div>
       )}
