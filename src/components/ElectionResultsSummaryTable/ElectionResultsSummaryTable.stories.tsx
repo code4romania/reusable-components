@@ -17,6 +17,7 @@ export const SimpleExample = (args: any) => {
 SimpleExample.args = {
   meta: mockLocalCouncilElectionMeta,
   results: mockResults,
+  table: { tHead1: "Partid", tHead2: "Mand.", tHead3: "Voturi", tHead4: "%" },
 };
 
 SimpleExample.argTypes = {

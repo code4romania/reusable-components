@@ -10,6 +10,7 @@ import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 type Props = {
   meta: ElectionBallotMeta;
   results: ElectionResults;
+  table: { tHead1: string; tHead2: string; tHead3: string; tHead4: string; tHead5: string };
 };
 
 const THeadRow = makeTypographyComponent("th", "label");
@@ -18,7 +19,7 @@ const TCell = makeTypographyComponent("td", "bodyMedium");
 export const ElectionResultsSummaryTable = themable<Props>(
   "ElectionResultsSummaryTable",
   cssClasses,
-)(({ classes, results, meta }) => {
+)(({ classes, results, meta, table }) => {
   const hasSeats = electionHasSeats(meta.type, results);
   const maxFraction =
     meta && meta.type !== "referendum"
@@ -46,11 +47,11 @@ export const ElectionResultsSummaryTable = themable<Props>(
         <table className={classes.table}>
           <thead>
             <tr>
-              <THeadRow>Partid</THeadRow>
-              {hasSeats && <THeadRow>Mand.</THeadRow>}
-              <THeadRow>Voturi</THeadRow>
-              <THeadRow className={classes.percentage}>%</THeadRow>
-              <THeadRow></THeadRow>
+              <THeadRow>{table.tHead1}</THeadRow>
+              {hasSeats && <THeadRow>{table.tHead2}</THeadRow>}
+              <THeadRow>{table.tHead3}</THeadRow>
+              <THeadRow className={classes.percentage}>{table.tHead4}</THeadRow>
+              <THeadRow>{table.tHead5}</THeadRow>
             </tr>
           </thead>
           <tbody>
