@@ -6,12 +6,12 @@ import { themable } from "../../hooks/theme";
 import classes from "./ElectionResultsDiscreteTableSection.module.scss";
 
 type Props = {
-  candidates: ElectionResultsCandidate[];
+  candidates: ElectionResultsCandidate[] | undefined;
   heading: string;
 };
 
 const CandidateTable: React.FC<{
-  candidates: ElectionResultsCandidate[];
+  candidates: ElectionResultsCandidate[] | undefined;
   heading: string;
 }> = ({ candidates, heading }) => {
   return (
@@ -24,12 +24,13 @@ const CandidateTable: React.FC<{
           </tr>
         </thead>
         <tbody>
-          {candidates.map((candidate, index) => (
-            <tr key={index}>
-              <td className={classes.nameCell}>{candidate.name}</td>
-              <td>{formatGroupedNumber(candidate.votes)}</td>
-            </tr>
-          ))}
+          {candidates &&
+            candidates.map((candidate, index) => (
+              <tr key={index}>
+                <td className={classes.nameCell}>{candidate.name}</td>
+                <td>{formatGroupedNumber(candidate.votes)}</td>
+              </tr>
+            ))}
         </tbody>
       </ResultsTable>
     </div>
