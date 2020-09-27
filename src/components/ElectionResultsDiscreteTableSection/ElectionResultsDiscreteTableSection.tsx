@@ -1,6 +1,5 @@
 import React from "react";
 import { ResultsTable } from "../ResultsTable/ResultsTable";
-import { Heading2 } from "../Typography/Typography";
 import { ElectionResultsCandidate } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
 import { ClassNames, themable } from "../../hooks/theme";
@@ -9,6 +8,7 @@ import cssClasses from "./ElectionResultsDiscreteTableSection.module.scss";
 type Props = {
   candidates: ElectionResultsCandidate[];
   classes: ClassNames;
+  heading: string;
 };
 
 const CandidateTable: React.FC<{
@@ -21,7 +21,7 @@ const CandidateTable: React.FC<{
         <thead>
           <tr>
             <th>Partid / Alianță / Candidat independent</th>
-            <th>Voturi</th>
+            <th>heading</th>
           </tr>
         </thead>
         <tbody>
@@ -43,7 +43,6 @@ export const ElectionResultsDiscreteTableSection = themable<Props>(
 )(({ classes, candidates }) => {
   return (
     <>
-      <Heading2 className={classes.heading}>Rezultate electorale</Heading2>
       <CandidateTable classes={classes} candidates={candidates} />
     </>
   );

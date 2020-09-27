@@ -11,5 +11,11 @@ export default {
 };
 
 export const SimpleExample = () => {
-  return <ElectionResultsDiscreteTableSection candidates={mockResults.candidates} classes={cssClasses} />;
+  return (
+    <ElectionResultsDiscreteTableSection
+      candidates={mockResults.candidates}
+      classes={cssClasses}
+      heading="Nr Presedinti de consiliu judetean"
+    />
+  );
 };
