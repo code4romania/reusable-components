@@ -2,20 +2,18 @@ import React from "react";
 import { ResultsTable } from "../ResultsTable/ResultsTable";
 import { ElectionResultsCandidate } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
-import { ClassNames, themable } from "../../hooks/theme";
-import cssClasses from "./ElectionResultsDiscreteTableSection.module.scss";
+import { themable } from "../../hooks/theme";
+import classes from "./ElectionResultsDiscreteTableSection.module.scss";
 
 type Props = {
   candidates: ElectionResultsCandidate[];
-  classes: ClassNames;
   heading: string;
 };
 
 const CandidateTable: React.FC<{
-  classes: ClassNames;
   candidates: ElectionResultsCandidate[];
   heading: string;
-}> = ({ classes, candidates, heading }) => {
+}> = ({ candidates, heading }) => {
   return (
     <div className={classes.tableContainer}>
       <ResultsTable className={classes.table}>
@@ -38,13 +36,12 @@ const CandidateTable: React.FC<{
   );
 };
 
-export const ElectionResultsDiscreteTableSection = themable<Props>(
-  "ElectionResultsDiscreteTableSection",
-  cssClasses,
-)(({ classes, candidates, heading }) => {
-  return (
-    <>
-      <CandidateTable classes={classes} candidates={candidates} heading={heading} />
-    </>
-  );
-});
+export const ElectionResultsDiscreteTableSection = themable<Props>("ElectionResultsDiscreteTableSection")(
+  ({ candidates, heading }) => {
+    return (
+      <>
+        <CandidateTable candidates={candidates} heading={heading} />
+      </>
+    );
+  },
+);
