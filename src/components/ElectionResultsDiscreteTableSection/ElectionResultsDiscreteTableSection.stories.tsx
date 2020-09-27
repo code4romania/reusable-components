@@ -3,10 +3,10 @@
 import React from "react";
 import { mockResults } from "../../util/mocks";
 import { ElectionResultsDiscreteTableSection } from "./ElectionResultsDiscreteTableSection";
-import cssClasses from "./ElectionResultsDescreteTableSection.module.scss";
+import cssClasses from "./ElectionResultsDiscreteTableSection.module.scss";
 
 export default {
-  title: "Election results discrete section",
+  title: "Election results discrete tables section",
   component: ElectionResultsDiscreteTableSection,
 };
 

@@ -4,7 +4,7 @@ import { Heading2 } from "../Typography/Typography";
 import { ElectionResultsCandidate } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
 import { ClassNames, themable } from "../../hooks/theme";
-import cssClasses from "./ElectionResultsDescreteTableSection.module.scss";
+import cssClasses from "./ElectionResultsDiscreteTableSection.module.scss";
 
 type Props = {
   candidates: ElectionResultsCandidate[];
