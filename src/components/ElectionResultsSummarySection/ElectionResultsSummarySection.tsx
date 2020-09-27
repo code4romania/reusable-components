@@ -25,6 +25,7 @@ type Props = {
   separator?: ReactNode;
   onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
   loader?: ReactNode;
+  table: { tHead1: string; tHead2: string; tHead3: string; tHead4: string; tHead5: string };
 };
 
 const defaultConstants = {
@@ -36,7 +37,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
   defaultConstants,
-)(({ classes, results, meta, api, scope, onScopeChange, loader, constants, separator }) => {
+)(({ classes, results, meta, api, scope, onScopeChange, loader, constants, separator, table }) => {
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
@@ -105,7 +106,12 @@ export const ElectionResultsSummarySection = themable<Props>(
       {!mobileMap && (
         <div className={classes.mapSummaryContainer}>
           {!fullWidthMap && meta && results && (
-            <ElectionResultsSummaryTable className={classes.mapSummaryTable} meta={meta} results={results} />
+            <ElectionResultsSummaryTable
+              className={classes.mapSummaryTable}
+              meta={meta}
+              results={results}
+              table={table}
+            />
           )}
           {map}
         </div>
