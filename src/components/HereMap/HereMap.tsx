@@ -8,9 +8,21 @@ import Color from "color";
 type OnFeatureSelect = (featureId: number) => unknown;
 type RenderFeatureTooltip = (id: number, featureProps: any) => Node | string | null;
 
+export type HereMapRect = {
+  top: number; // Latitude
+  left: number; // Longitude
+  bottom: number; // Latitude
+  right: number; // Longitude
+};
+
+export type HereMapTransform = {
+  center?: { lat: number; lng: number };
+  zoom?: number;
+  bounds?: HereMapRect;
+};
+
 type Props = {
   className?: string;
-  scopeType: string;
   width: number;
   height: number;
   overlayUrl?: string;
@@ -20,22 +32,30 @@ type Props = {
   renderFeatureTooltip?: RenderFeatureTooltip; // Returns a HTML element or string
   selectedFeature?: number | null | undefined;
   onFeatureSelect?: OnFeatureSelect;
-  initialBounds?: {
-    top: number; // Latitude
-    left: number; // Longitude
-    bottom: number; // Latitude
-    right: number; // Longitude
-  };
-  centerOnOverlayBounds?: boolean; // Default true
+  initialTransform?: HereMapTransform;
+  overlayLoadTransform?: HereMapTransform | "bounds" | false; // Defaults to "bounds": the bounds of the loaded overlay
 };
 
-export const worldMapBounds = { top: 90, left: 0, bottom: -90, right: 180 };
-export const romaniaMapBounds = {
-  top: 48.26534497800004,
-  bottom: 43.618995545000075,
-  left: 20.261959895000075,
-  right: 29.715232741000037,
+export const bucharestCenteredWorldZoom = {
+  center: { lat: 44.4268, lng: 26.1025 },
+  zoom: 2,
 };
+
+export const romaniaMapBounds = {
+  bounds: {
+    top: 48.26534497800004,
+    bottom: 43.618995545000075,
+    left: 20.261959895000075,
+    right: 29.715232741000037,
+  },
+};
+
+const makeRect = (H: HereMapsAPI, r: HereMapRect): H.geo.Rect => new H.geo.Rect(r.top, r.left, r.bottom, r.right);
+const makeTransform = (H: HereMapsAPI, t: HereMapTransform) => ({
+  center: t.center,
+  zoom: t.zoom,
+  bounds: t.bounds ? makeRect(H, t.bounds) : undefined,
+});
 
 const loadJS = (src: string) =>
   new Promise((resolve, reject) => {
@@ -107,9 +127,9 @@ type InstanceVars = {
   tooltipClassName: string | null;
   tooltipTop: number;
   tooltipLeft: number;
-  centerOnOverlayBounds: boolean;
   updateFeatureStyle: (feature: H.map.Polygon, selected: boolean, hover: boolean) => void;
   renderFeatureTooltip: RenderFeatureTooltip | undefined;
+  overlayLoadTransform: HereMapTransform | "bounds" | false;
 };
 
 const stylesFromColor = (H: HereMapsAPI, color: string, featureSelectedDarken: number, featureHoverDarken: number) => {
@@ -149,9 +169,8 @@ export const HereMap = themable<Props>(
     renderFeatureTooltip,
     selectedFeature,
     onFeatureSelect,
-    initialBounds = worldMapBounds,
-    centerOnOverlayBounds = true,
-    scopeType,
+    initialTransform = romaniaMapBounds,
+    overlayLoadTransform = "bounds",
   }) => {
     const H = useHereMaps();
     const mapRef = useRef<HTMLDivElement>(null);
@@ -193,9 +212,9 @@ export const HereMap = themable<Props>(
       tooltipClassName: classes.tooltip ?? null,
       tooltipTop: 0,
       tooltipLeft: 0,
-      centerOnOverlayBounds,
       updateFeatureStyle: updateFeatureStyle,
       renderFeatureTooltip: renderFeatureTooltip,
+      overlayLoadTransform: overlayLoadTransform,
     });
 
     useLayoutEffect(() => {
@@ -207,7 +226,7 @@ export const HereMap = themable<Props>(
 
       const blankLayer = new H.map.layer.Layer();
       const hMap = new H.Map(mapRef.current, blankLayer, {
-        bounds: new H.geo.Rect(initialBounds.top, initialBounds.left, initialBounds.bottom, initialBounds.right),
+        ...makeTransform(H, initialTransform),
         noWrap: true,
         pixelRatio: window.devicePixelRatio || 1,
       });
@@ -268,8 +287,8 @@ export const HereMap = themable<Props>(
     }, [onFeatureSelect]);
 
     useLayoutEffect(() => {
-      inst.current.centerOnOverlayBounds = centerOnOverlayBounds;
-    }, [centerOnOverlayBounds]);
+      inst.current.overlayLoadTransform = overlayLoadTransform;
+    }, [overlayLoadTransform]);
 
     useLayoutEffect(() => {
       const self = inst.current;
@@ -405,14 +424,14 @@ export const HereMap = themable<Props>(
         group.addEventListener("tap", onTap);
         map.addObject(group);
 
-        if (self.centerOnOverlayBounds) {
-          const lookAtDataOptions: any = {
-            // bounds: group.getBoundingBox()
-          };
-          if (scopeType === "diaspora" || scopeType === "diaspora_country") {
-            lookAtDataOptions.zoom = 2;
-          }
-          map.getViewModel().setLookAtData(lookAtDataOptions, true);
+        const newTransform = self.overlayLoadTransform;
+        if (newTransform) {
+          map
+            .getViewModel()
+            .setLookAtData(
+              newTransform === "bounds" ? { bounds: group.getBoundingBox() } : makeTransform(H, newTransform),
+              true,
+            );
         }
       });
       reader.parse();
