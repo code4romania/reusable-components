@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { themable } from "../../hooks/theme";
+import { themable, ThemedComponentProps } from "../../hooks/theme";
 import cssClasses from "./HereMap.module.scss";
 import Color from "color";
 
@@ -51,11 +51,6 @@ export const romaniaMapBounds = {
 };
 
 const makeRect = (H: HereMapsAPI, r: HereMapRect): H.geo.Rect => new H.geo.Rect(r.top, r.left, r.bottom, r.right);
-const makeTransform = (H: HereMapsAPI, t: HereMapTransform) => ({
-  center: t.center,
-  zoom: t.zoom,
-  bounds: t.bounds ? makeRect(H, t.bounds) : undefined,
-});
 
 const loadJS = (src: string) =>
   new Promise((resolve, reject) => {
@@ -171,7 +166,7 @@ export const HereMap = themable<Props>(
     onFeatureSelect,
     initialTransform = romaniaMapBounds,
     overlayLoadTransform = "bounds",
-  }) => {
+  }: ThemedComponentProps<Props>) => {
     const H = useHereMaps();
     const mapRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<H.Map | null>(null);
@@ -226,7 +221,9 @@ export const HereMap = themable<Props>(
 
       const blankLayer = new H.map.layer.Layer();
       const hMap = new H.Map(mapRef.current, blankLayer, {
-        ...makeTransform(H, initialTransform),
+        bounds: initialTransform.bounds ? makeRect(H, initialTransform.bounds) : undefined,
+        center: initialTransform.center,
+        zoom: initialTransform.zoom,
         noWrap: true,
         pixelRatio: window.devicePixelRatio || 1,
       });
@@ -426,12 +423,16 @@ export const HereMap = themable<Props>(
 
         const newTransform = self.overlayLoadTransform;
         if (newTransform) {
-          map
-            .getViewModel()
-            .setLookAtData(
-              newTransform === "bounds" ? { bounds: group.getBoundingBox() } : makeTransform(H, newTransform),
-              true,
-            );
+          map.getViewModel().setLookAtData(
+            newTransform === "bounds"
+              ? { bounds: group.getBoundingBox() }
+              : {
+                  bounds: newTransform.bounds ? makeRect(H, newTransform.bounds) : undefined,
+                  position: newTransform.center,
+                  zoom: newTransform.zoom,
+                },
+            true,
+          );
         }
       });
       reader.parse();
