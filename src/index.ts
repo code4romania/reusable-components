@@ -35,5 +35,6 @@ export * from "./components/ElectionScopePicker/ElectionScopePicker";
 export * from "./components/ElectionNewsCard/ElectionNewsCard";
 export * from "./components/ElectionNewsSection/ElectionNewsSection";
 export * from "./components/Lightbox/Lightbox";
+export * from "./components/ElectionResultsDiscreteTableSection/ElectionResultsDiscreteTableSection";
 
 export { default as SVGCode4Romania } from "./assets/code4romania.svg";

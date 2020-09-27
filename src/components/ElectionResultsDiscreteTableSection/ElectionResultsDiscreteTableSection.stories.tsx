@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { mockLocalCouncilElectionMeta, mockResults } from "../../util/mocks";
-import { ElectionResultsTableSection } from "./ElectionResultsTableSection";
+import { mockResults } from "../../util/mocks";
+import { ElectionResultsDiscreteTableSection } from "./ElectionResultsDiscreteTableSection";
+import cssClasses from "./ElectionResultsDescreteTableSection.module.scss";
 
 export default {
-  title: "Election results tables section",
-  component: ElectionResultsTableSection,
+  title: "Election results discrete section",
+  component: ElectionResultsDiscreteTableSection,
 };
 
 export const SimpleExample = () => {
-  return <ElectionResultsTableSection meta={mockLocalCouncilElectionMeta} results={mockResults} />;
+  return <ElectionResultsDiscreteTableSection candidates={mockResults.candidates} classes={cssClasses} />;
 };
