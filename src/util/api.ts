@@ -41,6 +41,7 @@ export function makeJsonFetch(
 
     const sentHeaders: Record<string, string> = {
       ["Accept"]: "application/json",
+      ["Cache-Control"]: "no-cache,max-age=0",
     };
     if (body != null) {
       sentHeaders["Content-Type"] = "application/json";
