@@ -14,14 +14,15 @@ type Props = {
 const CandidateTable: React.FC<{
   classes: ClassNames;
   candidates: ElectionResultsCandidate[];
-}> = ({ classes, candidates }) => {
+  heading: string;
+}> = ({ classes, candidates, heading }) => {
   return (
     <div className={classes.tableContainer}>
       <ResultsTable className={classes.table}>
         <thead>
           <tr>
             <th>Partid / Alianță / Candidat independent</th>
-            <th>heading</th>
+            <th>{heading}</th>
           </tr>
         </thead>
         <tbody>
@@ -40,10 +41,10 @@ const CandidateTable: React.FC<{
 export const ElectionResultsDiscreteTableSection = themable<Props>(
   "ElectionResultsDiscreteTableSection",
   cssClasses,
-)(({ classes, candidates }) => {
+)(({ classes, candidates, heading }) => {
   return (
     <>
-      <CandidateTable classes={classes} candidates={candidates} />
+      <CandidateTable classes={classes} candidates={candidates} heading={heading} />
     </>
   );
 });
