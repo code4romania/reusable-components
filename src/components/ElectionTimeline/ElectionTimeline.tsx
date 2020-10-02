@@ -47,11 +47,12 @@ export const ElectionTimeline = themable<Props>(
       const { electionId } = meta;
       let election = electionsById.get(electionId);
       if (!election) {
-        election = { electionId, title: meta.title, live: !!meta.live, ballots: [] };
+        election = { electionId, title: meta.title, live: false, ballots: [] };
         currentYear.elections.push(election);
         electionsById.set(electionId, election);
       }
 
+      election.live = election.live || !!meta.live;
       election.ballots.push(meta);
     });
 
