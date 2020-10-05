@@ -13,8 +13,12 @@ type Props = {
   table: { tHead1: string; tHead2: string; tHead3: string; tHead4: string; tHead5: string };
 };
 
+type CellProps = {
+  title?: string;
+};
+
 const THeadRow = makeTypographyComponent("th", "label");
-const TCell = makeTypographyComponent("td", "bodyMedium");
+const TCell = makeTypographyComponent<CellProps>("td", "bodyMedium");
 
 export const ElectionResultsSummaryTable = themable<Props>(
   "ElectionResultsSummaryTable",
@@ -57,7 +61,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
           <tbody>
             {results.candidates.map((candidate, index) => (
               <tr key={index}>
-                <TCell className={classes.name}>
+                <TCell className={classes.name} title={candidate.shortName || candidate.name}>
                   <ColoredSquare color={electionCandidateColor(candidate)} className={classes.square} />
                   {candidate.shortName || candidate.name}
                 </TCell>
