@@ -150,6 +150,15 @@ const stylesFromColor = (H: HereMapsAPI, color: string, featureSelectedDarken: n
   };
 };
 
+const setTooltipPosition = (self: InstanceVars, x: number, y: number) => {
+  self.tooltipLeft = x;
+  self.tooltipTop = y;
+  if (self.tooltipEl) {
+    self.tooltipEl.style.left = `${x}px`;
+    self.tooltipEl.style.top = `${y}px`;
+  }
+};
+
 export const HereMap = themable<Props>(
   "HereMap",
   cssClasses,
@@ -255,13 +264,9 @@ export const HereMap = themable<Props>(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       hMap.addEventListener("pointermove", (evt: any) => {
-        const { offsetX = 0, offsetY = 0 } = evt.originalEvent;
-        self.tooltipLeft = offsetX;
-        self.tooltipTop = offsetY;
-        if (self.tooltipEl) {
-          self.tooltipEl.style.left = `${offsetX}px`;
-          self.tooltipEl.style.top = `${offsetY}px`;
-        }
+        const { offsetX = 0, offsetY = 0, pointerType } = evt.originalEvent;
+        if (pointerType === "touch") return;
+        setTooltipPosition(self, offsetX, offsetY);
       });
 
       return () => {
@@ -405,6 +410,12 @@ export const HereMap = themable<Props>(
           if (id == null) return;
           if (self.hoveredFeature?.id !== id) setHoveredFeature(id, data);
           self.updateFeatureStyle(mapObject, id === self.selectedFeature, true);
+
+          if ((evt as any)?.originalEvent?.pointerType === "touch") {
+            const bounds = mapObject.getBoundingBox();
+            const { x, y } = map.geoToScreen({ lat: bounds.getTop(), lng: bounds.getCenter().lng });
+            setTooltipPosition(self, x, y - 5);
+          }
         }
       };
 
