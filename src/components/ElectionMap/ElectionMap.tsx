@@ -183,6 +183,7 @@ export const ElectionMap = themable<Props>(
                 overlayLoadTransform={
                   scope.type === "diaspora" || scope.type === "diaspora_country" ? bucharestCenteredWorldZoom : "bounds"
                 }
+                allowZoomAndPan={scope.type === "diaspora" || scope.type === "diaspora_country"}
                 overlayUrl={overlayUrl}
                 maskOverlayUrl={maskUrl}
                 selectedFeature={selectedFeature}

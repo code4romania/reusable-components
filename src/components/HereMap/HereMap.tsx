@@ -34,6 +34,7 @@ type Props = {
   onFeatureSelect?: OnFeatureSelect;
   initialTransform?: HereMapTransform;
   overlayLoadTransform?: HereMapTransform | "bounds" | false; // Defaults to "bounds": the bounds of the loaded overlay
+  allowZoomAndPan?: boolean;
 };
 
 export const bucharestCenteredWorldZoom = {
@@ -166,10 +167,18 @@ export const HereMap = themable<Props>(
     onFeatureSelect,
     initialTransform = romaniaMapBounds,
     overlayLoadTransform = "bounds",
+    allowZoomAndPan = true,
   }: ThemedComponentProps<Props>) => {
     const H = useHereMaps();
     const mapRef = useRef<HTMLDivElement>(null);
-    const [map, setMap] = useState<H.Map | null>(null);
+    const [mapObjects, setMapObjects] = useState<null | {
+      map: H.Map;
+      ui: H.ui.UI;
+      zoomControl: H.ui.ZoomControl;
+      behaviour: H.mapevents.Behavior;
+    }>(null);
+
+    const map = mapObjects?.map;
 
     const { featureDefaultColor, selectedFeatureColor, featureSelectedDarken, featureHoverDarken } = constants;
 
@@ -227,10 +236,18 @@ export const HereMap = themable<Props>(
         noWrap: true,
         pixelRatio: window.devicePixelRatio || 1,
       });
-      setMap(hMap);
 
-      new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
-      new H.ui.UI(hMap, { zoom: { alignment: H.ui.LayoutAlignment.RIGHT_BOTTOM } });
+      const hZoomControl = new H.ui.ZoomControl({ alignment: H.ui.LayoutAlignment.RIGHT_BOTTOM });
+      const hBehaviour = new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
+      hBehaviour.disable();
+      const hUI = new H.ui.UI(hMap);
+
+      setMapObjects({
+        map: hMap,
+        zoomControl: hZoomControl,
+        behaviour: hBehaviour,
+        ui: hUI,
+      });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       hMap.addEventListener("pointermove", (evt: any) => {
@@ -246,9 +263,22 @@ export const HereMap = themable<Props>(
       return () => {
         hMap.dispose();
         (hMap as any).disposed = true; // eslint-disable-line @typescript-eslint/no-explicit-any
-        setMap((state) => (state === hMap ? null : state));
+        setMapObjects((state) => (state?.map === hMap ? null : state));
       };
     }, [H, mapRef]);
+
+    useLayoutEffect(() => {
+      if (!H || !allowZoomAndPan || !mapObjects || (mapObjects.map as any).disposed) return;
+      const { ui, zoomControl, behaviour } = mapObjects;
+
+      behaviour.enable();
+      ui.addControl("zoomControl", zoomControl);
+
+      return () => {
+        behaviour.disable();
+        ui.removeControl("zoomControl");
+      };
+    }, [H, allowZoomAndPan, mapObjects]);
 
     useLayoutEffect(() => {
       if (map) {
