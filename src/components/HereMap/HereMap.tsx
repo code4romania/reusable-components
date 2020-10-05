@@ -35,6 +35,7 @@ type Props = {
   initialTransform?: HereMapTransform;
   overlayLoadTransform?: HereMapTransform | "bounds" | false; // Defaults to "bounds": the bounds of the loaded overlay
   allowZoomAndPan?: boolean;
+  centerOnSelectedFeatureBounds?: boolean;
 };
 
 export const bucharestCenteredWorldZoom = {
@@ -126,6 +127,7 @@ type InstanceVars = {
   updateFeatureStyle: (feature: H.map.Polygon, selected: boolean, hover: boolean) => void;
   renderFeatureTooltip: RenderFeatureTooltip | undefined;
   overlayLoadTransform: HereMapTransform | "bounds" | false;
+  centeredFeature: number | null;
 };
 
 const stylesFromColor = (H: HereMapsAPI, color: string, featureSelectedDarken: number, featureHoverDarken: number) => {
@@ -168,6 +170,7 @@ export const HereMap = themable<Props>(
     initialTransform = romaniaMapBounds,
     overlayLoadTransform = "bounds",
     allowZoomAndPan = true,
+    centerOnSelectedFeatureBounds = false,
   }: ThemedComponentProps<Props>) => {
     const H = useHereMaps();
     const mapRef = useRef<HTMLDivElement>(null);
@@ -219,6 +222,7 @@ export const HereMap = themable<Props>(
       updateFeatureStyle: updateFeatureStyle,
       renderFeatureTooltip: renderFeatureTooltip,
       overlayLoadTransform: overlayLoadTransform,
+      centeredFeature: (centerOnSelectedFeatureBounds ? selectedFeature : null) ?? null,
     });
 
     useLayoutEffect(() => {
@@ -285,6 +289,21 @@ export const HereMap = themable<Props>(
         map.getViewPort().resize();
       }
     }, [width, height, map]);
+
+    useLayoutEffect(() => {
+      const self = inst.current;
+      self.centeredFeature = (centerOnSelectedFeatureBounds ? selectedFeature : null) ?? null;
+
+      if (!map) return;
+
+      const { features, centeredFeature } = self;
+      if (!features || centeredFeature == null) return;
+
+      const feature = features.get(centeredFeature);
+      if (!feature) return;
+
+      map.getViewModel().setLookAtData({ bounds: feature.getBoundingBox() }, true);
+    }, [centerOnSelectedFeatureBounds, selectedFeature, map]);
 
     // Whenever selectedFeature changes
     useLayoutEffect(() => {
@@ -451,18 +470,25 @@ export const HereMap = themable<Props>(
         group.addEventListener("tap", onTap);
         map.addObject(group);
 
-        const newTransform = self.overlayLoadTransform;
-        if (newTransform) {
-          map.getViewModel().setLookAtData(
-            newTransform === "bounds"
-              ? { bounds: group.getBoundingBox() }
-              : {
-                  bounds: newTransform.bounds ? makeRect(H, newTransform.bounds) : undefined,
-                  position: newTransform.center,
-                  zoom: newTransform.zoom,
-                },
-            true,
-          );
+        if (self.centeredFeature != null) {
+          const feature = features.get(self.centeredFeature);
+          if (feature) {
+            map.getViewModel().setLookAtData({ bounds: feature.getBoundingBox() }, true);
+          }
+        } else {
+          const newTransform = self.overlayLoadTransform;
+          if (newTransform) {
+            map.getViewModel().setLookAtData(
+              newTransform === "bounds"
+                ? { bounds: group.getBoundingBox() }
+                : {
+                    bounds: newTransform.bounds ? makeRect(H, newTransform.bounds) : undefined,
+                    position: newTransform.center,
+                    zoom: newTransform.zoom,
+                  },
+              true,
+            );
+          }
         }
       });
       reader.parse();

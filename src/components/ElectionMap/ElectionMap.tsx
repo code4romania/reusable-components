@@ -187,6 +187,7 @@ export const ElectionMap = themable<Props>(
                 overlayUrl={overlayUrl}
                 maskOverlayUrl={maskUrl}
                 selectedFeature={selectedFeature}
+                centerOnSelectedFeatureBounds={scope.type === "diaspora_country"}
                 onFeatureSelect={onFeatureSelect}
                 getFeatureColor={getFeatureColor}
                 renderFeatureTooltip={renderFeatureTooltip}
