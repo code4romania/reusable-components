@@ -51,7 +51,10 @@ export function makeJsonFetch(
     const searchParams = new URLSearchParams();
     if (query) {
       for (const key in query) {
-        searchParams.set(key, (query[key] as any).toString());
+        const value = query[key];
+        if (value != null) {
+          searchParams.set(key, (value as any).toString());
+        }
       }
     }
     const searchString = searchParams.toString();
