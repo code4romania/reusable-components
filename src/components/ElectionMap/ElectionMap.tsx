@@ -3,7 +3,7 @@ import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete } from "..
 import { mergeClasses, themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
-import { HereMap, romaniaMapBounds, worldMapBounds } from "../HereMap/HereMap";
+import { bucharestCenteredWorldZoom, HereMap, romaniaMapBounds } from "../HereMap/HereMap";
 import { electionMapOverlayUrl } from "../../constants/servers";
 import cssClasses from "./ElectionMap.module.scss";
 import { ElectionMapAPI } from "../../util/electionApi";
@@ -175,13 +175,19 @@ export const ElectionMap = themable<Props>(
                 className={classes.hereMap}
                 width={width}
                 height={height}
-                scopeType={scope.type}
-                initialBounds={
-                  scope.type === "diaspora" || scope.type === "diaspora_country" ? worldMapBounds : romaniaMapBounds
+                initialTransform={
+                  scope.type === "diaspora" || scope.type === "diaspora_country"
+                    ? bucharestCenteredWorldZoom
+                    : romaniaMapBounds
                 }
+                overlayLoadTransform={
+                  scope.type === "diaspora" || scope.type === "diaspora_country" ? bucharestCenteredWorldZoom : "bounds"
+                }
+                allowZoomAndPan={scope.type === "diaspora" || scope.type === "diaspora_country"}
                 overlayUrl={overlayUrl}
                 maskOverlayUrl={maskUrl}
                 selectedFeature={selectedFeature}
+                centerOnSelectedFeatureBounds={scope.type === "diaspora_country"}
                 onFeatureSelect={onFeatureSelect}
                 getFeatureColor={getFeatureColor}
                 renderFeatureTooltip={renderFeatureTooltip}

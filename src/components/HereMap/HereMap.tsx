@@ -1,16 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { themable } from "../../hooks/theme";
+import { themable, ThemedComponentProps } from "../../hooks/theme";
 import cssClasses from "./HereMap.module.scss";
 import Color from "color";
 
 type OnFeatureSelect = (featureId: number) => unknown;
 type RenderFeatureTooltip = (id: number, featureProps: any) => Node | string | null;
 
+export type HereMapRect = {
+  top: number; // Latitude
+  left: number; // Longitude
+  bottom: number; // Latitude
+  right: number; // Longitude
+};
+
+export type HereMapTransform = {
+  center?: { lat: number; lng: number };
+  zoom?: number;
+  bounds?: HereMapRect;
+};
+
 type Props = {
   className?: string;
-  scopeType: string;
   width: number;
   height: number;
   overlayUrl?: string;
@@ -20,22 +32,27 @@ type Props = {
   renderFeatureTooltip?: RenderFeatureTooltip; // Returns a HTML element or string
   selectedFeature?: number | null | undefined;
   onFeatureSelect?: OnFeatureSelect;
-  initialBounds?: {
-    top: number; // Latitude
-    left: number; // Longitude
-    bottom: number; // Latitude
-    right: number; // Longitude
-  };
-  centerOnOverlayBounds?: boolean; // Default true
+  initialTransform?: HereMapTransform;
+  overlayLoadTransform?: HereMapTransform | "bounds" | false; // Defaults to "bounds": the bounds of the loaded overlay
+  allowZoomAndPan?: boolean;
+  centerOnSelectedFeatureBounds?: boolean;
 };
 
-export const worldMapBounds = { top: 90, left: 0, bottom: -90, right: 180 };
-export const romaniaMapBounds = {
-  top: 48.26534497800004,
-  bottom: 43.618995545000075,
-  left: 20.261959895000075,
-  right: 29.715232741000037,
+export const bucharestCenteredWorldZoom = {
+  center: { lat: 44.4268, lng: 26.1025 },
+  zoom: 2,
 };
+
+export const romaniaMapBounds = {
+  bounds: {
+    top: 48.26534497800004,
+    bottom: 43.618995545000075,
+    left: 20.261959895000075,
+    right: 29.715232741000037,
+  },
+};
+
+const makeRect = (H: HereMapsAPI, r: HereMapRect): H.geo.Rect => new H.geo.Rect(r.top, r.left, r.bottom, r.right);
 
 const loadJS = (src: string) =>
   new Promise((resolve, reject) => {
@@ -107,9 +124,10 @@ type InstanceVars = {
   tooltipClassName: string | null;
   tooltipTop: number;
   tooltipLeft: number;
-  centerOnOverlayBounds: boolean;
   updateFeatureStyle: (feature: H.map.Polygon, selected: boolean, hover: boolean) => void;
   renderFeatureTooltip: RenderFeatureTooltip | undefined;
+  overlayLoadTransform: HereMapTransform | "bounds" | false;
+  centeredFeature: number | null;
 };
 
 const stylesFromColor = (H: HereMapsAPI, color: string, featureSelectedDarken: number, featureHoverDarken: number) => {
@@ -132,6 +150,15 @@ const stylesFromColor = (H: HereMapsAPI, color: string, featureSelectedDarken: n
   };
 };
 
+const setTooltipPosition = (self: InstanceVars, x: number, y: number) => {
+  self.tooltipLeft = x;
+  self.tooltipTop = y;
+  if (self.tooltipEl) {
+    self.tooltipEl.style.left = `${x}px`;
+    self.tooltipEl.style.top = `${y}px`;
+  }
+};
+
 export const HereMap = themable<Props>(
   "HereMap",
   cssClasses,
@@ -149,13 +176,21 @@ export const HereMap = themable<Props>(
     renderFeatureTooltip,
     selectedFeature,
     onFeatureSelect,
-    initialBounds = worldMapBounds,
-    centerOnOverlayBounds = true,
-    scopeType,
-  }) => {
+    initialTransform = romaniaMapBounds,
+    overlayLoadTransform = "bounds",
+    allowZoomAndPan = true,
+    centerOnSelectedFeatureBounds = false,
+  }: ThemedComponentProps<Props>) => {
     const H = useHereMaps();
     const mapRef = useRef<HTMLDivElement>(null);
-    const [map, setMap] = useState<H.Map | null>(null);
+    const [mapObjects, setMapObjects] = useState<null | {
+      map: H.Map;
+      ui: H.ui.UI;
+      zoomControl: H.ui.ZoomControl;
+      behaviour: H.mapevents.Behavior;
+    }>(null);
+
+    const map = mapObjects?.map;
 
     const { featureDefaultColor, selectedFeatureColor, featureSelectedDarken, featureHoverDarken } = constants;
 
@@ -193,9 +228,10 @@ export const HereMap = themable<Props>(
       tooltipClassName: classes.tooltip ?? null,
       tooltipTop: 0,
       tooltipLeft: 0,
-      centerOnOverlayBounds,
       updateFeatureStyle: updateFeatureStyle,
       renderFeatureTooltip: renderFeatureTooltip,
+      overlayLoadTransform: overlayLoadTransform,
+      centeredFeature: (centerOnSelectedFeatureBounds ? selectedFeature : null) ?? null,
     });
 
     useLayoutEffect(() => {
@@ -207,38 +243,72 @@ export const HereMap = themable<Props>(
 
       const blankLayer = new H.map.layer.Layer();
       const hMap = new H.Map(mapRef.current, blankLayer, {
-        bounds: new H.geo.Rect(initialBounds.top, initialBounds.left, initialBounds.bottom, initialBounds.right),
+        bounds: initialTransform.bounds ? makeRect(H, initialTransform.bounds) : undefined,
+        center: initialTransform.center,
+        zoom: initialTransform.zoom,
         noWrap: true,
         pixelRatio: window.devicePixelRatio || 1,
       });
-      setMap(hMap);
 
-      new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
-      new H.ui.UI(hMap, { zoom: { alignment: H.ui.LayoutAlignment.RIGHT_BOTTOM } });
+      const hZoomControl = new H.ui.ZoomControl({ alignment: H.ui.LayoutAlignment.RIGHT_BOTTOM });
+      const hBehaviour = new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
+      hBehaviour.disable();
+      const hUI = new H.ui.UI(hMap);
+
+      setMapObjects({
+        map: hMap,
+        zoomControl: hZoomControl,
+        behaviour: hBehaviour,
+        ui: hUI,
+      });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       hMap.addEventListener("pointermove", (evt: any) => {
-        const { offsetX = 0, offsetY = 0 } = evt.originalEvent;
-        self.tooltipLeft = offsetX;
-        self.tooltipTop = offsetY;
-        if (self.tooltipEl) {
-          self.tooltipEl.style.left = `${offsetX}px`;
-          self.tooltipEl.style.top = `${offsetY}px`;
-        }
+        const { offsetX = 0, offsetY = 0, pointerType } = evt.originalEvent;
+        if (pointerType === "touch") return;
+        setTooltipPosition(self, offsetX, offsetY);
       });
 
       return () => {
         hMap.dispose();
         (hMap as any).disposed = true; // eslint-disable-line @typescript-eslint/no-explicit-any
-        setMap((state) => (state === hMap ? null : state));
+        setMapObjects((state) => (state?.map === hMap ? null : state));
       };
     }, [H, mapRef]);
+
+    useLayoutEffect(() => {
+      if (!H || !allowZoomAndPan || !mapObjects || (mapObjects.map as any).disposed) return;
+      const { ui, zoomControl, behaviour } = mapObjects;
+
+      behaviour.enable();
+      ui.addControl("zoomControl", zoomControl);
+
+      return () => {
+        behaviour.disable();
+        ui.removeControl("zoomControl");
+      };
+    }, [H, allowZoomAndPan, mapObjects]);
 
     useLayoutEffect(() => {
       if (map) {
         map.getViewPort().resize();
       }
     }, [width, height, map]);
+
+    useLayoutEffect(() => {
+      const self = inst.current;
+      self.centeredFeature = (centerOnSelectedFeatureBounds ? selectedFeature : null) ?? null;
+
+      if (!map) return;
+
+      const { features, centeredFeature } = self;
+      if (!features || centeredFeature == null) return;
+
+      const feature = features.get(centeredFeature);
+      if (!feature) return;
+
+      map.getViewModel().setLookAtData({ bounds: feature.getBoundingBox() }, true);
+    }, [centerOnSelectedFeatureBounds, selectedFeature, map]);
 
     // Whenever selectedFeature changes
     useLayoutEffect(() => {
@@ -268,8 +338,8 @@ export const HereMap = themable<Props>(
     }, [onFeatureSelect]);
 
     useLayoutEffect(() => {
-      inst.current.centerOnOverlayBounds = centerOnOverlayBounds;
-    }, [centerOnOverlayBounds]);
+      inst.current.overlayLoadTransform = overlayLoadTransform;
+    }, [overlayLoadTransform]);
 
     useLayoutEffect(() => {
       const self = inst.current;
@@ -340,6 +410,12 @@ export const HereMap = themable<Props>(
           if (id == null) return;
           if (self.hoveredFeature?.id !== id) setHoveredFeature(id, data);
           self.updateFeatureStyle(mapObject, id === self.selectedFeature, true);
+
+          if ((evt as any)?.originalEvent?.pointerType === "touch") {
+            const bounds = mapObject.getBoundingBox();
+            const { x, y } = map.geoToScreen({ lat: bounds.getTop(), lng: bounds.getCenter().lng });
+            setTooltipPosition(self, x, y - 5);
+          }
         }
       };
 
@@ -405,14 +481,25 @@ export const HereMap = themable<Props>(
         group.addEventListener("tap", onTap);
         map.addObject(group);
 
-        if (self.centerOnOverlayBounds) {
-          const lookAtDataOptions: any = {
-            // bounds: group.getBoundingBox()
-          };
-          if (scopeType === "diaspora" || scopeType === "diaspora_country") {
-            lookAtDataOptions.zoom = 2;
+        if (self.centeredFeature != null) {
+          const feature = features.get(self.centeredFeature);
+          if (feature) {
+            map.getViewModel().setLookAtData({ bounds: feature.getBoundingBox() }, true);
           }
-          map.getViewModel().setLookAtData(lookAtDataOptions, true);
+        } else {
+          const newTransform = self.overlayLoadTransform;
+          if (newTransform) {
+            map.getViewModel().setLookAtData(
+              newTransform === "bounds"
+                ? { bounds: group.getBoundingBox() }
+                : {
+                    bounds: newTransform.bounds ? makeRect(H, newTransform.bounds) : undefined,
+                    position: newTransform.center,
+                    zoom: newTransform.zoom,
+                  },
+              true,
+            );
+          }
         }
       });
       reader.parse();
