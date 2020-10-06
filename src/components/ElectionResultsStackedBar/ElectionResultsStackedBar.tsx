@@ -37,16 +37,14 @@ export const ElectionResultsStackedBar = themable<Props>(
       index: number;
     })[] = [];
 
+    const percentageBasis = meta?.type === "referendum" ? results.eligibleVoters ?? 0 : results.validVotes;
+
     const stackedBarCount = candidates.length === maxStackedBarItems + 1 ? maxStackedBarItems + 1 : maxStackedBarItems;
     for (let i = 0; i < stackedBarCount; i++) {
       const candidate = candidates[i];
       if (candidate) {
         const color = electionCandidateColor(candidate);
-        let percent = fractionOf(candidate.votes, results.validVotes);
-        if (meta && meta.type === "referendum" && results.eligibleVoters) {
-          const eligibleVoters = results.eligibleVoters;
-          percent = fractionOf(candidate.votes, eligibleVoters);
-        }
+        const percent = fractionOf(candidate.votes, percentageBasis);
         items.push({
           name: candidate.shortName ?? candidate.name,
           color,

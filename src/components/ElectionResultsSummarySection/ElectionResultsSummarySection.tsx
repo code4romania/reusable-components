@@ -46,11 +46,12 @@ export const ElectionResultsSummarySection = themable<Props>(
   const completeness = electionScopeIsComplete(scope);
 
   const topCandidate = results?.candidates && results.candidates[0];
-  const votes = topCandidate?.votes;
-  let percentage = formatPercentage(fractionOf(votes || 0, results?.validVotes || 0));
-  if (meta && meta.type === "referendum" && topCandidate && results && results.eligibleVoters) {
-    percentage = formatPercentage(fractionOf(topCandidate.votes, results.eligibleVoters));
-  }
+  const percentage = formatPercentage(
+    fractionOf(
+      topCandidate?.votes ?? 0,
+      (meta?.type === "referendum" ? results?.eligibleVoters : results?.validVotes) ?? 0,
+    ),
+  );
   const theme = useTheme();
 
   const map = width != null && (

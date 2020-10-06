@@ -48,20 +48,12 @@ export const DiasporaElection = () => {
 };
 
 export const UnavailableData = () => {
-  return (
-    <ElectionResultsSummarySection
-      scope={mockNationalElectionScope}
-      meta={mockLocalCouncilElectionMeta}
-    />
-  );
+  return <ElectionResultsSummarySection scope={mockNationalElectionScope} meta={mockLocalCouncilElectionMeta} />;
 };
 
 export const IncompleteCounty = () => {
   return (
-    <ElectionResultsSummarySection
-      scope={{ type: "county", countyId: null }}
-      meta={mockLocalCouncilElectionMeta}
-    />
+    <ElectionResultsSummarySection scope={{ type: "county", countyId: null }} meta={mockLocalCouncilElectionMeta} />
   );
 };
 

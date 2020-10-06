@@ -33,19 +33,17 @@ export const ElectionResultsSummaryTable = themable<Props>(
   cssClasses,
 )(({ classes, results, meta, headers }) => {
   const hasSeats = electionHasSeats(meta.type, results);
-  const maxFraction =
-    meta && meta.type !== "referendum"
-      ? results.candidates.reduce((acc, cand) => Math.max(acc, fractionOf(cand.votes, results.validVotes)), 0)
-      : results.candidates.reduce((acc, cand) => Math.max(acc, fractionOf(cand.votes, results.eligibleVoters || 1)), 0);
+  const isReferendum = meta.type === "referendum";
+  const percentageBasis = isReferendum ? results.eligibleVoters ?? 0 : results.validVotes;
 
-  const percentages =
-    meta && meta.type !== "referendum"
-      ? results.candidates.map((candidate) => {
-          return fractionOf(candidate.votes, results.validVotes);
-        })
-      : results.candidates.map((candidate) => {
-          return fractionOf(candidate.votes, results.eligibleVoters || 1);
-        });
+  const maxFraction = results.candidates.reduce(
+    (acc, cand) => Math.max(acc, fractionOf(cand.votes, percentageBasis)),
+    0,
+  );
+
+  const percentages = results.candidates.map((candidate) => {
+    return fractionOf(candidate.votes, percentageBasis);
+  });
 
   return (
     <div className={classes.root}>
@@ -59,7 +57,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
         <table className={classes.table}>
           <thead>
             <tr>
-              <THeadRow>{headers?.candidate ?? "Partid"}</THeadRow>
+              <THeadRow>{headers?.candidate ?? (isReferendum ? "Opțiune" : "Partid")}</THeadRow>
               {hasSeats && <THeadRow>{headers?.seats ?? "Mand."}</THeadRow>}
               <THeadRow>{headers?.votes ?? "Voturi"}</THeadRow>
               <THeadRow className={classes.percentage}>{headers?.percentage ?? "%"}</THeadRow>
