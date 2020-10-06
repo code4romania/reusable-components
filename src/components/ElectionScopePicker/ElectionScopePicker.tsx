@@ -55,24 +55,33 @@ export type ElectionScopePickerAPIData = {
 export const useElectionScopePickerApi = (
   api: ElectionScopeAPI,
   scope: ElectionScopeIncomplete,
+  ballotId?: number,
 ): ElectionScopePickerAPIData => {
   const shouldQueryCounty = scope.type === "county" || scope.type === "locality";
-  const countyData = useApiResponse(() => (shouldQueryCounty ? api.getCounties() : null), [api, shouldQueryCounty]);
+  const countyData = useApiResponse(() => (shouldQueryCounty ? api.getCounties(ballotId) : null), [
+    api,
+    shouldQueryCounty,
+    ballotId,
+  ]);
 
   const queryCountyId: number | null = (scope.type === "locality" ? scope.countyId : null) ?? null;
   const localityData = useApiResponse(
     () =>
       queryCountyId != null
         ? {
-            invocation: api.getLocalities(queryCountyId),
+            invocation: api.getLocalities(queryCountyId, ballotId),
             discardPreviousData: true,
           }
         : null,
-    [api, queryCountyId],
+    [api, queryCountyId, ballotId],
   );
 
   const shouldQueryCountry = scope.type === "diaspora" || scope.type === "diaspora_country";
-  const countryData = useApiResponse(() => (shouldQueryCountry ? api.getCountries() : null), [api, shouldQueryCountry]);
+  const countryData = useApiResponse(() => (shouldQueryCountry ? api.getCountries(ballotId) : null), [
+    api,
+    shouldQueryCountry,
+    ballotId,
+  ]);
 
   return { countyData, localityData, countryData };
 };

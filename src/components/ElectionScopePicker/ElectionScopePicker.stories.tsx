@@ -12,6 +12,6 @@ export default {
 
 export const SimpleExample = () => {
   const [scope, setScope] = useState<ElectionScopeIncomplete>({ type: "national" });
-  const apiData = useElectionScopePickerApi(mockElectionAPI, scope);
+  const apiData = useElectionScopePickerApi(mockElectionAPI, scope, 1);
   return <ElectionScopePicker apiData={apiData} value={scope} onChange={setScope} />;
 };

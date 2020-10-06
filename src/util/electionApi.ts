@@ -12,9 +12,9 @@ import { APIInvocation, JSONFetch, makeJsonFetch } from "./api";
 export type OptionWithID<K = number, N = string> = { id: K; name: N };
 
 export interface ElectionScopeAPI {
-  getCounties: () => APIInvocation<OptionWithID[]>;
-  getLocalities: (countyId: number) => APIInvocation<OptionWithID[]>;
-  getCountries: () => APIInvocation<OptionWithID[]>;
+  getCounties: (ballotId?: number) => APIInvocation<OptionWithID[]>;
+  getLocalities: (countyId: number, ballotId?: number) => APIInvocation<OptionWithID[]>;
+  getCountries: (ballotId?: number) => APIInvocation<OptionWithID[]>;
 }
 
 export interface ElectionMapAPI {
@@ -56,9 +56,10 @@ export const makeElectionApi = (options?: {
         },
       }),
     getBallots: () => fetch("GET", "/ballots"),
-    getCounties: () => fetch("GET", "/counties"),
-    getLocalities: (countyId) => fetch("GET", "/localities", { query: { CountyId: countyId } }),
-    getCountries: () => fetch("GET", "/countries"),
+    getCounties: (ballotId) => fetch("GET", "/counties", { query: { BallotId: ballotId } }),
+    getLocalities: (countyId, ballotId) =>
+      fetch("GET", "/localities", { query: { CountyId: countyId, BallotId: ballotId } }),
+    getCountries: (ballotId) => fetch("GET", "/countries", { query: { BallotId: ballotId } }),
     getNewsFeed: (id) => fetch("GET", "/news", { query: { BallotId: id } }),
     getWinnerMap: (ballotId: number, scope: ElectionMapScope) => {
       switch (scope.type) {
