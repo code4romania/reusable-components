@@ -7,10 +7,18 @@ import { electionCandidateColor, formatGroupedNumber, formatPercentage, fraction
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
 import cssClasses from "./ElectionResultsSummaryTable.module.scss";
 
+export type ElectionResultsSummaryTableHeaders = {
+  candidate?: string;
+  seats?: string;
+  votes?: string;
+  percentage?: string;
+  bar?: string;
+};
+
 type Props = {
   meta: ElectionBallotMeta;
   results: ElectionResults;
-  table: { tHead1: string; tHead2: string; tHead3: string; tHead4: string; tHead5: string };
+  headers?: ElectionResultsSummaryTableHeaders;
 };
 
 type CellProps = {
@@ -23,7 +31,7 @@ const TCell = makeTypographyComponent<CellProps>("td", "bodyMedium");
 export const ElectionResultsSummaryTable = themable<Props>(
   "ElectionResultsSummaryTable",
   cssClasses,
-)(({ classes, results, meta, table }) => {
+)(({ classes, results, meta, headers }) => {
   const hasSeats = electionHasSeats(meta.type, results);
   const maxFraction =
     meta && meta.type !== "referendum"
@@ -51,11 +59,11 @@ export const ElectionResultsSummaryTable = themable<Props>(
         <table className={classes.table}>
           <thead>
             <tr>
-              <THeadRow>{table.tHead1}</THeadRow>
-              {hasSeats && <THeadRow>{table.tHead2}</THeadRow>}
-              <THeadRow>{table.tHead3}</THeadRow>
-              <THeadRow className={classes.percentage}>{table.tHead4}</THeadRow>
-              <THeadRow>{table.tHead5}</THeadRow>
+              <THeadRow>{headers?.candidate ?? "Partid"}</THeadRow>
+              {hasSeats && <THeadRow>{headers?.seats ?? "Mand."}</THeadRow>}
+              <THeadRow>{headers?.votes ?? "Voturi"}</THeadRow>
+              <THeadRow className={classes.percentage}>{headers?.percentage ?? "%"}</THeadRow>
+              <THeadRow>{headers?.bar ?? ""}</THeadRow>
             </tr>
           </thead>
           <tbody>

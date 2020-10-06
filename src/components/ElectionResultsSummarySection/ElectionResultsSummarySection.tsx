@@ -13,7 +13,10 @@ import { ElectionMap } from "../ElectionMap/ElectionMap";
 import { electionCandidateColor, formatPercentage, fractionOf, getScopeName } from "../../util/format";
 import { DivBodyHuge, Heading2, Label } from "../Typography/Typography";
 import { ElectionScopeIncompleteWarning } from "../Warning/ElectionScopeIncompleteWarning";
-import { ElectionResultsSummaryTable } from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
+import {
+  ElectionResultsSummaryTable,
+  ElectionResultsSummaryTableHeaders,
+} from "../ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 import { ElectionMapAPI } from "../../util/electionApi";
 import cssClasses from "./ElectionResultsSummarySection.module.scss";
 
@@ -25,7 +28,7 @@ type Props = {
   separator?: ReactNode;
   onScopeChange?: (scope: ElectionScopeIncomplete) => unknown;
   loader?: ReactNode;
-  table: { tHead1: string; tHead2: string; tHead3: string; tHead4: string; tHead5: string };
+  tableHeaders?: ElectionResultsSummaryTableHeaders;
 };
 
 const defaultConstants = {
@@ -37,7 +40,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   "ElectionResultsSummarySection",
   cssClasses,
   defaultConstants,
-)(({ classes, results, meta, api, scope, onScopeChange, loader, constants, separator, table }) => {
+)(({ classes, results, meta, api, scope, onScopeChange, loader, constants, separator, tableHeaders }) => {
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
@@ -110,7 +113,7 @@ export const ElectionResultsSummarySection = themable<Props>(
               className={classes.mapSummaryTable}
               meta={meta}
               results={results}
-              table={table}
+              headers={tableHeaders}
             />
           )}
           {map}
