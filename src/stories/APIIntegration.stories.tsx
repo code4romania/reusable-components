@@ -97,9 +97,16 @@ export const ElectionTimelineComponent = (args: { api: string; apiUrl: string })
   );
 };
 
-export const ElectionScopeComponent = (args: { api: string; apiUrl: string }) => {
+export const ElectionScopeComponent = (args: { api: string; apiUrl: string; ballotId: number }) => {
   const [scope, setScope] = useState<ElectionScopeIncomplete>({ type: "national" });
   const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
-  const apiData = useElectionScopePickerApi(electionApi, scope);
+  const apiData = useElectionScopePickerApi(electionApi, scope, args.ballotId);
   return <ElectionScopePicker apiData={apiData} value={scope} onChange={setScope} />;
+};
+
+ElectionScopeComponent.argTypes = {
+  ballotId: {
+    defaultValue: 1,
+    control: "number",
+  },
 };
