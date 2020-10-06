@@ -51,7 +51,7 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
       <APIRequestPreview data={data} loading={loading} error={error} />
       {data && (
         <>
-          <ElectionTurnoutSection meta={data.meta} scope={data.scope} turnout={data.turnout} />
+          <ElectionTurnoutSection scope={data.scope} turnout={data.turnout} />
           {data.observation && <ElectionObservationSection observation={data.observation} />}
           <ElectionResultsSummarySection meta={data.meta} scope={data.scope} results={data.results} />
           {data.results && <ElectionResultsProcess results={data.results} />}
