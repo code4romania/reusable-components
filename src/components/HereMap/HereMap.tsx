@@ -284,6 +284,7 @@ export const HereMap = themable<Props>(
       ui.addControl("zoomControl", zoomControl);
 
       return () => {
+        if ((mapObjects.map as any).disposed) return;
         behaviour.disable();
         ui.removeControl("zoomControl");
       };
