@@ -15,7 +15,7 @@ import { ElectionResultsProcess } from "../components/ElectionResultsProcess/Ele
 import { ElectionResultsSeats } from "../components/ElectionResultsSeats/ElectionResultsSeats";
 import { ElectionResultsTableSection } from "../components/ElectionResultsTableSection/ElectionResultsTableSection";
 import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimeline";
-import { ElectionScopeIncomplete } from "../types/Election";
+import { ElectionCompatibleScopes, ElectionScopeIncomplete } from "../types/Election";
 import { ElectionScopePicker, useElectionScopePickerApi } from "../components/ElectionScopePicker/ElectionScopePicker";
 import { useBallotData } from "../hooks/electionApiHooks";
 import { ElectionNewsSection } from "../components/ElectionNewsSection/ElectionNewsSection";
@@ -97,16 +97,26 @@ export const ElectionTimelineComponent = (args: { api: string; apiUrl: string })
   );
 };
 
-export const ElectionScopeComponent = (args: { api: string; apiUrl: string; ballotId: number }) => {
+export const ElectionScopeComponent = (args: {
+  api: string;
+  apiUrl: string;
+  ballotId: number;
+  compatibleScopes?: ElectionCompatibleScopes;
+}) => {
   const [scope, setScope] = useState<ElectionScopeIncomplete>({ type: "national" });
   const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
   const apiData = useElectionScopePickerApi(electionApi, scope, args.ballotId);
-  return <ElectionScopePicker apiData={apiData} value={scope} onChange={setScope} />;
+  return (
+    <ElectionScopePicker apiData={apiData} value={scope} onChange={setScope} compatibleScopes={args.compatibleScopes} />
+  );
+};
+
+ElectionScopeComponent.args = {
+  ballotId: 1,
+  compatibleScopes: {},
 };
 
 ElectionScopeComponent.argTypes = {
-  ballotId: {
-    defaultValue: 1,
-    control: "number",
-  },
+  ballotId: { control: "number" },
+  compatibleScopes: { control: "object" },
 };

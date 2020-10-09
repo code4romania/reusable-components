@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
-import { ElectionScope, ElectionScopeIncomplete } from "../../types/Election";
+import { ElectionCompatibleScopes, ElectionScope, ElectionScopeIncomplete } from "../../types/Election";
 import { APIRequestState } from "../../util/api";
 import { ElectionScopeAPI, OptionWithID } from "../../util/electionApi";
 import { themable, useTheme } from "../../hooks/theme";
@@ -12,6 +12,7 @@ type Props = {
   apiData: ElectionScopePickerAPIData;
   value: ElectionScopeIncomplete;
   onChange: (scope: ElectionScopeIncomplete) => unknown;
+  compatibleScopes?: ElectionCompatibleScopes;
 };
 
 export const electionScopePickerUpdateType = (
@@ -90,12 +91,15 @@ export type ElectionScopePickerSelectOnChange<K = number> = (
   value: OptionWithID<K> | ReadonlyArray<OptionWithID<K>> | null | undefined,
 ) => void;
 
+export type ElectionScopePickerIsOptionDisabled<K = number> = (value: OptionWithID<K>) => boolean;
+
 export type ElectionScopePickerSelectProps<K = number> = {
   label: string;
   selectProps: {
     value: OptionWithID<K> | null;
     onChange: ElectionScopePickerSelectOnChange<K>;
     options: OptionWithID<K>[];
+    isOptionDisabled?: ElectionScopePickerIsOptionDisabled<K>;
     isLoading: boolean;
     isDisabled: boolean;
     placeholder?: string;
@@ -126,6 +130,7 @@ export const useElectionScopePickerGetSelectProps = (
   apiData: ElectionScopePickerAPIData,
   scope: ElectionScopeIncomplete,
   onChangeScope: (newScope: ElectionScopeIncomplete) => unknown,
+  compatibleScopes?: ElectionCompatibleScopes,
 ): ElectionScopePickerSelectProps[] => {
   const countyMap = useMemo(() => buildMap(apiData.countyData.data), [apiData.countyData.data]);
   const localityMap = useMemo(() => buildMap(apiData.localityData.data), [apiData.localityData.data]);
@@ -202,7 +207,10 @@ export const useElectionScopePickerGetSelectProps = (
     });
   }
 
-  if (scope.type === "diaspora" || scope.type === "diaspora_country") {
+  if (
+    (scope.type === "diaspora" && compatibleScopes?.diaspora_country !== false) ||
+    scope.type === "diaspora_country"
+  ) {
     selects.push({
       label: "Țară",
       selectProps: {
@@ -237,12 +245,13 @@ const typeOptions: OptionWithID<ElectionScope["type"]>[] = [
   { id: "national", name: typeNames.national },
   { id: "county", name: typeNames.county },
   { id: "locality", name: typeNames.locality },
-  // { id: "diaspora", name: typeNames.diaspora },
+  { id: "diaspora", name: typeNames.diaspora },
 ];
 
 export const useElectionScopePickerGetTypeSelectProps = (
   scope: ElectionScopeIncomplete,
   onChangeScope: (newScope: ElectionScopeIncomplete) => unknown,
+  compatibleScopes?: ElectionCompatibleScopes,
 ): ElectionScopePickerSelectProps<ElectionScope["type"]> => {
   const onTypeChange = useCallback<ElectionScopePickerSelectOnChange<ElectionScope["type"]>>(
     (value) => {
@@ -256,6 +265,11 @@ export const useElectionScopePickerGetTypeSelectProps = (
     [scope, onChangeScope],
   );
 
+  const isOptionDisabled = useMemo<ElectionScopePickerIsOptionDisabled<ElectionScope["type"]> | undefined>(
+    () => (compatibleScopes ? (option) => compatibleScopes[option.id] === false : undefined),
+    [compatibleScopes],
+  );
+
   const value = scope.type === "diaspora_country" ? "diaspora" : scope.type;
   return {
     label: "Diviziune",
@@ -263,6 +277,7 @@ export const useElectionScopePickerGetTypeSelectProps = (
       value: { id: value, name: typeNames[value] },
       onChange: onTypeChange,
       options: typeOptions,
+      isOptionDisabled,
       isLoading: false,
       isDisabled: false,
     },
@@ -294,9 +309,9 @@ const typeSelectStyles = {
 export const ElectionScopePicker = themable<Props>(
   "ElectionScopePicker",
   cssClasses,
-)(({ classes, apiData, value, onChange }) => {
-  const typeSelect = useElectionScopePickerGetTypeSelectProps(value, onChange);
-  const selects = useElectionScopePickerGetSelectProps(apiData, value, onChange);
+)(({ classes, apiData, value, onChange, compatibleScopes }) => {
+  const typeSelect = useElectionScopePickerGetTypeSelectProps(value, onChange, compatibleScopes);
+  const selects = useElectionScopePickerGetSelectProps(apiData, value, onChange, compatibleScopes);
   const theme = useTheme();
 
   const selectTheme = useMemo(
@@ -324,6 +339,7 @@ export const ElectionScopePicker = themable<Props>(
         theme={selectTheme}
         className={classes.typeSelect}
         styles={typeSelectStyles}
+        key={JSON.stringify(compatibleScopes)} // Workaround: The menu list in the Select component doesn't want to re-render on isOptionDisabled change
       />
       <div className={classes.selects}>
         {selects.map(({ label, selectProps }, index) => (
