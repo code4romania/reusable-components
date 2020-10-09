@@ -42,12 +42,13 @@ export type ElectionType =
   | "house"
   | "local_council"
   | "county_council"
+  | "county_council_president"
   | "mayor"
   | "european_parliament"
   | string;
 
 export const electionTypeInvolvesDiaspora = (electionType: ElectionType): boolean =>
-  electionType !== "local_council" && electionType !== "county_council" && electionType !== "mayor";
+  electionTypeCompatibleScopes(electionType).diaspora !== false;
 
 export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
   electionType === "senate" ||
@@ -59,6 +60,54 @@ export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
 export const electionHasSeats = (electionType: ElectionType, results: ElectionResults): boolean =>
   electionTypeHasSeats(electionType) &&
   results.candidates.reduce<boolean>((acc, cand) => acc || cand.seats != null, false);
+
+export type ElectionCompatibleScopes = Partial<Record<ElectionScope["type"], boolean>>;
+
+const allCompatibleScopes: ElectionCompatibleScopes = {};
+const countyCompatibleScopes: ElectionCompatibleScopes = { locality: false, diaspora: false, diaspora_country: false };
+const localCompatibleScopes: ElectionCompatibleScopes = { diaspora: false, diaspora_country: false };
+
+const compatibleScopesByType: Partial<Record<ElectionType, ElectionCompatibleScopes>> = {
+  local_council: localCompatibleScopes,
+  mayor: localCompatibleScopes,
+  county_council: countyCompatibleScopes,
+  county_council_president: countyCompatibleScopes,
+};
+
+export const electionTypeCompatibleScopes = (electionType: ElectionType): ElectionCompatibleScopes =>
+  compatibleScopesByType[electionType] ?? allCompatibleScopes;
+
+const fallbackOrder: ElectionScope["type"][] = ["national", "diaspora", "county", "locality", "diaspora_country"];
+const emptyScopes: Record<ElectionScope["type"], ElectionScopeIncomplete> = {
+  national: { type: "national" },
+  county: { type: "county", countyId: null },
+  locality: { type: "locality", countyId: null, localityId: null },
+  diaspora: { type: "diaspora" },
+  diaspora_country: { type: "diaspora_country", countryId: null },
+};
+
+export const electionScopeCoerceToCompatible = (
+  scope: ElectionScopeIncomplete,
+  compatibleScopes: ElectionCompatibleScopes,
+): ElectionScopeIncomplete => {
+  if (compatibleScopes[scope.type] !== false) return scope;
+
+  if (scope.type === "locality") {
+    return electionScopeCoerceToCompatible({ type: "county", countyId: scope.countyId }, compatibleScopes);
+  }
+
+  if (scope.type === "diaspora_country") {
+    return electionScopeCoerceToCompatible({ type: "diaspora" }, compatibleScopes);
+  }
+
+  for (const fallbackType of fallbackOrder) {
+    if (compatibleScopes[fallbackType] !== false) {
+      return emptyScopes[fallbackType];
+    }
+  }
+
+  return emptyScopes.national;
+};
 
 export type ElectionBallotMeta = {
   // The app should work with any specified "type" in here, including values unknown yet to the frontend
