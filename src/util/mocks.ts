@@ -148,6 +148,36 @@ export const mockResults: ElectionResults = {
       shortName: "DUM2",
       votes: 1063331,
     },
+    {
+      name: "Dummy 3",
+      shortName: "DUM3",
+      votes: 1063331,
+    },
+    {
+      name: "Dummy 4",
+      shortName: "DUM4",
+      votes: 1063331,
+    },
+    {
+      name: "Dummy 5",
+      shortName: "DUM5",
+      votes: 1063331,
+    },
+    {
+      name: "Dummy 6",
+      shortName: "DUM6",
+      votes: 1063331,
+    },
+    {
+      name: "Dummy 7",
+      shortName: "DUM7",
+      votes: 1063331,
+    },
+    {
+      name: "Dummy 8",
+      shortName: "DUM8",
+      votes: 1063331,
+    },
   ],
 };
 
