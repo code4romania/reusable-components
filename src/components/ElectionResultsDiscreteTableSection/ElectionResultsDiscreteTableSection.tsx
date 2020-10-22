@@ -16,7 +16,7 @@ const CandidateTable: React.FC<{
   heading: string;
 }> = ({ candidates, heading }) => {
   const [collapsed, setCollapsed] = useState<boolean>(true);
-  const canCollapse = candidates && candidates.length >= 10;
+  const canCollapse = candidates && candidates.length >= 12;
 
   const onToggleCollapsed = useCallback(() => {
     setCollapsed((x) => !x);
@@ -34,7 +34,7 @@ const CandidateTable: React.FC<{
           {candidates &&
             candidates.map(
               (candidate, index) =>
-                (!(canCollapse && collapsed) || index < 5) && (
+                (!(canCollapse && collapsed) || index < 10) && (
                   <tr key={index}>
                     <td className={classes.nameCell}>{candidate.name}</td>
                     <td>{formatGroupedNumber(candidate.votes)}</td>
@@ -45,7 +45,7 @@ const CandidateTable: React.FC<{
       </ResultsTable>
       {canCollapse && (
         <Button className={classes.collapseButton} onClick={onToggleCollapsed}>
-          {collapsed ? "Afișează toate rezultatele" : "Ascunde toate rezultatele"}
+          {collapsed ? "Afișează toate rezultatele" : "Ascunde rezultatele"}
         </Button>
       )}
     </div>
