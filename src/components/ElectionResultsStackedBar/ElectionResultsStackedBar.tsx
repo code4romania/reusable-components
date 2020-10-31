@@ -11,6 +11,7 @@ import cssClasses from "./ElectionResultsStackedBar.module.scss";
 type Props = {
   results: ElectionResults;
   meta?: ElectionBallotMeta | null;
+  displayPercentages?: boolean;
 };
 
 const defaultConstants = {
@@ -25,9 +26,11 @@ export const ElectionResultsStackedBar = themable<Props>(
   "ElectionResultsStackedBar",
   cssClasses,
   defaultConstants,
-)(({ classes, results, constants, meta }) => {
+)(({ classes, results, constants, meta, displayPercentages }) => {
   const { candidates } = results;
   const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = constants;
+
+  const showPercentages = displayPercentages ?? true;
 
   const [stackedBarItems, legendItems] = useMemo(() => {
     const items: (HorizontalStackedBarItem & {
@@ -37,7 +40,10 @@ export const ElectionResultsStackedBar = themable<Props>(
       index: number;
     })[] = [];
 
-    const percentageBasis = meta?.type === "referendum" ? results.eligibleVoters ?? 0 : results.validVotes;
+    const sumOfVotes = candidates.reduce((crtValue, candidate) => crtValue + candidate.votes, 0);
+
+    const percentageBasis =
+      meta?.type === "referendum" ? results.eligibleVoters ?? 0 : showPercentages ? results.validVotes : sumOfVotes;
 
     const stackedBarCount = candidates.length === maxStackedBarItems + 1 ? maxStackedBarItems + 1 : maxStackedBarItems;
     for (let i = 0; i < stackedBarCount; i++) {
@@ -94,7 +100,8 @@ export const ElectionResultsStackedBar = themable<Props>(
                 key={item.index}
                 name={item.name}
                 color={item.color}
-                percentage={item.percent}
+                value={showPercentages ? item.percent : item.value}
+                isPercentage={showPercentages}
                 iconUrl={(width >= breakpoint1 || item.index < 2) && width >= breakpoint3 ? item.logo : undefined}
                 rightAligned={index === stackedBarItems.length - 1}
               />
@@ -110,7 +117,7 @@ export const ElectionResultsStackedBar = themable<Props>(
             name={item.name}
             color={item.color}
             votes={item.value}
-            percentage={item.percent}
+            percentage={showPercentages ? item.percent : undefined}
           />
         ))}
       </div>

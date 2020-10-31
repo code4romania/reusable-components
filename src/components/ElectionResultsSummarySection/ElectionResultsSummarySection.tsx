@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import {
   ElectionBallotMeta,
   ElectionResults,
+  electionResultsShouldShowAsPercentages,
   ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
@@ -44,6 +45,8 @@ export const ElectionResultsSummarySection = themable<Props>(
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
+
+  const displayPercentages = scope && meta ? electionResultsShouldShowAsPercentages(scope, meta) : true;
 
   const topCandidate = results?.candidates && results.candidates[0];
   const percentage = formatPercentage(
@@ -104,7 +107,14 @@ export const ElectionResultsSummarySection = themable<Props>(
             fie câștigătorii pentru această unitate au fost aleși în primul tur de scrutin.
           </DivBodyHuge>
         ))}
-      {results && <ElectionResultsStackedBar className={classes.stackedBar} results={results} meta={meta} />}
+      {results && (
+        <ElectionResultsStackedBar
+          className={classes.stackedBar}
+          results={results}
+          meta={meta}
+          displayPercentages={displayPercentages}
+        />
+      )}
       <div style={{ width: "100%" }} ref={measureRef} />
       {results && !mobileMap && separator}
       {!mobileMap && (
