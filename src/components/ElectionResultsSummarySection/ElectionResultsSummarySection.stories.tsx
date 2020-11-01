@@ -3,6 +3,8 @@
 import React from "react";
 import { ElectionScopeIncompleteResolved } from "../../types/Election";
 import {
+  mockCountyCouncilElectionMeta,
+  mockCountyCouncilResults,
   mockDiasporaElectionScope,
   mockLocalCouncilElectionMeta,
   mockLocalityElectionScope,
@@ -33,6 +35,16 @@ export const LocalCouncilElection = () => {
       scope={mockNationalElectionScope}
       meta={mockLocalCouncilElectionMeta}
       results={mockResults}
+    />
+  );
+};
+
+export const CountyCouncilElection = () => {
+  return (
+    <ElectionResultsSummarySection
+      scope={mockNationalElectionScope}
+      meta={mockCountyCouncilElectionMeta}
+      results={mockCountyCouncilResults}
     />
   );
 };

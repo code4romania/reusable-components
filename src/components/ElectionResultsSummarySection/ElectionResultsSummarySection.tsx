@@ -125,6 +125,7 @@ export const ElectionResultsSummarySection = themable<Props>(
               meta={meta}
               results={results}
               headers={tableHeaders}
+              displayVotesAsSeats={!displayPercentages}
             />
           )}
           {map}

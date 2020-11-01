@@ -46,6 +46,16 @@ export const mockLocalCouncilElectionMeta: ElectionBallotMeta = {
   electionId: 2,
 };
 
+export const mockCountyCouncilElectionMeta: ElectionBallotMeta = {
+  type: "county_council",
+  date: "2016-06-05",
+  title: "Alegeri Locale",
+  ballot: "Consiliul judetean",
+  ballotId: 3,
+  electionId: 3,
+};
+
+
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
   eligibleVoters: 18217411,
   totalVotes: 9086696,
@@ -180,6 +190,98 @@ export const mockResults: ElectionResults = {
     },
   ],
 };
+
+export const mockCountyCouncilResults = {
+  eligibleVoters: 18466219,
+  totalVotes: 8419716,
+  validVotes: 7937514,
+  nullVotes: 482202,
+  totalSeats: 0,
+  candidates: [
+    {
+      name: "Partidul Social Democrat",
+      partyColor: "#FF0000",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
+      votes: 16,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "Partidul Național Liberal",
+      partyColor: "#F8DD1B",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
+      votes: 15,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
+      partyColor: "#007300",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
+      votes: 4,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA ELECTORALĂ ALIANȚA PENTRU MODERNIZAREA NEAMȚULUI 2020",
+      shortName: "A. ELECTORALĂ PENTRU MODERNIZAREA NEAMȚULUI 2020",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA PNL USR PLUS",
+      shortName: "A. PNL USR PLUS",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA PENTRU BISTRIȚA-NĂSĂUD",
+      shortName: "A. NĂSĂUD",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "INDEPENDENT",
+      shortName: "INDEPENDENT",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANTA ELECTORALA PSD+ALDE DOLJ",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA PSD-PRO BUZĂU",
+      shortName: "A. PRO BUZĂU",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name:
+        "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
+      shortName: "A.  UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+  ],
+};
+
 
 export const mockElectionList = [
   {
