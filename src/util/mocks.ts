@@ -55,7 +55,6 @@ export const mockCountyCouncilElectionMeta: ElectionBallotMeta = {
   electionId: 3,
 };
 
-
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
   eligibleVoters: 18217411,
   totalVotes: 9086696,
@@ -281,7 +280,6 @@ export const mockCountyCouncilResults = {
     },
   ],
 };
-
 
 export const mockElectionList = [
   {
