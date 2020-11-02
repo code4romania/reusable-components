@@ -60,6 +60,7 @@ export const ElectionResultsSummarySection = themable<Props>(
   const map = width != null && (
     <ElectionMap
       scope={scope}
+      electionType={meta?.type}
       onScopeChange={onScopeChange}
       className={classes.map}
       selectedColor={topCandidate && electionCandidateColor(topCandidate)}

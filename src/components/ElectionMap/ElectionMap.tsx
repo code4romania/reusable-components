@@ -1,5 +1,5 @@
 import React, { createContext, PropsWithChildren, useContext, useCallback, useMemo } from "react";
-import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete } from "../../types/Election";
+import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete, ElectionType } from "../../types/Election";
 import { mergeClasses, themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
@@ -18,6 +18,7 @@ type Props = PropsWithChildren<{
   maxHeight?: number;
   selectedColor?: string;
   defaultColor?: string;
+  electionType?: ElectionType;
 
   api?: ElectionMapAPI;
   ballotId?: number | null;
@@ -41,12 +42,16 @@ export const ElectionMap = themable<Props>(
     children,
     selectedColor,
     defaultColor,
+    electionType,
     api,
     ballotId,
   }) => {
     const [ref, { width = 0 }] = useDimensions();
 
-    const showsSimpleMap = scope.type === "national";
+    const showsSimpleMap =
+      scope.type === "national" &&
+      ["referendum", "president", "senate", "house", "european_parliament"].includes(electionType);
+
     const ar = aspectRatio ?? defaultAspectRatio;
     let height = Math.min(maxHeight, width / ar);
     if (!Number.isFinite(height)) {

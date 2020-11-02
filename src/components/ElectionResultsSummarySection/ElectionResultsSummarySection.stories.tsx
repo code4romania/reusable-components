@@ -6,6 +6,7 @@ import {
   mockCountyCouncilElectionMeta,
   mockCountyCouncilResults,
   mockDiasporaElectionScope,
+  mockElectionAPI,
   mockLocalCouncilElectionMeta,
   mockLocalityElectionScope,
   mockNationalElectionScope,
@@ -45,6 +46,7 @@ export const CountyCouncilElection = () => {
       scope={mockNationalElectionScope}
       meta={mockCountyCouncilElectionMeta}
       results={mockCountyCouncilResults}
+      api={mockElectionAPI}
     />
   );
 };
