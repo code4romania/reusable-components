@@ -935,14 +935,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "DUMITREL ION",
       partyColor: "#F8DD1B",
       votes: 82945,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -952,14 +944,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "PAVEL MARIAN",
       partyColor: "#FF0000",
       votes: 37068,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -969,14 +953,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "ALEXE COSTEL",
       partyColor: "#F8DD1B",
       votes: 104656,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -986,14 +962,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "THUMA HUBERT PETRU ŞTEFAN",
       partyColor: "#F8DD1B",
       votes: 89860,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1003,14 +971,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "BOGDAN IONEL-OVIDIU",
       partyColor: "#F8DD1B",
       votes: 64264,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1020,14 +980,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "GEORGESCU ALADIN-GIGI",
       partyColor: "#FF0000",
       votes: 54313,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1037,14 +989,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "PÉTER FERENC",
       partyColor: "#007300",
       votes: 85673,
-      party: {
-        id: 21,
-        name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
-        shortName: "UDMR",
-        logoUrl:
-          "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
-        color: "#007300",
-      },
     },
   },
   {
@@ -1052,10 +996,9 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
     validVotes: 186431,
     winner: {
       name: "ARSENE IONEL",
-      shortName: "ALIANȚA ELECTORALĂ \"ALIANȚA PENTRU MODERNIZAREA NEAMȚULUI 2020\"",
+      shortName: "ALIANȚA PENTRU MODERNIZAREA NEAMȚULUI 2020",
       partyColor: "#808080",
       votes: 77208,
-      party: { id: 0, name: "ALIANȚA ELECTORALĂ \"ALIANȚA PENTRU MODERNIZAREA NEAMȚULUI 2020\"" },
     },
   },
   {
@@ -1065,14 +1008,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "OPRESCU MARIUS",
       partyColor: "#FF0000",
       votes: 109957,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1083,7 +1018,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       shortName: "ALIANȚA PNL USR PLUS",
       partyColor: "#808080",
       votes: 137286,
-      party: { id: 0, name: "ALIANȚA PNL USR PLUS" },
     },
   },
   {
@@ -1093,14 +1027,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "IANCU-SĂLĂJANU DINU",
       partyColor: "#F8DD1B",
       votes: 38464,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1110,14 +1036,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "PATAKI CSABA",
       partyColor: "#007300",
       votes: 52371,
-      party: {
-        id: 21,
-        name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
-        shortName: "UDMR",
-        logoUrl:
-          "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
-        color: "#007300",
-      },
     },
   },
   {
@@ -1127,14 +1045,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "CÎMPEAN DANIELA",
       partyColor: "#F8DD1B",
       votes: 72757,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1144,14 +1054,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "FLUTUR GHEORGHE",
       partyColor: "#F8DD1B",
       votes: 106960,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1161,14 +1063,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "GÂDEA ADRIAN-IONUŢ",
       partyColor: "#FF0000",
       votes: 71584,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1178,14 +1072,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "NICA ALIN-ADRIAN",
       partyColor: "#F8DD1B",
       votes: 104508,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1195,14 +1081,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "TEODORESCU HORIA",
       partyColor: "#FF0000",
       votes: 33294,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1212,14 +1090,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "RĂDULESCU CONSTANTIN",
       partyColor: "#FF0000",
       votes: 74129,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1229,14 +1099,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "NISTOR LAURENŢIU",
       partyColor: "#FF0000",
       votes: 71052,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1246,14 +1108,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "BORBOLY CSABA",
       partyColor: "#007300",
       votes: 69822,
-      party: {
-        id: 21,
-        name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
-        shortName: "UDMR",
-        logoUrl:
-          "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
-        color: "#007300",
-      },
     },
   },
   {
@@ -1263,14 +1117,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "POPESCU COSMIN-MIHAI",
       partyColor: "#FF0000",
       votes: 66109,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1280,14 +1126,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "BEIANU DUMITRU",
       partyColor: "#F8DD1B",
       votes: 60255,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1297,14 +1135,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "CIONCA-ARGHIR IUSTIN-MARINEL",
       partyColor: "#F8DD1B",
       votes: 77318,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1314,14 +1144,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "MÎNZÎNĂ ION",
       partyColor: "#FF0000",
       votes: 104269,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1331,14 +1153,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "IVANCEA VALENTIN",
       partyColor: "#FF0000",
       votes: 94669,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1348,14 +1162,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "BOLOJAN ILIE-GAVRIL",
       partyColor: "#F8DD1B",
       votes: 156241,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1366,7 +1172,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       shortName: "ALIANȚA PENTRU BISTRIȚA-NĂSĂUD",
       partyColor: "#808080",
       votes: 66039,
-      party: { id: 0, name: "ALIANȚA PENTRU BISTRIȚA-NĂSĂUD" },
     },
   },
   {
@@ -1376,14 +1181,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "FEDEROVICI DOINA-ELENA",
       partyColor: "#FF0000",
       votes: 65688,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1393,14 +1190,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "CHIRIAC FRANCISK-IULIAN",
       partyColor: "#FF0000",
       votes: 55547,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1410,14 +1199,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "VEŞTEA ADRIAN-IOAN",
       partyColor: "#F8DD1B",
       votes: 95615,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1427,14 +1208,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "BUZATU DUMITRU",
       partyColor: "#FF0000",
       votes: 57283,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1449,14 +1222,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "ILIUŢĂ VASILE",
       partyColor: "#FF0000",
       votes: 57100,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1466,14 +1231,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "DUNCA ROMEO-DAN",
       partyColor: "#F8DD1B",
       votes: 51488,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1483,14 +1240,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "TIŞE ALIN-PĂUNEL",
       partyColor: "#F8DD1B",
       votes: 127251,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1500,14 +1249,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "LUPU MIHAI",
       partyColor: "#F8DD1B",
       votes: 101893,
-      party: {
-        id: 3,
-        name: "Partidul Național Liberal",
-        shortName: "PNL",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
-        color: "#F8DD1B",
-        alias: "PARTIDUL NAȚIONAL LIBERAL",
-      },
     },
   },
   {
@@ -1517,14 +1258,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "TAMÁS SÁNDOR",
       partyColor: "#007300",
       votes: 43391,
-      party: {
-        id: 21,
-        name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
-        shortName: "UDMR",
-        logoUrl:
-          "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
-        color: "#007300",
-      },
     },
   },
   {
@@ -1534,14 +1267,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "ŞTEFAN CORNELIU",
       partyColor: "#FF0000",
       votes: 100064,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1552,7 +1277,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       shortName: "AEPD",
       partyColor: "#808080",
       votes: 111317,
-      party: { id: 0, name: "ALIANTA ELECTORALA PSD+ALDE DOLJ" },
     },
   },
   {
@@ -1562,14 +1286,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       name: "FOTEA COSTEL",
       partyColor: "#FF0000",
       votes: 97109,
-      party: {
-        id: 13,
-        name: "Partidul Social Democrat",
-        shortName: "PSD",
-        logoUrl: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
-        color: "#FF0000",
-        alias: "PARTIDUL SOCIAL DEMOCRAT",
-      },
     },
   },
   {
@@ -1580,7 +1296,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
       shortName: "ALIANȚA PSD-PRO BUZĂU",
       partyColor: "#808080",
       votes: 100312,
-      party: { id: 0, name: "ALIANȚA PSD-PRO BUZĂU" },
     },
   },
   {
@@ -1592,11 +1307,6 @@ export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
         "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
       partyColor: "#808080",
       votes: 65637,
-      party: {
-        id: 0,
-        name:
-          "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
-      },
     },
   },
 ];

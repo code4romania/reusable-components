@@ -50,7 +50,8 @@ export const ElectionMap = themable<Props>(
 
     const showsSimpleMap =
       scope.type === "national" &&
-      ["referendum", "president", "senate", "house", "european_parliament"].includes(electionType);
+      (electionType === undefined ||
+        ["referendum", "president", "senate", "house", "european_parliament"].includes(electionType));
 
     const ar = aspectRatio ?? defaultAspectRatio;
     let height = Math.min(maxHeight, width / ar);
