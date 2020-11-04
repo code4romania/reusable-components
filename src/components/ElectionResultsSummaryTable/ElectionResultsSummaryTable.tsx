@@ -1,5 +1,11 @@
 import React from "react";
-import { electionHasSeats, ElectionBallotMeta, ElectionResults, ElectionResultsCandidate } from "../../types/Election";
+import {
+  electionHasSeats,
+  ElectionBallotMeta,
+  ElectionResults,
+  ElectionResultsCandidate,
+  ElectionType,
+} from "../../types/Election";
 import { ClassNames, themable } from "../../hooks/theme";
 import { DivBody, Heading3, makeTypographyComponent } from "../Typography/Typography";
 import { lightFormat, parseISO } from "date-fns";
@@ -54,11 +60,12 @@ const headerRowForVotesWithSeats = function (
   );
 };
 
-const headerRowForVotesAsSeatsWon = function () {
+const headerRowForVotesAsSeatsWon = function (type: ElectionType) {
+  const placesWonTitle = type === "mayor" ? "Nr. Primari" : type === "county_council_president" ? "Nr. Presedinti" : "";
   return (
     <tr>
       <THeadRow>Partid</THeadRow>
-      <THeadRow>Mandate</THeadRow>
+      <THeadRow>{placesWonTitle}</THeadRow>
     </tr>
   );
 };
@@ -126,7 +133,7 @@ export const ElectionResultsSummaryTable = themable<Props>(
         <table className={classes.table}>
           <thead>
             {displayVotesAsSeats ?? false
-              ? headerRowForVotesAsSeatsWon()
+              ? headerRowForVotesAsSeatsWon(meta.type)
               : headerRowForVotesWithSeats(headers, isReferendum, hasSeats, classes)}
           </thead>
           <tbody>

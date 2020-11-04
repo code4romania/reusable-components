@@ -9,7 +9,9 @@ import {
   mockDiasporaElectionScope,
   mockElectionAPI,
   mockLocalCouncilElectionMeta,
+  mockLocalCouncilResults,
   mockLocalityElectionScope,
+  mockMayorElectionMeta,
   mockMayorResults,
   mockNationalElectionScope,
   mockPresidentialElectionMeta,
@@ -32,12 +34,23 @@ export const PresidentialElection = () => {
   );
 };
 
+export const MayorPerCountyElection = () => {
+  return (
+    <ElectionResultsSummarySection
+      scope={mockCountyElectionScope}
+      meta={mockMayorElectionMeta}
+      results={mockMayorResults}
+      api={mockElectionAPI}
+    />
+  );
+};
+
 export const LocalCouncilElection = () => {
   return (
     <ElectionResultsSummarySection
       scope={mockCountyElectionScope}
       meta={mockLocalCouncilElectionMeta}
-      results={mockMayorResults}
+      results={mockLocalCouncilResults}
       api={mockElectionAPI}
     />
   );

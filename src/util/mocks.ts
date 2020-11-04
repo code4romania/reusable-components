@@ -46,8 +46,17 @@ export const mockLocalCouncilElectionMeta: ElectionBallotMeta = {
   electionId: 2,
 };
 
+export const mockMayorElectionMeta: ElectionBallotMeta = {
+  type: "mayor",
+  date: "2016-06-05",
+  title: "Alegeri locale",
+  ballot: "Consiliul Local",
+  ballotId: 4,
+  electionId: 4,
+};
+
 export const mockCountyCouncilElectionMeta: ElectionBallotMeta = {
-  type: "county_council",
+  type: "county_council_president",
   date: "2016-06-05",
   title: "Alegeri Locale",
   ballot: "Consiliul judetean",
@@ -186,6 +195,70 @@ export const mockResults: ElectionResults = {
       name: "Dummy 8",
       shortName: "DUM8",
       votes: 1063331,
+    },
+  ],
+};
+
+export const mockLocalCouncilResults = {
+  eligibleVoters: 313454,
+  totalVotes: 155683,
+  validVotes: 150100,
+  nullVotes: 5583,
+  totalSeats: 0,
+  candidates: [
+    {
+      name: "Partidul Național Liberal",
+      partyColor: "#F8DD1B",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
+      votes: 63835,
+      seats: 422,
+      totalSeats: 422,
+    },
+    {
+      name: "Partidul Social Democrat",
+      partyColor: "#FF0000",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
+      votes: 5379,
+      seats: 55,
+      totalSeats: 55,
+    },
+    {
+      name: "Alianța pentru Unirea Românilor",
+      shortName: "A. pentru Unirea Românilor",
+      partyColor: "#660066",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Alian%C8%9Ba+pentru+Unirea+Rom%C3%A2nilor.jpg",
+      votes: 869,
+      seats: 7,
+      totalSeats: 7,
+    },
+    {
+      name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
+      partyColor: "#007300",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
+      votes: 825,
+      seats: 11,
+      totalSeats: 11,
+    },
+    {
+      name: "Alianța Liberalilor și Democraților",
+      shortName: "A. Liberalilor și Democraților",
+      partyColor: "#B2B200",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Alian%C8%9Ba+Liberalilor+%C8%99i+Democra%C8%9Bilor.jpg",
+      votes: 528,
+      seats: 5,
+      totalSeats: 5,
+    },
+    {
+      name: "Partidul Miscarea Populară",
+      partyColor: "#000099",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Miscarea+Popular%C4%83.jpg",
+      votes: 161,
+      seats: 6,
+      totalSeats: 6,
     },
   ],
 };
