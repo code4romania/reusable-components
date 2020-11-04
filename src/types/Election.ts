@@ -34,10 +34,7 @@ export const electionResultsShouldShowAsPercentages = (
   if (
     (scope.type === "national" && meta.type === "mayor") ||
     (scope.type === "county" && meta.type === "mayor" && scope.countyId !== 12913) ||
-    (scope.type === "national" && meta.type === "county_council_president") ||
-    (scope.type === "county" && meta.type === "local_council") ||
-    (scope.type === "national" && meta.type === "local_council") ||
-    (scope.type === "national" && meta.type === "county_council")
+    (scope.type === "national" && meta.type === "county_council_president")
   ) {
     return false;
   }
