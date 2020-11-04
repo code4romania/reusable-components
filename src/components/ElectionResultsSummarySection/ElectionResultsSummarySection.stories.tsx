@@ -5,10 +5,12 @@ import { ElectionScopeIncompleteResolved } from "../../types/Election";
 import {
   mockCountyCouncilElectionMeta,
   mockCountyCouncilResults,
+  mockCountyElectionScope,
   mockDiasporaElectionScope,
   mockElectionAPI,
   mockLocalCouncilElectionMeta,
   mockLocalityElectionScope,
+  mockMayorResults,
   mockNationalElectionScope,
   mockPresidentialElectionMeta,
   mockResults,
@@ -33,9 +35,10 @@ export const PresidentialElection = () => {
 export const LocalCouncilElection = () => {
   return (
     <ElectionResultsSummarySection
-      scope={mockNationalElectionScope}
+      scope={mockCountyElectionScope}
       meta={mockLocalCouncilElectionMeta}
-      results={mockResults}
+      results={mockMayorResults}
+      api={mockElectionAPI}
     />
   );
 };
