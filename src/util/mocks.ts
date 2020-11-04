@@ -9,7 +9,7 @@ import {
   ElectionScopeResolved,
   ElectionTurnout,
 } from "../types/Election";
-import { mockFetch, APIMockHandler } from "./api";
+import { APIMockHandler, mockFetch } from "./api";
 import { makeElectionApi } from "./electionApi";
 
 export const mockNationalElectionScope: ElectionScopeResolved = { type: "national" };
@@ -44,6 +44,24 @@ export const mockLocalCouncilElectionMeta: ElectionBallotMeta = {
   ballot: "Consiliul Local",
   ballotId: 2,
   electionId: 2,
+};
+
+export const mockMayorElectionMeta: ElectionBallotMeta = {
+  type: "mayor",
+  date: "2016-06-05",
+  title: "Alegeri locale",
+  ballot: "Consiliul Local",
+  ballotId: 4,
+  electionId: 4,
+};
+
+export const mockCountyCouncilElectionMeta: ElectionBallotMeta = {
+  type: "county_council_president",
+  date: "2016-06-05",
+  title: "Alegeri Locale",
+  ballot: "Consiliul judetean",
+  ballotId: 3,
+  electionId: 3,
 };
 
 export const mockPresidentialElectionTurnout: ElectionTurnout = {
@@ -177,6 +195,212 @@ export const mockResults: ElectionResults = {
       name: "Dummy 8",
       shortName: "DUM8",
       votes: 1063331,
+    },
+  ],
+};
+
+export const mockLocalCouncilResults = {
+  eligibleVoters: 313454,
+  totalVotes: 155683,
+  validVotes: 150100,
+  nullVotes: 5583,
+  totalSeats: 0,
+  candidates: [
+    {
+      name: "Partidul Național Liberal",
+      partyColor: "#F8DD1B",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
+      votes: 63835,
+      seats: 422,
+      totalSeats: 422,
+    },
+    {
+      name: "Partidul Social Democrat",
+      partyColor: "#FF0000",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
+      votes: 5379,
+      seats: 55,
+      totalSeats: 55,
+    },
+    {
+      name: "Alianța pentru Unirea Românilor",
+      shortName: "A. pentru Unirea Românilor",
+      partyColor: "#660066",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Alian%C8%9Ba+pentru+Unirea+Rom%C3%A2nilor.jpg",
+      votes: 869,
+      seats: 7,
+      totalSeats: 7,
+    },
+    {
+      name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
+      partyColor: "#007300",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
+      votes: 825,
+      seats: 11,
+      totalSeats: 11,
+    },
+    {
+      name: "Alianța Liberalilor și Democraților",
+      shortName: "A. Liberalilor și Democraților",
+      partyColor: "#B2B200",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Alian%C8%9Ba+Liberalilor+%C8%99i+Democra%C8%9Bilor.jpg",
+      votes: 528,
+      seats: 5,
+      totalSeats: 5,
+    },
+    {
+      name: "Partidul Miscarea Populară",
+      partyColor: "#000099",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Miscarea+Popular%C4%83.jpg",
+      votes: 161,
+      seats: 6,
+      totalSeats: 6,
+    },
+  ],
+};
+
+export const mockMayorResults = {
+  eligibleVoters: 393847,
+  totalVotes: 175789,
+  validVotes: 170594,
+  nullVotes: 5195,
+  totalSeats: 0,
+  candidates: [
+    {
+      name: "Partidul Național Liberal",
+      partyColor: "#F8DD1B",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
+      votes: 49,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "Partidul Social Democrat",
+      partyColor: "#FF0000",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
+      votes: 15,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "INDEPENDENT",
+      shortName: "INDEPENDENT",
+      partyColor: "#808080",
+      votes: 8,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
+      partyColor: "#007300",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
+      votes: 5,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "PARTIDUL PRO ROMÂNIA",
+      partyColor: "#FF4C4C",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Pro+Romania.jpg",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+  ],
+};
+
+export const mockCountyCouncilResults = {
+  eligibleVoters: 18466219,
+  totalVotes: 8419716,
+  validVotes: 7937514,
+  nullVotes: 482202,
+  totalSeats: 0,
+  candidates: [
+    {
+      name: "Partidul Social Democrat",
+      partyColor: "#FF0000",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Social+Democrat.jpg",
+      votes: 16,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "Partidul Național Liberal",
+      partyColor: "#F8DD1B",
+      partyLogo: "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Partidul+Na%C8%9Bional+Liberal.jpg",
+      votes: 15,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "UNIUNEA DEMOCRATA MAGHIARA DIN ROMANIA",
+      partyColor: "#007300",
+      partyLogo:
+        "https://rezultatevot-media.s3.eu-central-1.amazonaws.com/v2/Logo__Uniunea+Democrat%C4%83+a+Maghiarilor+din+Rom%C3%A2nia.jpg",
+      votes: 4,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA ELECTORALĂ ALIANȚA PENTRU MODERNIZAREA NEAMȚULUI 2020",
+      shortName: "A. ELECTORALĂ PENTRU MODERNIZAREA NEAMȚULUI 2020",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA PNL USR PLUS",
+      shortName: "A. PNL USR PLUS",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA PENTRU BISTRIȚA-NĂSĂUD",
+      shortName: "A. NĂSĂUD",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "INDEPENDENT",
+      shortName: "INDEPENDENT",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANTA ELECTORALA PSD+ALDE DOLJ",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name: "ALIANȚA PSD-PRO BUZĂU",
+      shortName: "A. PRO BUZĂU",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
+    },
+    {
+      name:
+        "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
+      shortName: "A.  UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
+      partyColor: "#808080",
+      votes: 1,
+      seats: 0,
+      totalSeats: 0,
     },
   ],
 };
@@ -827,6 +1051,1071 @@ export const mockElectionMapWinners: ElectionMapWinners = [
   { id: 4862, winner: { name: "UDMR", partyColor: "green", votes: 550 }, validVotes: 1000 },
 ];
 
+export const mockElectionCountyCouncilMapWinners: ElectionMapWinners = [
+  {
+    id: 1,
+    validVotes: 148783,
+    winner: {
+      name: "DUMITREL ION",
+      partyColor: "#F8DD1B",
+      votes: 82945,
+    },
+  },
+  {
+    id: 10886,
+    validVotes: 108611,
+    winner: {
+      name: "PAVEL MARIAN",
+      partyColor: "#FF0000",
+      votes: 37068,
+    },
+  },
+  {
+    id: 11169,
+    validVotes: 275640,
+    winner: {
+      name: "ALEXE COSTEL",
+      partyColor: "#F8DD1B",
+      votes: 104656,
+    },
+  },
+  {
+    id: 11830,
+    validVotes: 185177,
+    winner: {
+      name: "THUMA HUBERT PETRU ŞTEFAN",
+      partyColor: "#F8DD1B",
+      votes: 89860,
+    },
+  },
+  {
+    id: 12053,
+    validVotes: 184729,
+    winner: {
+      name: "BOGDAN IONEL-OVIDIU",
+      partyColor: "#F8DD1B",
+      votes: 64264,
+    },
+  },
+  {
+    id: 12539,
+    validVotes: 120967,
+    winner: {
+      name: "GEORGESCU ALADIN-GIGI",
+      partyColor: "#FF0000",
+      votes: 54313,
+    },
+  },
+  {
+    id: 13227,
+    validVotes: 221428,
+    winner: {
+      name: "PÉTER FERENC",
+      partyColor: "#007300",
+      votes: 85673,
+    },
+  },
+  {
+    id: 13933,
+    validVotes: 186431,
+    winner: {
+      name: "ARSENE IONEL",
+      shortName: "ALIANȚA PENTRU MODERNIZAREA NEAMȚULUI 2020",
+      partyColor: "#808080",
+      votes: 77208,
+    },
+  },
+  {
+    id: 14365,
+    validVotes: 202234,
+    winner: {
+      name: "OPRESCU MARIUS",
+      partyColor: "#FF0000",
+      votes: 109957,
+    },
+  },
+  {
+    id: 14895,
+    validVotes: 292875,
+    winner: {
+      name: "DUMITRESCU IULIAN",
+      shortName: "ALIANȚA PNL USR PLUS",
+      partyColor: "#808080",
+      votes: 137286,
+    },
+  },
+  {
+    id: 15592,
+    validVotes: 98590,
+    winner: {
+      name: "IANCU-SĂLĂJANU DINU",
+      partyColor: "#F8DD1B",
+      votes: 38464,
+    },
+  },
+  {
+    id: 16002,
+    validVotes: 133862,
+    winner: {
+      name: "PATAKI CSABA",
+      partyColor: "#007300",
+      votes: 52371,
+    },
+  },
+  {
+    id: 16392,
+    validVotes: 155172,
+    winner: {
+      name: "CÎMPEAN DANIELA",
+      partyColor: "#F8DD1B",
+      votes: 72757,
+    },
+  },
+  {
+    id: 17391,
+    validVotes: 257169,
+    winner: {
+      name: "FLUTUR GHEORGHE",
+      partyColor: "#F8DD1B",
+      votes: 106960,
+    },
+  },
+  {
+    id: 18142,
+    validVotes: 166754,
+    winner: {
+      name: "GÂDEA ADRIAN-IONUŢ",
+      partyColor: "#FF0000",
+      votes: 71584,
+    },
+  },
+  {
+    id: 18648,
+    validVotes: 259660,
+    winner: {
+      name: "NICA ALIN-ADRIAN",
+      partyColor: "#F8DD1B",
+      votes: 104508,
+    },
+  },
+  {
+    id: 19284,
+    validVotes: 86807,
+    winner: {
+      name: "TEODORESCU HORIA",
+      partyColor: "#FF0000",
+      votes: 33294,
+    },
+  },
+  {
+    id: 19520,
+    validVotes: 158865,
+    winner: {
+      name: "RĂDULESCU CONSTANTIN",
+      partyColor: "#FF0000",
+      votes: 74129,
+    },
+  },
+  {
+    id: 10251,
+    validVotes: 164488,
+    winner: {
+      name: "NISTOR LAURENŢIU",
+      partyColor: "#FF0000",
+      votes: 71052,
+    },
+  },
+  {
+    id: 9866,
+    validVotes: 108176,
+    winner: {
+      name: "BORBOLY CSABA",
+      partyColor: "#007300",
+      votes: 69822,
+    },
+  },
+  {
+    id: 9449,
+    validVotes: 151090,
+    winner: {
+      name: "POPESCU COSMIN-MIHAI",
+      partyColor: "#FF0000",
+      votes: 66109,
+    },
+  },
+  {
+    id: 9134,
+    validVotes: 123521,
+    winner: {
+      name: "BEIANU DUMITRU",
+      partyColor: "#F8DD1B",
+      votes: 60255,
+    },
+  },
+  {
+    id: 589,
+    validVotes: 163446,
+    winner: {
+      name: "CIONCA-ARGHIR IUSTIN-MARINEL",
+      partyColor: "#F8DD1B",
+      votes: 77318,
+    },
+  },
+  {
+    id: 1122,
+    validVotes: 246587,
+    winner: {
+      name: "MÎNZÎNĂ ION",
+      partyColor: "#FF0000",
+      votes: 104269,
+    },
+  },
+  {
+    id: 1814,
+    validVotes: 230731,
+    winner: {
+      name: "IVANCEA VALENTIN",
+      partyColor: "#FF0000",
+      votes: 94669,
+    },
+  },
+  {
+    id: 2513,
+    validVotes: 254022,
+    winner: {
+      name: "BOLOJAN ILIE-GAVRIL",
+      partyColor: "#F8DD1B",
+      votes: 156241,
+    },
+  },
+  {
+    id: 3325,
+    validVotes: 127608,
+    winner: {
+      name: "MOLDOVAN EMIL RADU",
+      shortName: "ALIANȚA PENTRU BISTRIȚA-NĂSĂUD",
+      partyColor: "#808080",
+      votes: 66039,
+    },
+  },
+  {
+    id: 3747,
+    validVotes: 153169,
+    winner: {
+      name: "FEDEROVICI DOINA-ELENA",
+      partyColor: "#FF0000",
+      votes: 65688,
+    },
+  },
+  {
+    id: 4231,
+    validVotes: 109582,
+    winner: {
+      name: "CHIRIAC FRANCISK-IULIAN",
+      partyColor: "#FF0000",
+      votes: 55547,
+    },
+  },
+  {
+    id: 4481,
+    validVotes: 206315,
+    winner: {
+      name: "VEŞTEA ADRIAN-IOAN",
+      partyColor: "#F8DD1B",
+      votes: 95615,
+    },
+  },
+  {
+    id: 20009,
+    validVotes: 147886,
+    winner: {
+      name: "BUZATU DUMITRU",
+      partyColor: "#FF0000",
+      votes: 57283,
+    },
+  },
+  {
+    id: 12913,
+    validVotes: 660118,
+    winner: { name: "DAN NICUŞOR DANIEL", partyColor: "#808080", votes: 282631 },
+  },
+  {
+    id: 5400,
+    validVotes: 128072,
+    winner: {
+      name: "ILIUŢĂ VASILE",
+      partyColor: "#FF0000",
+      votes: 57100,
+    },
+  },
+  {
+    id: 5676,
+    validVotes: 120336,
+    winner: {
+      name: "DUNCA ROMEO-DAN",
+      partyColor: "#F8DD1B",
+      votes: 51488,
+    },
+  },
+  {
+    id: 6150,
+    validVotes: 252208,
+    winner: {
+      name: "TIŞE ALIN-PĂUNEL",
+      partyColor: "#F8DD1B",
+      votes: 127251,
+    },
+  },
+  {
+    id: 6793,
+    validVotes: 272317,
+    winner: {
+      name: "LUPU MIHAI",
+      partyColor: "#F8DD1B",
+      votes: 101893,
+    },
+  },
+  {
+    id: 7308,
+    validVotes: 68977,
+    winner: {
+      name: "TAMÁS SÁNDOR",
+      partyColor: "#007300",
+      votes: 43391,
+    },
+  },
+  {
+    id: 7588,
+    validVotes: 216741,
+    winner: {
+      name: "ŞTEFAN CORNELIU",
+      partyColor: "#FF0000",
+      votes: 100064,
+    },
+  },
+  {
+    id: 8114,
+    validVotes: 263874,
+    winner: {
+      name: "VASILE DORIN-COSMIN",
+      shortName: "AEPD",
+      partyColor: "#808080",
+      votes: 111317,
+    },
+  },
+  {
+    id: 8747,
+    validVotes: 198893,
+    winner: {
+      name: "FOTEA COSTEL",
+      partyColor: "#FF0000",
+      votes: 97109,
+    },
+  },
+  {
+    id: 4862,
+    validVotes: 180641,
+    winner: {
+      name: "NEAGU PETRE-EMANOIL",
+      shortName: "ALIANȚA PSD-PRO BUZĂU",
+      partyColor: "#808080",
+      votes: 100312,
+    },
+  },
+  {
+    id: 20574,
+    validVotes: 144962,
+    winner: {
+      name: "TOMA CĂTĂLIN DUMITRU",
+      shortName:
+        "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
+      partyColor: "#808080",
+      votes: 65637,
+    },
+  },
+];
+
+export const mockMayorElectionWinners = [
+  {
+    id: 2,
+    validVotes: 1013,
+    winner: {
+      name: "TODEA PETRU-TIBERIU",
+      partyColor: "#F8DD1B",
+      votes: 796,
+    },
+  },
+  {
+    id: 451,
+    validVotes: 672,
+    winner: {
+      name: "BULGĂR IONEL",
+      partyColor: "#F8DD1B",
+      votes: 417,
+    },
+  },
+  {
+    id: 447,
+    validVotes: 504,
+    winner: {
+      name: "PETRUŢ BUJOR",
+      partyColor: "#F8DD1B",
+      votes: 366,
+    },
+  },
+  {
+    id: 445,
+    validVotes: 642,
+    winner: {
+      name: "TOADER BENIAMIN",
+      partyColor: "#F8DD1B",
+      votes: 366,
+    },
+  },
+  {
+    id: 438,
+    validVotes: 1687,
+    winner: {
+      name: "PETRUSE MARIN-IOAN",
+      partyColor: "#F8DD1B",
+      votes: 1006,
+    },
+  },
+  {
+    id: 425,
+    validVotes: 3557,
+    winner: {
+      name: "PONORAN SILVIU",
+      partyColor: "#F8DD1B",
+      votes: 2054,
+    },
+  },
+  {
+    id: 416,
+    validVotes: 2921,
+    winner: {
+      name: "HĂLĂLAI MIREL-VASILE",
+      partyColor: "#FF0000",
+      votes: 1654,
+    },
+  },
+  {
+    id: 403,
+    validVotes: 4210,
+    winner: {
+      name: "VINŢELER SILVIU",
+      partyColor: "#F8DD1B",
+      votes: 3305,
+    },
+  },
+  {
+    id: 379,
+    validVotes: 8207,
+    winner: {
+      name: "TEBAN ADRIAN OVIDIU",
+      partyColor: "#F8DD1B",
+      votes: 4128,
+    },
+  },
+  {
+    id: 368,
+    validVotes: 4171,
+    winner: {
+      name: "PAŞCA CRISTIAN-DAN",
+      partyColor: "#F8DD1B",
+      votes: 2103,
+    },
+  },
+  {
+    id: 359,
+    validVotes: 1814,
+    winner: {
+      name: "PANDOR TRAIAN",
+      partyColor: "#F8DD1B",
+      votes: 676,
+    },
+  },
+  {
+    id: 353,
+    validVotes: 2283,
+    winner: {
+      name: "ALBU CRISTIAN ALEXANDRU",
+      partyColor: "#F8DD1B",
+      votes: 952,
+    },
+  },
+  {
+    id: 348,
+    validVotes: 454,
+    winner: {
+      name: "MIHĂLŢAN ADRIAN-NICOLAE",
+      partyColor: "#F8DD1B",
+      votes: 231,
+    },
+  },
+  {
+    id: 342,
+    validVotes: 406,
+    winner: {
+      name: "JUCAN ALIN-ALEXANDRU",
+      partyColor: "#F8DD1B",
+      votes: 348,
+    },
+  },
+  {
+    id: 337,
+    validVotes: 749,
+    winner: {
+      name: "ZILAHI FLORIN-CLAUDIU",
+      partyColor: "#F8DD1B",
+      votes: 499,
+    },
+  },
+  {
+    id: 315,
+    validVotes: 10476,
+    winner: {
+      name: "NISTOR DORIN GHEORGHE",
+      partyColor: "#F8DD1B",
+      votes: 6476,
+    },
+  },
+  {
+    id: 458,
+    validVotes: 742,
+    winner: {
+      name: "NICULA ALIN-TEODOR",
+      partyColor: "#F8DD1B",
+      votes: 670,
+    },
+  },
+  {
+    id: 463,
+    validVotes: 345,
+    winner: {
+      name: "RAICA VASILE",
+      partyColor: "#FF0000",
+      votes: 285,
+    },
+  },
+  {
+    id: 472,
+    validVotes: 772,
+    winner: {
+      name: "CRISTEA IOAN",
+      partyColor: "#FF0000",
+      votes: 395,
+    },
+  },
+  {
+    id: 477,
+    validVotes: 1585,
+    winner: {
+      name: "FURDUI EUGEN",
+      partyColor: "#F8DD1B",
+      votes: 563,
+    },
+  },
+  {
+    id: 575,
+    validVotes: 977,
+    winner: {
+      name: "PETRICELE DORU",
+      partyColor: "#FF0000",
+      votes: 529,
+    },
+  },
+  {
+    id: 567,
+    validVotes: 1685,
+    winner: {
+      name: "ALDEA DAN-FLORIN",
+      partyColor: "#660066",
+      votes: 970,
+    },
+  },
+  {
+    id: 564,
+    validVotes: 948,
+    winner: {
+      name: "LAZEA NICOLAE",
+      partyColor: "#F8DD1B",
+      votes: 499,
+    },
+  },
+  {
+    id: 554,
+    validVotes: 1955,
+    winner: {
+      name: "ALBA GHEORGHE",
+      partyColor: "#F8DD1B",
+      votes: 1102,
+    },
+  },
+  {
+    id: 549,
+    validVotes: 1340,
+    winner: {
+      name: "JINAR CONSTANTIN",
+      partyColor: "#F8DD1B",
+      votes: 1111,
+    },
+  },
+  {
+    id: 544,
+    validVotes: 1350,
+    winner: {
+      name: "POPA TRAIAN ŞTEFAN",
+      partyColor: "#FF0000",
+      votes: 754,
+    },
+  },
+  {
+    id: 538,
+    validVotes: 1482,
+    winner: {
+      name: "STĂNILĂ IULIA",
+      partyColor: "#F8DD1B",
+      votes: 752,
+    },
+  },
+  {
+    id: 296,
+    validVotes: 6991,
+    winner: {
+      name: "ROTAR GHEORGHE-VALENTIN",
+      partyColor: "#F8DD1B",
+      votes: 5516,
+    },
+  },
+  {
+    id: 531,
+    validVotes: 1816,
+    winner: {
+      name: "MĂRGINEAN TEODOR-FLORIN",
+      partyColor: "#F8DD1B",
+      votes: 1232,
+    },
+  },
+  {
+    id: 520,
+    validVotes: 1273,
+    winner: {
+      name: "OANĂ MARINELA",
+      partyColor: "#F8DD1B",
+      votes: 429,
+    },
+  },
+  {
+    id: 511,
+    validVotes: 953,
+    winner: {
+      name: "COSTEA CRISTIAN-VASILE",
+      partyColor: "#F8DD1B",
+      votes: 493,
+    },
+  },
+  {
+    id: 503,
+    validVotes: 2702,
+    winner: {
+      name: "MORAR NICOLAE-FLORIN",
+      partyColor: "#F8DD1B",
+      votes: 1033,
+    },
+  },
+  {
+    id: 498,
+    validVotes: 1427,
+    winner: {
+      name: "POPA IOAN-IANCU",
+      partyColor: "#F8DD1B",
+      votes: 833,
+    },
+  },
+  {
+    id: 493,
+    validVotes: 1201,
+    winner: {
+      name: "FRĂŢILĂ ILIE",
+      partyColor: "#F8DD1B",
+      votes: 675,
+    },
+  },
+  {
+    id: 487,
+    validVotes: 1410,
+    winner: {
+      name: "STĂNILĂ AUREL-EMIL",
+      partyColor: "#F8DD1B",
+      votes: 604,
+    },
+  },
+  {
+    id: 483,
+    validVotes: 790,
+    winner: {
+      name: "LOMBREA VASILE",
+      partyColor: "#F8DD1B",
+      votes: 403,
+    },
+  },
+  {
+    id: 526,
+    validVotes: 849,
+    winner: {
+      name: "CORCHEŞ SORIN-CONSTANTIN",
+      partyColor: "#F8DD1B",
+      votes: 569,
+    },
+  },
+  {
+    id: 246,
+    validVotes: 22024,
+    winner: {
+      name: "PLEŞA GABRIEL-CODRU",
+      partyColor: "#01A0E4",
+      votes: 8107,
+    },
+  },
+  {
+    id: 220,
+    validVotes: 8123,
+    winner: {
+      name: "BADEA IULIA-ADRIANA-OANA",
+      partyColor: "#F8DD1B",
+      votes: 3729,
+    },
+  },
+  {
+    id: 215,
+    validVotes: 467,
+    winner: {
+      name: "MACAVEI MIRCEA-LIVIU",
+      partyColor: "#F8DD1B",
+      votes: 209,
+    },
+  },
+  {
+    id: 87,
+    validVotes: 1057,
+    winner: {
+      name: "BUBUR LENUŢA",
+      partyColor: "#F8DD1B",
+      votes: 608,
+    },
+  },
+  {
+    id: 83,
+    validVotes: 704,
+    winner: {
+      name: "TUHUŢ RADU-MARCEL",
+      partyColor: "#FF0000",
+      votes: 619,
+    },
+  },
+  { id: 75, validVotes: 1733, winner: { name: "DĂMIAN GHEORGHE", partyColor: "#808080", votes: 1527 } },
+  {
+    id: 68,
+    validVotes: 1156,
+    winner: {
+      name: "COMANDARU CONSTANTIN",
+      partyColor: "#F8DD1B",
+      votes: 844,
+    },
+  },
+  {
+    id: 65,
+    validVotes: 240,
+    winner: {
+      name: "TRIF IOAN",
+      partyColor: "#000099",
+      votes: 163,
+    },
+  },
+  {
+    id: 60,
+    validVotes: 910,
+    winner: {
+      name: "ALDEA LENUŢA",
+      partyColor: "#F8DD1B",
+      votes: 596,
+    },
+  },
+  {
+    id: 57,
+    validVotes: 438,
+    winner: {
+      name: "NEAMŢU ILIE",
+      partyColor: "#F8DD1B",
+      votes: 413,
+    },
+  },
+  {
+    id: 91,
+    validVotes: 1211,
+    winner: {
+      name: "TODERICIU AUREL-FLORIN",
+      partyColor: "#B2B200",
+      votes: 650,
+    },
+  },
+  { id: 53, validVotes: 1048, winner: { name: "BODEA LUCIAN-TIBERIU", partyColor: "#808080", votes: 499 } },
+  {
+    id: 43,
+    validVotes: 1117,
+    winner: {
+      name: "ALDEA IOAN",
+      partyColor: "#F8DD1B",
+      votes: 619,
+    },
+  },
+  {
+    id: 38,
+    validVotes: 642,
+    winner: {
+      name: "GHERMAN NICOLAE",
+      partyColor: "#F8DD1B",
+      votes: 412,
+    },
+  },
+  {
+    id: 31,
+    validVotes: 2040,
+    winner: {
+      name: "GLIGOR TRAIAN",
+      partyColor: "#F8DD1B",
+      votes: 1609,
+    },
+  },
+  {
+    id: 25,
+    validVotes: 679,
+    winner: {
+      name: "BICA VASILE",
+      partyColor: "#F8DD1B",
+      votes: 523,
+    },
+  },
+  {
+    id: 21,
+    validVotes: 857,
+    winner: {
+      name: "HELER SANDU",
+      partyColor: "#F8DD1B",
+      votes: 675,
+    },
+  },
+  {
+    id: 16,
+    validVotes: 1253,
+    winner: {
+      name: "PANTEA GHEORGHE",
+      partyColor: "#F8DD1B",
+      votes: 657,
+    },
+  },
+  {
+    id: 9,
+    validVotes: 820,
+    winner: {
+      name: "ZAHARIE ARON",
+      partyColor: "#F8DD1B",
+      votes: 325,
+    },
+  },
+  {
+    id: 47,
+    validVotes: 763,
+    winner: {
+      name: "NAPĂU CORNEL",
+      partyColor: "#FF0000",
+      votes: 560,
+    },
+  },
+  {
+    id: 580,
+    validVotes: 2550,
+    winner: {
+      name: "BARBU PETRU-IOAN",
+      partyColor: "#F8DD1B",
+      votes: 960,
+    },
+  },
+  {
+    id: 96,
+    validVotes: 724,
+    winner: {
+      name: "BÂSCĂ SORIN-GHEORGHE",
+      partyColor: "#F8DD1B",
+      votes: 422,
+    },
+  },
+  {
+    id: 103,
+    validVotes: 541,
+    winner: {
+      name: "CÎNDEA EMILIA-LIVIA",
+      partyColor: "#F8DD1B",
+      votes: 430,
+    },
+  },
+  {
+    id: 208,
+    validVotes: 911,
+    winner: {
+      name: "ALEXANDRU LIVIU-GIGEL",
+      partyColor: "#F8DD1B",
+      votes: 457,
+    },
+  },
+  {
+    id: 202,
+    validVotes: 1909,
+    winner: {
+      name: "BREAZ FLAVIUS",
+      partyColor: "#F8DD1B",
+      votes: 1188,
+    },
+  },
+  {
+    id: 194,
+    validVotes: 1560,
+    winner: {
+      name: "OPRUŢA DAN-COSMIN",
+      partyColor: "#F8DD1B",
+      votes: 776,
+    },
+  },
+  {
+    id: 188,
+    validVotes: 1725,
+    winner: {
+      name: "PENCIU IOAN-RADU",
+      partyColor: "#01A0E4",
+      votes: 825,
+    },
+  },
+  {
+    id: 183,
+    validVotes: 1308,
+    winner: {
+      name: "CSEGEZI EDIT-SUSANA",
+      partyColor: "#007300",
+      votes: 569,
+    },
+  },
+  {
+    id: 175,
+    validVotes: 1714,
+    winner: {
+      name: "INDREIU MARIAN-CĂTĂLIN",
+      partyColor: "#F8DD1B",
+      votes: 1013,
+    },
+  },
+  {
+    id: 169,
+    validVotes: 813,
+    winner: {
+      name: "HAN HORAŢIU-NICOLAE",
+      partyColor: "#F8DD1B",
+      votes: 599,
+    },
+  },
+  {
+    id: 99,
+    validVotes: 1461,
+    winner: {
+      name: "HĂPRIAN VISARION",
+      partyColor: "#F8DD1B",
+      votes: 1244,
+    },
+  },
+  {
+    id: 162,
+    validVotes: 2357,
+    winner: {
+      name: "TRIF ALIN",
+      partyColor: "#F8DD1B",
+      votes: 2123,
+    },
+  },
+  {
+    id: 148,
+    validVotes: 3050,
+    winner: {
+      name: "RUSU TRAIAN",
+      partyColor: "#F8DD1B",
+      votes: 1581,
+    },
+  },
+  {
+    id: 140,
+    validVotes: 1174,
+    winner: {
+      name: "NICOLA MARIN",
+      partyColor: "#F8DD1B",
+      votes: 824,
+    },
+  },
+  {
+    id: 133,
+    validVotes: 527,
+    winner: {
+      name: "POPA AUGUSTIN",
+      partyColor: "#F8DD1B",
+      votes: 455,
+    },
+  },
+  {
+    id: 128,
+    validVotes: 884,
+    winner: {
+      name: "VÎRCIU MARIN",
+      partyColor: "#F8DD1B",
+      votes: 427,
+    },
+  },
+  {
+    id: 123,
+    validVotes: 1041,
+    winner: {
+      name: "MUNTEAN IOAN",
+      partyColor: "#FF0000",
+      votes: 526,
+    },
+  },
+  {
+    id: 114,
+    validVotes: 2048,
+    winner: {
+      name: "RAICA ROMULUS",
+      partyColor: "#F8DD1B",
+      votes: 765,
+    },
+  },
+  {
+    id: 107,
+    validVotes: 872,
+    winner: {
+      name: "STOIA IOAN",
+      partyColor: "#F8DD1B",
+      votes: 720,
+    },
+  },
+  { id: 156, validVotes: 391, winner: { name: "MOGA VICTORIA", partyColor: "#808080", votes: 219 } },
+  {
+    id: 108885,
+    validVotes: 544,
+    winner: {
+      name: "DEÁK-SZÉKELY SZILÁRD-LEVENTE",
+      partyColor: "#007300",
+      votes: 326,
+    },
+  },
+];
+
 // To fake loading times
 const delay = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
 
@@ -907,8 +2196,12 @@ export const mockElectionAPI = makeElectionApi({
       }) as APIMockHandler<{ id: number; name: string }[]>,
     ],
 
-    ["GET", "/winners/counties", (async () => mockElectionMapWinners) as APIMockHandler<ElectionMapWinners>],
+    [
+      "GET",
+      "/winners/counties",
+      (async () => mockElectionCountyCouncilMapWinners) as APIMockHandler<ElectionMapWinners>,
+    ],
     ["GET", "/winners/countries", (async () => mockElectionMapWinners) as APIMockHandler<ElectionMapWinners>],
-    ["GET", "/winners/localities", (async () => mockElectionMapWinners) as APIMockHandler<ElectionMapWinners>],
+    ["GET", "/winners/localities", (async () => mockMayorElectionWinners) as APIMockHandler<ElectionMapWinners>],
   ]),
 });

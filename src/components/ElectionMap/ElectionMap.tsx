@@ -1,6 +1,6 @@
-import React, { createContext, PropsWithChildren, useContext, useCallback, useMemo } from "react";
-import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete } from "../../types/Election";
-import { mergeClasses, themable } from "../../hooks/theme";
+import React, { createContext, PropsWithChildren, useCallback, useContext, useMemo } from "react";
+import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete, ElectionType } from "../../types/Election";
+import { ClassNames, mergeClasses, themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
 import { bucharestCenteredWorldZoom, HereMap, romaniaMapBounds } from "../HereMap/HereMap";
@@ -18,6 +18,7 @@ type Props = PropsWithChildren<{
   maxHeight?: number;
   selectedColor?: string;
   defaultColor?: string;
+  electionType?: ElectionType;
 
   api?: ElectionMapAPI;
   ballotId?: number | null;
@@ -28,6 +29,25 @@ const defaultMaxHeight = 460;
 
 export const ElectionMapOverlayURLContext = createContext<string>(electionMapOverlayUrl);
 
+const isElectionWithNationalResults = function (
+  electionType:
+    | "referendum"
+    | "president"
+    | "senate"
+    | "house"
+    | "local_council"
+    | "county_council"
+    | "county_council_president"
+    | "mayor"
+    | "european_parliament"
+    | string
+    | undefined,
+) {
+  return (
+    electionType === undefined ||
+    ["referendum", "president", "senate", "house", "european_parliament"].includes(electionType)
+  );
+};
 export const ElectionMap = themable<Props>(
   "ElectionMap",
   cssClasses,
@@ -41,12 +61,14 @@ export const ElectionMap = themable<Props>(
     children,
     selectedColor,
     defaultColor,
+    electionType,
     api,
     ballotId,
   }) => {
     const [ref, { width = 0 }] = useDimensions();
 
-    const showsSimpleMap = scope.type === "national";
+    const showsSimpleMap = scope.type === "national" && isElectionWithNationalResults(electionType);
+
     const ar = aspectRatio ?? defaultAspectRatio;
     let height = Math.min(maxHeight, width / ar);
     if (!Number.isFinite(height)) {
@@ -64,7 +86,7 @@ export const ElectionMap = themable<Props>(
           (localityId) => ({ ...scope, localityId }),
         ];
       }
-      if ((scope.type === "locality" && scope.countyId == null) || scope.type === "county") {
+      if (scope.type === "locality" && scope.countyId == null) {
         return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
       }
       if (scope.type === "diaspora" || scope.type === "diaspora_country") {
@@ -74,6 +96,15 @@ export const ElectionMap = themable<Props>(
           (countryId) => ({ type: "diaspora_country", countryId }),
         ];
       }
+
+      if (scope.type === "county" && isElectionWithNationalResults(electionType)) {
+        return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
+      }
+
+      if (scope.type === "county" && scope.countyId !== null) {
+        return [{ type: "county", countyId: scope.countyId }, null, (localityId) => ({ ...scope, localityId })];
+      }
+
       return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
     }, [scope, overlayBaseUrl]);
 

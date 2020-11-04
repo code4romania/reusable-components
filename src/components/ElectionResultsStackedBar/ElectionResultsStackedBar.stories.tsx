@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { mockResults } from "../../util/mocks";
+import { mockResults, mockCountyCouncilResults } from "../../util/mocks";
 import { ElectionResultsStackedBar } from "./ElectionResultsStackedBar";
 
 export default {
@@ -19,5 +19,18 @@ SimpleExample.args = {
 };
 
 SimpleExample.argTypes = {
+  results: { control: "object" },
+};
+
+export const ExampleWithDiscreteValues = (args: any) => {
+  return <ElectionResultsStackedBar {...args} />;
+};
+
+ExampleWithDiscreteValues.args = {
+  results: mockCountyCouncilResults,
+  displayPercentages: false,
+};
+
+ExampleWithDiscreteValues.argTypes = {
   results: { control: "object" },
 };

@@ -27,6 +27,21 @@ export const electionScopeIsComplete = (scope: ElectionScopeIncomplete): Electio
   };
 };
 
+export const electionResultsShouldShowAsPercentages = (
+  scope: ElectionScopeIncomplete,
+  meta: ElectionBallotMeta,
+): boolean => {
+  if (
+    (scope.type === "national" && meta.type === "mayor") ||
+    (scope.type === "county" && meta.type === "mayor" && scope.countyId !== 12913) ||
+    (scope.type === "national" && meta.type === "county_council_president")
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 export type ElectionScopeNames = {
   countyName?: string | null;
   countryName?: string | null;

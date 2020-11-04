@@ -2,7 +2,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from "react";
-import { mockLocalCouncilElectionMeta, mockResults } from "../../util/mocks";
+import {
+  mockCountyCouncilElectionMeta,
+  mockCountyCouncilResults,
+  mockLocalCouncilElectionMeta,
+  mockResults,
+} from "../../util/mocks";
 import { ElectionResultsSummaryTable } from "./ElectionResultsSummaryTable";
 
 export default {
@@ -21,6 +26,22 @@ SimpleExample.args = {
 };
 
 SimpleExample.argTypes = {
+  results: { control: "object" },
+  header: { control: "object" },
+};
+
+export const ExampleWithVotesAsSeats = (args: any) => {
+  return <ElectionResultsSummaryTable {...args} />;
+};
+
+ExampleWithVotesAsSeats.args = {
+  meta: mockCountyCouncilElectionMeta,
+  results: mockCountyCouncilResults,
+  header: { candidate: "Partid", seats: "Mand.", votes: "Voturi", percentage: "%" },
+  displayVotesAsSeats: true,
+};
+
+ExampleWithVotesAsSeats.argTypes = {
   results: { control: "object" },
   header: { control: "object" },
 };

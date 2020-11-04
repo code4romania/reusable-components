@@ -3,9 +3,16 @@
 import React from "react";
 import { ElectionScopeIncompleteResolved } from "../../types/Election";
 import {
+  mockCountyCouncilElectionMeta,
+  mockCountyCouncilResults,
+  mockCountyElectionScope,
   mockDiasporaElectionScope,
+  mockElectionAPI,
   mockLocalCouncilElectionMeta,
+  mockLocalCouncilResults,
   mockLocalityElectionScope,
+  mockMayorElectionMeta,
+  mockMayorResults,
   mockNationalElectionScope,
   mockPresidentialElectionMeta,
   mockResults,
@@ -27,12 +34,35 @@ export const PresidentialElection = () => {
   );
 };
 
+export const MayorPerCountyElection = () => {
+  return (
+    <ElectionResultsSummarySection
+      scope={mockCountyElectionScope}
+      meta={mockMayorElectionMeta}
+      results={mockMayorResults}
+      api={mockElectionAPI}
+    />
+  );
+};
+
 export const LocalCouncilElection = () => {
   return (
     <ElectionResultsSummarySection
-      scope={mockNationalElectionScope}
+      scope={mockCountyElectionScope}
       meta={mockLocalCouncilElectionMeta}
-      results={mockResults}
+      results={mockLocalCouncilResults}
+      api={mockElectionAPI}
+    />
+  );
+};
+
+export const CountyCouncilElection = () => {
+  return (
+    <ElectionResultsSummarySection
+      scope={mockNationalElectionScope}
+      meta={mockCountyCouncilElectionMeta}
+      results={mockCountyCouncilResults}
+      api={mockElectionAPI}
     />
   );
 };
