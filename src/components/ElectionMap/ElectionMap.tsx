@@ -101,7 +101,7 @@ export const ElectionMap = themable<Props>(
         return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
       }
 
-      if (scope.type === "county") {
+      if (scope.type === "county" && scope.countyId !== null) {
         return [{ type: "county", countyId: scope.countyId }, null, (localityId) => ({ ...scope, localityId })];
       }
 
