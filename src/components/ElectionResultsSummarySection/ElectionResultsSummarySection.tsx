@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import {
   ElectionBallotMeta,
   ElectionResults,
-  electionResultsShouldShowAsPercentages,
   ElectionScopeIncomplete,
   ElectionScopeIncompleteResolved,
   electionScopeIsComplete,
@@ -45,8 +44,6 @@ export const ElectionResultsSummarySection = themable<Props>(
   const [measureRef, { width }] = useDimensions();
 
   const completeness = electionScopeIsComplete(scope);
-
-  const displayPercentages = scope && meta ? electionResultsShouldShowAsPercentages(scope, meta) : true;
 
   const topCandidate = results?.candidates && results.candidates[0];
   const percentage = formatPercentage(
@@ -109,12 +106,7 @@ export const ElectionResultsSummarySection = themable<Props>(
           </DivBodyHuge>
         ))}
       {results && (
-        <ElectionResultsStackedBar
-          className={classes.stackedBar}
-          results={results}
-          meta={meta}
-          displayPercentages={displayPercentages}
-        />
+        <ElectionResultsStackedBar className={classes.stackedBar} results={results} meta={meta} scope={scope} />
       )}
       <div style={{ width: "100%" }} ref={measureRef} />
       {results && !mobileMap && separator}
@@ -124,9 +116,9 @@ export const ElectionResultsSummarySection = themable<Props>(
             <ElectionResultsSummaryTable
               className={classes.mapSummaryTable}
               meta={meta}
+              scope={scope}
               results={results}
               headers={tableHeaders}
-              displayVotesAsSeats={!displayPercentages}
             />
           )}
           {map}

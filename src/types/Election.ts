@@ -27,20 +27,30 @@ export const electionScopeIsComplete = (scope: ElectionScopeIncomplete): Electio
   };
 };
 
-export const electionResultsShouldShowAsPercentages = (
+export const bucharestCountyId = 12913;
+
+// Weird API quirk. Seats arrive as votes in results.
+// This should be set to false or completely removed after the API is fixed.
+export const electionResultsInterpretVotesAsSeats = (
   scope: ElectionScopeIncomplete,
   meta: ElectionBallotMeta,
-): boolean => {
-  if (
-    (scope.type === "national" && meta.type === "mayor") ||
-    (scope.type === "county" && meta.type === "mayor" && scope.countyId !== 12913) ||
-    (scope.type === "national" && meta.type === "county_council_president")
-  ) {
-    return false;
-  }
+): boolean =>
+  (scope.type === "national" && meta.type === "mayor") ||
+  (scope.type === "county" && meta.type === "mayor" && scope.countyId !== bucharestCountyId) ||
+  (scope.type === "national" && meta.type === "county_council_president");
 
-  return true;
-};
+// Only coincidentally same as above
+export const electionResultsDisplayVotes = (scope: ElectionScopeIncomplete, meta: ElectionBallotMeta): boolean =>
+  !(
+    (scope.type === "national" && meta.type === "mayor") ||
+    (scope.type === "county" && meta.type === "mayor" && scope.countyId !== bucharestCountyId) ||
+    (scope.type === "national" && meta.type === "county_council_president")
+  );
+
+export const electionResultsSeatsIsMainStat = (scope: ElectionScopeIncomplete, meta: ElectionBallotMeta): boolean =>
+  !electionResultsDisplayVotes(scope, meta) ||
+  (scope.type === "national" && meta.type === "county_council") ||
+  ((scope.type === "national" || scope.type === "county") && meta.type === "local_council");
 
 export type ElectionScopeNames = {
   countyName?: string | null;
