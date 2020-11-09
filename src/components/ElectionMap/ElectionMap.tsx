@@ -2,6 +2,7 @@ import React, { createContext, PropsWithChildren, useCallback, useContext, useMe
 import {
   ElectionMapScope,
   ElectionMapWinner,
+  electionResultsSeatsIsMainStat,
   ElectionScopeIncomplete,
   ElectionType,
   electionTypeCompatibleScopes,
@@ -15,7 +16,7 @@ import { electionMapOverlayUrl } from "../../constants/servers";
 import cssClasses from "./ElectionMap.module.scss";
 import { ElectionMapAPI } from "../../util/electionApi";
 import { useApiResponse } from "../../hooks/useApiResponse";
-import { electionCandidateColor, formatPercentage, fractionOf } from "../../util/format";
+import { electionCandidateColor, formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
 import Color from "color";
 
 type Props = PropsWithChildren<{
@@ -35,6 +36,12 @@ const defaultAspectRatio = 21 / 15;
 const defaultMaxHeight = 460;
 
 export const ElectionMapOverlayURLContext = createContext<string>(electionMapOverlayUrl);
+
+const mapScopeFeatureType: Record<ElectionMapScope["type"], ElectionScopeIncomplete["type"]> = {
+  diaspora: "diaspora_country",
+  national: "county",
+  county: "locality",
+};
 
 export const ElectionMap = themable<Props>(
   "ElectionMap",
@@ -151,6 +158,13 @@ export const ElectionMap = themable<Props>(
       [onScopeChange, scopeModifier],
     );
 
+    const mandateTooltips =
+      electionType &&
+      electionResultsSeatsIsMainStat(
+        { type: mapScopeFeatureType[mapScope.type] } as ElectionScopeIncomplete,
+        electionType,
+      );
+
     const renderFeatureTooltip = useCallback(
       (id, { name }) => {
         if (!name) return null;
@@ -170,13 +184,20 @@ export const ElectionMap = themable<Props>(
           winnerName.textContent = winner.winner.shortName || winner.winner.name;
 
           winnerEl.appendChild(winnerName);
-          winnerEl.appendChild(new Text(` - ${formatPercentage(fractionOf(winner.winner.votes, winner.validVotes))}`));
+          if (!mandateTooltips && winner.winner.votes != null && winner.validVotes != null) {
+            winnerEl.appendChild(
+              new Text(` - ${formatPercentage(fractionOf(winner.winner.votes, winner.validVotes))}`),
+            );
+          }
+          if (mandateTooltips && winner.winner.seats != null) {
+            winnerEl.appendChild(new Text(` - ${formatGroupedNumber(winner.winner.seats)}`));
+          }
 
           root.appendChild(winnerEl);
         }
         return root;
       },
-      [winnerRegistry],
+      [winnerRegistry, mandateTooltips],
     );
 
     const getFeatureColor = useCallback((id) => winnerColors.get(id) || null, [winnerColors]);

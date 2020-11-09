@@ -36,8 +36,8 @@ export const ElectionResultsStackedBar = themable<Props>(
   const { candidates } = results;
   const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = constants;
 
-  const showPercentages = !meta || !scope || !electionResultsSeatsIsMainStat(scope, meta);
-  const valueFromSeats = !showPercentages && !(meta && scope && electionResultsInterpretVotesAsSeats(scope, meta));
+  const showPercentages = !meta || !scope || !electionResultsSeatsIsMainStat(scope, meta.type);
+  const valueFromSeats = !showPercentages && !(meta && scope && electionResultsInterpretVotesAsSeats(scope, meta.type));
 
   const [stackedBarItems, legendItems] = useMemo(() => {
     const items: (HorizontalStackedBarItem & {

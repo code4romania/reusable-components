@@ -96,8 +96,8 @@ export const ElectionResultsTableSection = themable<Props>(
   "ElectionResultsTableSection",
   cssClasses,
 )(({ classes, results, meta, scope }) => {
-  const votesAsSeats = electionResultsInterpretVotesAsSeats(scope, meta);
-  const hasVotes = electionResultsDisplayVotes(scope, meta);
+  const votesAsSeats = electionResultsInterpretVotesAsSeats(scope, meta.type);
+  const hasVotes = electionResultsDisplayVotes(scope, meta.type);
 
   const [qualified, unqualified, hasSeats] = useMemo(() => {
     const hasSeats_ = votesAsSeats || electionHasSeats(meta.type, results);

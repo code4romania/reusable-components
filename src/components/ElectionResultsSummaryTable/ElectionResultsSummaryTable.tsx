@@ -46,8 +46,8 @@ export const ElectionResultsSummaryTable = themable<Props>(
 )(({ classes, results, meta, headers, scope }) => {
   const isReferendum = meta.type === "referendum";
 
-  const showVotes = electionResultsDisplayVotes(scope, meta);
-  const votesAsSeats = electionResultsInterpretVotesAsSeats(scope, meta);
+  const showVotes = electionResultsDisplayVotes(scope, meta.type);
+  const votesAsSeats = electionResultsInterpretVotesAsSeats(scope, meta.type);
   const percentageBasis = showVotes ? (isReferendum ? results.eligibleVoters ?? 0 : results.validVotes) : 0;
   const hasSeats = votesAsSeats || electionHasSeats(meta.type, results);
 
