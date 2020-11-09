@@ -75,8 +75,8 @@ export const ElectionNewsCard = themable<Props>(
   return (
     <div className={classes.root}>
       <div className={classes.timestampColumn}>
-        <DivBody className={classes.date}>{format(date, "dd MMM")}</DivBody>
-        <DivBody className={classes.year}>{format(date, "yyyy")}</DivBody>
+        <DivBody className={classes.date}>{format(date, "dd MMM")}&nbsp;</DivBody>
+        <DivBody className={classes.year}>{format(date, "yyyy")}&nbsp;</DivBody>
         <DivLabel className={classes.time}>{format(date, "HH:mm")}</DivLabel>
       </div>
       <div className={classes.container}>
