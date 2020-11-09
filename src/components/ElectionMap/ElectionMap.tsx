@@ -1,6 +1,13 @@
 import React, { createContext, PropsWithChildren, useCallback, useContext, useMemo } from "react";
-import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete, ElectionType } from "../../types/Election";
-import { ClassNames, mergeClasses, themable } from "../../hooks/theme";
+import {
+  ElectionMapScope,
+  ElectionMapWinner,
+  ElectionScopeIncomplete,
+  ElectionType,
+  electionTypeCompatibleScopes,
+  electionTypeHasNationalResults,
+} from "../../types/Election";
+import { mergeClasses, themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
 import { bucharestCenteredWorldZoom, HereMap, romaniaMapBounds } from "../HereMap/HereMap";
@@ -29,25 +36,6 @@ const defaultMaxHeight = 460;
 
 export const ElectionMapOverlayURLContext = createContext<string>(electionMapOverlayUrl);
 
-const isElectionWithNationalResults = function (
-  electionType:
-    | "referendum"
-    | "president"
-    | "senate"
-    | "house"
-    | "local_council"
-    | "county_council"
-    | "county_council_president"
-    | "mayor"
-    | "european_parliament"
-    | string
-    | undefined,
-) {
-  return (
-    electionType === undefined ||
-    ["referendum", "president", "senate", "house", "european_parliament"].includes(electionType)
-  );
-};
 export const ElectionMap = themable<Props>(
   "ElectionMap",
   cssClasses,
@@ -67,7 +55,7 @@ export const ElectionMap = themable<Props>(
   }) => {
     const [ref, { width = 0 }] = useDimensions();
 
-    const showsSimpleMap = scope.type === "national" && isElectionWithNationalResults(electionType);
+    const showsSimpleMap = scope.type === "national" && (!electionType || electionTypeHasNationalResults(electionType));
 
     const ar = aspectRatio ?? defaultAspectRatio;
     let height = Math.min(maxHeight, width / ar);
@@ -79,16 +67,17 @@ export const ElectionMap = themable<Props>(
     const [mapScope, selectedFeature, scopeModifier] = useMemo<
       [ElectionMapScope, number | null, (featureId: number) => ElectionScopeIncomplete]
     >(() => {
-      if (scope.type === "locality" && scope.countyId != null) {
-        return [
-          { type: "county", countyId: scope.countyId },
-          scope.localityId ?? null,
-          (localityId) => ({ ...scope, localityId }),
-        ];
-      }
-      if (scope.type === "locality" && scope.countyId == null) {
+      if (scope.type === "locality") {
+        if (scope.countyId != null) {
+          return [
+            { type: "county", countyId: scope.countyId },
+            scope.localityId ?? null,
+            (localityId) => ({ ...scope, localityId }),
+          ];
+        }
         return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
       }
+
       if (scope.type === "diaspora" || scope.type === "diaspora_country") {
         return [
           { type: "diaspora" },
@@ -97,16 +86,25 @@ export const ElectionMap = themable<Props>(
         ];
       }
 
-      if (scope.type === "county" && isElectionWithNationalResults(electionType)) {
-        return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
+      const compatibleScopes = electionType ? electionTypeCompatibleScopes(electionType) : {};
+
+      if (scope.type === "county") {
+        if (scope.countyId != null && compatibleScopes.locality !== false) {
+          return [
+            { type: "county", countyId: scope.countyId },
+            null,
+            (localityId) => ({ type: "locality", countyId: scope.countyId, localityId }),
+          ];
+        }
+        return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ type: "county", countyId })];
       }
 
-      if (scope.type === "county" && scope.countyId !== null) {
-        return [{ type: "county", countyId: scope.countyId }, null, (localityId) => ({ ...scope, localityId })];
+      if (scope.type === "national" && compatibleScopes.county !== false) {
+        return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
       }
 
-      return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
-    }, [scope, overlayBaseUrl]);
+      return [{ type: "national" }, null, () => scope];
+    }, [scope, overlayBaseUrl, electionType]);
 
     const [overlayUrl, maskUrl] = useMemo(() => {
       switch (mapScope.type) {

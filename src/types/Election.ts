@@ -82,6 +82,13 @@ export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
   electionType === "county_council" ||
   electionType === "european_parliament";
 
+export const electionTypeHasNationalResults = (electionType: ElectionType): boolean =>
+  electionType === "referendum" ||
+  electionType === "president" ||
+  electionType === "senate" ||
+  electionType === "house" ||
+  electionType === "european_parliament";
+
 export const electionHasSeats = (electionType: ElectionType, results: ElectionResults): boolean =>
   electionTypeHasSeats(electionType) &&
   results.candidates.reduce<boolean>((acc, cand) => acc || cand.seats != null, false);
