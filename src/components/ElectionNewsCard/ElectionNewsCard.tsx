@@ -1,4 +1,6 @@
 import React, { ComponentProps, ReactNode, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
+
 import { ClassNames, themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
 import { format, parseISO, addHours } from "date-fns";
@@ -55,6 +57,11 @@ function nodeScriptClone(node: HTMLScriptElement) {
   return script;
 }
 
+const renderers = {
+  // eslint-disable-next-line react/display-name
+  link: (props: unknown) => <a target="_blank" rel="noreferrer noopener" {...props} />,
+};
+
 export const ElectionNewsCard = themable<Props>(
   "ElectionNewsCard",
   cssClasses,
@@ -93,7 +100,11 @@ export const ElectionNewsCard = themable<Props>(
               {news.title}
             </Heading3Link>
           )}
-          {news.body && <DivBody className={classes.body}>{news.body}</DivBody>}
+          {news.body && (
+            <DivBody className={classes.body}>
+              <ReactMarkdown renderers={renderers}>{news.body}</ReactMarkdown>
+            </DivBody>
+          )}
           {news.link && (
             <div className={classes.footer}>
               <span>Link: </span>
