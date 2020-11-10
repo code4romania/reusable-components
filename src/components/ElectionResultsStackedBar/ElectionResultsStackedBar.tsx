@@ -109,7 +109,7 @@ export const ElectionResultsStackedBar = themable<Props>(
                 name={item.name}
                 color={item.color}
                 value={showPercentages ? item.percent : item.value}
-                isPercentage={showPercentages}
+                variant={showPercentages ? "percentage" : "seats"}
                 iconUrl={(width >= breakpoint1 || item.index < 2) && width >= breakpoint3 ? item.logo : undefined}
                 rightAligned={index === stackedBarItems.length - 1}
               />
