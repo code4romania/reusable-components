@@ -1,7 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { ResultsTable } from "../ResultsTable/ResultsTable";
 import { Heading2 } from "../Typography/Typography";
-import { electionHasSeats, ElectionBallotMeta, ElectionResults, ElectionResultsCandidate } from "../../types/Election";
+import {
+  electionHasSeats,
+  ElectionBallotMeta,
+  ElectionResults,
+  ElectionResultsCandidate,
+  electionResultsInterpretVotesAsSeats,
+  ElectionScopeIncomplete,
+  electionResultsDisplayVotes,
+} from "../../types/Election";
 import { formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
 import { ClassNames, themable } from "../../hooks/theme";
 import { Button } from "../Button/Button";
@@ -10,6 +18,7 @@ import cssClasses from "./ElectionResultsTableSection.module.scss";
 type Props = {
   meta: ElectionBallotMeta;
   results: ElectionResults;
+  scope: ElectionScopeIncomplete;
 };
 
 const CandidateTable: React.FC<{
@@ -17,8 +26,10 @@ const CandidateTable: React.FC<{
   validVotes: number;
   candidates: ElectionResultsCandidate[];
   hasSeats: boolean;
+  hasVotes: boolean;
+  votesAsSeats: boolean;
   meta: ElectionBallotMeta;
-}> = ({ classes, validVotes, candidates, hasSeats, meta }) => {
+}> = ({ classes, validVotes, candidates, hasSeats, hasVotes, votesAsSeats, meta }) => {
   const hasSeatsGained = hasSeats && candidates.reduce((acc, candidate) => acc || candidate.seatsGained != null, false);
   const hasCandidateCount = candidates.reduce((acc, candidate) => acc || candidate.candidateCount != null, false);
 
@@ -40,8 +51,8 @@ const CandidateTable: React.FC<{
           <tr>
             <th>Partid / Alianță / Candidat independent</th>
             {hasCandidateCount && <th>Nr. cand.</th>}
-            <th>Voturi</th>
-            <th>%</th>
+            {hasVotes && <th>Voturi</th>}
+            {hasVotes && <th>%</th>}
             {hasSeats && <th>Mandate</th>}
             {hasSeatsGained && <th>+/-</th>}
           </tr>
@@ -53,9 +64,9 @@ const CandidateTable: React.FC<{
                 <tr key={index}>
                   <td className={classes.nameCell}>{candidate.name}</td>
                   {hasCandidateCount && <th>{formatGroupedNumber(candidate.candidateCount || 0)}</th>}
-                  <td>{formatGroupedNumber(candidate.votes)}</td>
-                  <td>{formatPercentage(fractionOf(candidate.votes, validVotes))}</td>
-                  {hasSeats && <td>{formatGroupedNumber(candidate.seats || 0)}</td>}
+                  {hasVotes && <td>{formatGroupedNumber(candidate.votes)}</td>}
+                  {hasVotes && <td>{formatPercentage(fractionOf(candidate.votes, validVotes))}</td>}
+                  {hasSeats && <td>{formatGroupedNumber((votesAsSeats ? candidate.votes : candidate.seats) || 0)}</td>}
                   {hasSeatsGained && (
                     <td>
                       {typeof candidate.seatsGained === "number"
@@ -84,16 +95,25 @@ const emptyToNull = <T,>(x: Array<T> | null) => (x && x.length >= 1 ? x : null);
 export const ElectionResultsTableSection = themable<Props>(
   "ElectionResultsTableSection",
   cssClasses,
-)(({ classes, results, meta }) => {
+)(({ classes, results, meta, scope }) => {
+  const votesAsSeats = electionResultsInterpretVotesAsSeats(scope, meta.type);
+  const hasVotes = electionResultsDisplayVotes(scope, meta.type);
+
   const [qualified, unqualified, hasSeats] = useMemo(() => {
-    const hasSeats_ = electionHasSeats(meta.type, results);
+    const hasSeats_ = votesAsSeats || electionHasSeats(meta.type, results);
 
     const qualified_ = hasSeats_
-      ? results.candidates.filter((cand) => Number.isFinite(cand.seats) && (cand.seats || 0) > 0)
+      ? results.candidates.filter((cand) => {
+          const seats = votesAsSeats ? cand.votes : cand.seats;
+          return Number.isFinite(seats) && (seats || 0) > 0;
+        })
       : results.candidates;
 
     const unqualified_ = hasSeats_
-      ? results.candidates.filter((cand) => !Number.isFinite(cand.seats) || (cand.seats || 0) <= 0)
+      ? results.candidates.filter((cand) => {
+          const seats = votesAsSeats ? cand.votes : cand.seats;
+          return !Number.isFinite(seats) || (seats || 0) <= 0;
+        })
       : null;
 
     return [emptyToNull(qualified_), emptyToNull(unqualified_), hasSeats_];
@@ -115,7 +135,9 @@ export const ElectionResultsTableSection = themable<Props>(
           classes={classes}
           candidates={qualified}
           hasSeats={hasSeats}
+          hasVotes={hasVotes}
           validVotes={results.validVotes}
+          votesAsSeats={votesAsSeats}
           meta={meta}
         />
         <Heading2 className={classes.heading}>Partide care nu au îndeplinit pragul electoral</Heading2>
@@ -123,7 +145,9 @@ export const ElectionResultsTableSection = themable<Props>(
           classes={classes}
           candidates={unqualified}
           hasSeats={false}
+          hasVotes={hasVotes}
           validVotes={results.validVotes}
+          votesAsSeats={votesAsSeats}
           meta={meta}
         />
 
@@ -141,7 +165,9 @@ export const ElectionResultsTableSection = themable<Props>(
         classes={classes}
         candidates={qualified || unqualified || []}
         hasSeats={hasSeats}
+        hasVotes={hasVotes}
         validVotes={results.validVotes}
+        votesAsSeats={votesAsSeats}
         meta={meta}
       />
 

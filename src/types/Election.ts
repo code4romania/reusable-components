@@ -27,20 +27,30 @@ export const electionScopeIsComplete = (scope: ElectionScopeIncomplete): Electio
   };
 };
 
-export const electionResultsShouldShowAsPercentages = (
-  scope: ElectionScopeIncomplete,
-  meta: ElectionBallotMeta,
-): boolean => {
-  if (
-    (scope.type === "national" && meta.type === "mayor") ||
-    (scope.type === "county" && meta.type === "mayor" && scope.countyId !== 12913) ||
-    (scope.type === "national" && meta.type === "county_council_president")
-  ) {
-    return false;
-  }
+export const bucharestCountyId = 12913;
 
-  return true;
-};
+// Weird API quirk. Seats arrive as votes in results.
+// This should be set to false or completely removed after the API is fixed.
+export const electionResultsInterpretVotesAsSeats = (
+  scope: ElectionScopeIncomplete,
+  electionType: ElectionType,
+): boolean =>
+  (scope.type === "national" && electionType === "mayor") ||
+  (scope.type === "county" && electionType === "mayor" && scope.countyId !== bucharestCountyId) ||
+  (scope.type === "national" && electionType === "county_council_president");
+
+// Only coincidentally same as above
+export const electionResultsDisplayVotes = (scope: ElectionScopeIncomplete, electionType: ElectionType): boolean =>
+  !(
+    (scope.type === "national" && electionType === "mayor") ||
+    (scope.type === "county" && electionType === "mayor" && scope.countyId !== bucharestCountyId) ||
+    (scope.type === "national" && electionType === "county_council_president")
+  );
+
+export const electionResultsSeatsIsMainStat = (scope: ElectionScopeIncomplete, electionType: ElectionType): boolean =>
+  !electionResultsDisplayVotes(scope, electionType) ||
+  (scope.type === "national" && electionType === "county_council") ||
+  ((scope.type === "national" || scope.type === "county") && electionType === "local_council");
 
 export type ElectionScopeNames = {
   countyName?: string | null;
@@ -70,6 +80,13 @@ export const electionTypeHasSeats = (electionType: ElectionType): boolean =>
   electionType === "house" ||
   electionType === "local_council" ||
   electionType === "county_council" ||
+  electionType === "european_parliament";
+
+export const electionTypeHasNationalResults = (electionType: ElectionType): boolean =>
+  electionType === "referendum" ||
+  electionType === "president" ||
+  electionType === "senate" ||
+  electionType === "house" ||
   electionType === "european_parliament";
 
 export const electionHasSeats = (electionType: ElectionType, results: ElectionResults): boolean =>
@@ -235,12 +252,13 @@ export type ElectionMapScope = { type: "national" } | { type: "county"; countyId
 
 export type ElectionMapWinner = {
   id: number; // The ID of the map feature (countyId / countryId / localityId)
-  validVotes: number; // Needed to calculate percentages in map tooltips
+  validVotes?: number; // Needed to calculate percentages in map tooltips
   winner: {
     name: string; // eg. "Uniunea Salvați România",
     shortName?: string | null; // eg. "USR"
     partyColor?: string | null;
-    votes: number;
+    votes?: number;
+    seats?: number;
   };
 };
 

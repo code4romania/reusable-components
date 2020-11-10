@@ -1,4 +1,6 @@
 import React, { ComponentProps, ReactNode, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
+
 import { ClassNames, themable } from "../../hooks/theme";
 import { ElectionNews } from "../../types/Election";
 import { format, parseISO, addHours } from "date-fns";
@@ -55,6 +57,11 @@ function nodeScriptClone(node: HTMLScriptElement) {
   return script;
 }
 
+const renderers = {
+  // eslint-disable-next-line react/display-name
+  link: (props: unknown) => <a target="_blank" rel="noreferrer noopener" {...props} />,
+};
+
 export const ElectionNewsCard = themable<Props>(
   "ElectionNewsCard",
   cssClasses,
@@ -75,8 +82,8 @@ export const ElectionNewsCard = themable<Props>(
   return (
     <div className={classes.root}>
       <div className={classes.timestampColumn}>
-        <DivBody className={classes.date}>{format(date, "dd MMM")}</DivBody>
-        <DivBody className={classes.year}>{format(date, "yyyy")}</DivBody>
+        <DivBody className={classes.date}>{format(date, "dd MMM")}&nbsp;</DivBody>
+        <DivBody className={classes.year}>{format(date, "yyyy")}&nbsp;</DivBody>
         <DivLabel className={classes.time}>{format(date, "HH:mm")}</DivLabel>
       </div>
       <div className={classes.container}>
@@ -93,7 +100,11 @@ export const ElectionNewsCard = themable<Props>(
               {news.title}
             </Heading3Link>
           )}
-          {news.body && <DivBody className={classes.body}>{news.body}</DivBody>}
+          {news.body && (
+            <DivBody className={classes.body}>
+              <ReactMarkdown renderers={renderers}>{news.body}</ReactMarkdown>
+            </DivBody>
+          )}
           {news.link && (
             <div className={classes.footer}>
               <span>Link: </span>
@@ -125,25 +136,27 @@ export const ElectionNewsCard = themable<Props>(
         </div>
         <hr className={classes.hLine} />
         <div className={classes.footer}>
-          <>
-            <span>Share on: </span>
-            <a
-              className={classes.footerLink}
-              href={`https://twitter.com/intent/tweet?url=${feedLink}&text=${news.body}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <TwitterLogo width="25" height="25" className={classes.footerLinkIcon} />
-            </a>
-            <a
-              className={classes.footerLink}
-              href={`https://www.facebook.com/sharer/sharer.php?u=${feedLink}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FacebookLogo width="25" height="25" className={classes.footerLinkIcon} />
-            </a>
-          </>
+          {feedLink && (
+            <>
+              <span>Share on: </span>
+              <a
+                className={classes.footerLink}
+                href={`https://twitter.com/intent/tweet?url=${feedLink}&text=${news.body}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TwitterLogo width="25" height="25" className={classes.footerLinkIcon} />
+              </a>
+              <a
+                className={classes.footerLink}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${feedLink}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookLogo width="25" height="25" className={classes.footerLinkIcon} />
+              </a>
+            </>
+          )}
           {footerLeft}
           <div className={classes.separator} />
           {footerRight}

@@ -7,6 +7,14 @@ export default {
   component: ElectionNewsCard,
 };
 
-export const SimpleCard = () => {
-  return <ElectionNewsCard news={mockElectionNews} />;
+export const SimpleCard = (args) => {
+  return <ElectionNewsCard {...args} />;
+};
+
+SimpleCard.args = {
+  news: mockElectionNews,
+};
+
+SimpleCard.argTypes = {
+  news: { control: "object" },
 };

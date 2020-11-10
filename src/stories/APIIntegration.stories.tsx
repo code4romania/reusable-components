@@ -58,7 +58,7 @@ export const ElectionComponents = (args: { api: string; apiUrl: string; id: stri
           {data.results?.totalSeats != null && data.results.totalSeats > 0 && (
             <ElectionResultsSeats results={data.results} />
           )}
-          {data.results && <ElectionResultsTableSection meta={data.meta} results={data.results} />}
+          {data.results && <ElectionResultsTableSection meta={data.meta} results={data.results} scope={data.scope} />}
           {data.electionNews && data.electionNews.length > 0 && <ElectionNewsSection feed={data.electionNews} />}
         </>
       )}

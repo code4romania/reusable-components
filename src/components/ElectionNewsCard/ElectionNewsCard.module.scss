@@ -85,6 +85,31 @@ a.title {
 .body {
   line-height: 1.5;
   margin-bottom: 1rem;
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5em;
+    margin-bottom: 0.5rem;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: 1.5em;
+    margin-bottom: 0.5rem;
+  }
+
 }
 
 .pictures {
@@ -151,6 +176,5 @@ a.title {
     margin-right: 0.5rem;
     flex-direction: row;
     justify-content: flex-end;
-    gap: 0.3rem;
   }
 }

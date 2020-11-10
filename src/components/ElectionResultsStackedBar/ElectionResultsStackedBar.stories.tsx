@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import React from "react";
-import { mockResults, mockCountyCouncilResults } from "../../util/mocks";
+import { mockResults, mockMayorResults, mockMayorElectionMeta, mockNationalElectionScope } from "../../util/mocks";
 import { ElectionResultsStackedBar } from "./ElectionResultsStackedBar";
 
 export default {
@@ -27,8 +27,9 @@ export const ExampleWithDiscreteValues = (args: any) => {
 };
 
 ExampleWithDiscreteValues.args = {
-  results: mockCountyCouncilResults,
-  displayPercentages: false,
+  results: mockMayorResults,
+  meta: mockMayorElectionMeta,
+  scope: mockNationalElectionScope,
 };
 
 ExampleWithDiscreteValues.argTypes = {

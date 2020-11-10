@@ -3,13 +3,14 @@ import { mergeClasses, themable } from "../../hooks/theme";
 import { formatGroupedNumber, formatPercentage } from "../../util/format";
 import { DivBodyMedium, DivHeading1 } from "../Typography/Typography";
 import { ColoredSquare } from "../ColoredSquare/ColoredSquare";
+import PersonIcon from "../../assets/person.svg";
 import cssClasses from "./PartyResultCard.module.scss";
 
 type Props = {
   name: string;
   color: string;
   value: number;
-  isPercentage?: boolean;
+  variant?: "percentage" | "seats" | "plain";
   rightAligned?: boolean;
   iconUrl?: string;
 };
@@ -17,7 +18,7 @@ type Props = {
 export const PartyResultCard = themable<Props>(
   "PartyResultCard",
   cssClasses,
-)(({ classes, name, color, value, rightAligned, iconUrl, isPercentage }) => (
+)(({ classes, name, color, value, rightAligned, iconUrl, variant = "percentage" }) => (
   <div className={mergeClasses(classes.root, rightAligned && classes.rightAlign)}>
     {iconUrl && <img className={classes.icon} src={iconUrl} alt={name} />}
     <div className={classes.column}>
@@ -26,7 +27,8 @@ export const PartyResultCard = themable<Props>(
         <div className={classes.name}>{name}</div>
       </DivBodyMedium>
       <DivHeading1 className={classes.percentage}>
-        {isPercentage ?? true ? formatPercentage(value) : formatGroupedNumber(value)}
+        {variant === "percentage" ? formatPercentage(value) : formatGroupedNumber(value)}
+        {variant === "seats" && <PersonIcon className={classes.seatsIcon} />}
       </DivHeading1>
     </div>
   </div>

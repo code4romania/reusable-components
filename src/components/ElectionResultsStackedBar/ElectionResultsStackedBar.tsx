@@ -1,5 +1,11 @@
 import React, { useMemo } from "react";
-import { ElectionBallotMeta, ElectionResults } from "../../types/Election";
+import {
+  ElectionBallotMeta,
+  ElectionResults,
+  electionResultsInterpretVotesAsSeats,
+  electionResultsSeatsIsMainStat,
+  ElectionScopeIncomplete,
+} from "../../types/Election";
 import { themable } from "../../hooks/theme";
 import { HorizontalStackedBar, HorizontalStackedBarItem } from "../HorizontalStackedBar/HorizontalStackedBar";
 import { PartyResultCard } from "../PartyResultCard/PartyResultCard";
@@ -11,7 +17,7 @@ import cssClasses from "./ElectionResultsStackedBar.module.scss";
 type Props = {
   results: ElectionResults;
   meta?: ElectionBallotMeta | null;
-  displayPercentages?: boolean;
+  scope?: ElectionScopeIncomplete | null;
 };
 
 const defaultConstants = {
@@ -26,11 +32,12 @@ export const ElectionResultsStackedBar = themable<Props>(
   "ElectionResultsStackedBar",
   cssClasses,
   defaultConstants,
-)(({ classes, results, constants, meta, displayPercentages }) => {
+)(({ classes, results, constants, meta, scope }) => {
   const { candidates } = results;
   const { neutralColor, maxStackedBarItems, breakpoint1, breakpoint2, breakpoint3 } = constants;
 
-  const showPercentages = displayPercentages ?? true;
+  const showPercentages = !meta || !scope || !electionResultsSeatsIsMainStat(scope, meta.type);
+  const valueFromSeats = !showPercentages && !(meta && scope && electionResultsInterpretVotesAsSeats(scope, meta.type));
 
   const [stackedBarItems, legendItems] = useMemo(() => {
     const items: (HorizontalStackedBarItem & {
@@ -40,22 +47,22 @@ export const ElectionResultsStackedBar = themable<Props>(
       index: number;
     })[] = [];
 
-    const sumOfVotes = candidates.reduce((crtValue, candidate) => crtValue + candidate.votes, 0);
-
-    const percentageBasis =
-      meta?.type === "referendum" ? results.eligibleVoters ?? 0 : showPercentages ? results.validVotes : sumOfVotes;
+    const percentageBasis = showPercentages
+      ? meta?.type === "referendum"
+        ? results.eligibleVoters ?? 0
+        : results.validVotes
+      : 0;
 
     const stackedBarCount = candidates.length === maxStackedBarItems + 1 ? maxStackedBarItems + 1 : maxStackedBarItems;
     for (let i = 0; i < stackedBarCount; i++) {
       const candidate = candidates[i];
       if (candidate) {
         const color = electionCandidateColor(candidate);
-        const percent = fractionOf(candidate.votes, percentageBasis);
         items.push({
           name: candidate.shortName ?? candidate.name,
           color,
-          value: candidate.votes,
-          percent,
+          value: (valueFromSeats && candidate.seats != null ? candidate.seats : undefined) ?? candidate.votes,
+          percent: showPercentages ? fractionOf(candidate.votes, percentageBasis) : 0,
           logo: candidate.partyLogo,
           index: items.length,
         });
@@ -65,13 +72,14 @@ export const ElectionResultsStackedBar = themable<Props>(
     if (candidates.length > stackedBarCount) {
       let total = 0;
       for (let i = stackedBarCount; i < candidates.length; i++) {
-        total += candidates[i].votes;
+        const candidate = candidates[i];
+        total += (valueFromSeats && candidate.seats != null ? candidate.seats : undefined) ?? candidate.votes;
       }
       items.push({
         value: total,
         color: constants.neutralColor,
         name: "Alții",
-        percent: fractionOf(total, results.validVotes),
+        percent: showPercentages ? fractionOf(total, percentageBasis) : 0,
         index: items.length,
       });
     }
@@ -101,7 +109,7 @@ export const ElectionResultsStackedBar = themable<Props>(
                 name={item.name}
                 color={item.color}
                 value={showPercentages ? item.percent : item.value}
-                isPercentage={showPercentages}
+                variant={showPercentages ? "percentage" : "seats"}
                 iconUrl={(width >= breakpoint1 || item.index < 2) && width >= breakpoint3 ? item.logo : undefined}
                 rightAligned={index === stackedBarItems.length - 1}
               />

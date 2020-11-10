@@ -1,6 +1,14 @@
 import React, { createContext, PropsWithChildren, useCallback, useContext, useMemo } from "react";
-import { ElectionMapScope, ElectionMapWinner, ElectionScopeIncomplete, ElectionType } from "../../types/Election";
-import { ClassNames, mergeClasses, themable } from "../../hooks/theme";
+import {
+  ElectionMapScope,
+  ElectionMapWinner,
+  electionResultsSeatsIsMainStat,
+  ElectionScopeIncomplete,
+  ElectionType,
+  electionTypeCompatibleScopes,
+  electionTypeHasNationalResults,
+} from "../../types/Election";
+import { mergeClasses, themable } from "../../hooks/theme";
 import RomaniaMap from "../../assets/romania-map.svg";
 import { useDimensions } from "../../hooks/useDimensions";
 import { bucharestCenteredWorldZoom, HereMap, romaniaMapBounds } from "../HereMap/HereMap";
@@ -8,7 +16,7 @@ import { electionMapOverlayUrl } from "../../constants/servers";
 import cssClasses from "./ElectionMap.module.scss";
 import { ElectionMapAPI } from "../../util/electionApi";
 import { useApiResponse } from "../../hooks/useApiResponse";
-import { electionCandidateColor, formatPercentage, fractionOf } from "../../util/format";
+import { electionCandidateColor, formatGroupedNumber, formatPercentage, fractionOf } from "../../util/format";
 import Color from "color";
 
 type Props = PropsWithChildren<{
@@ -29,25 +37,12 @@ const defaultMaxHeight = 460;
 
 export const ElectionMapOverlayURLContext = createContext<string>(electionMapOverlayUrl);
 
-const isElectionWithNationalResults = function (
-  electionType:
-    | "referendum"
-    | "president"
-    | "senate"
-    | "house"
-    | "local_council"
-    | "county_council"
-    | "county_council_president"
-    | "mayor"
-    | "european_parliament"
-    | string
-    | undefined,
-) {
-  return (
-    electionType === undefined ||
-    ["referendum", "president", "senate", "house", "european_parliament"].includes(electionType)
-  );
+const mapScopeFeatureType: Record<ElectionMapScope["type"], ElectionScopeIncomplete["type"]> = {
+  diaspora: "diaspora_country",
+  national: "county",
+  county: "locality",
 };
+
 export const ElectionMap = themable<Props>(
   "ElectionMap",
   cssClasses,
@@ -67,7 +62,7 @@ export const ElectionMap = themable<Props>(
   }) => {
     const [ref, { width = 0 }] = useDimensions();
 
-    const showsSimpleMap = scope.type === "national" && isElectionWithNationalResults(electionType);
+    const showsSimpleMap = scope.type === "national" && (!electionType || electionTypeHasNationalResults(electionType));
 
     const ar = aspectRatio ?? defaultAspectRatio;
     let height = Math.min(maxHeight, width / ar);
@@ -79,16 +74,17 @@ export const ElectionMap = themable<Props>(
     const [mapScope, selectedFeature, scopeModifier] = useMemo<
       [ElectionMapScope, number | null, (featureId: number) => ElectionScopeIncomplete]
     >(() => {
-      if (scope.type === "locality" && scope.countyId != null) {
-        return [
-          { type: "county", countyId: scope.countyId },
-          scope.localityId ?? null,
-          (localityId) => ({ ...scope, localityId }),
-        ];
-      }
-      if (scope.type === "locality" && scope.countyId == null) {
+      if (scope.type === "locality") {
+        if (scope.countyId != null) {
+          return [
+            { type: "county", countyId: scope.countyId },
+            scope.localityId ?? null,
+            (localityId) => ({ ...scope, localityId }),
+          ];
+        }
         return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
       }
+
       if (scope.type === "diaspora" || scope.type === "diaspora_country") {
         return [
           { type: "diaspora" },
@@ -97,16 +93,25 @@ export const ElectionMap = themable<Props>(
         ];
       }
 
-      if (scope.type === "county" && isElectionWithNationalResults(electionType)) {
-        return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ ...scope, countyId })];
+      const compatibleScopes = electionType ? electionTypeCompatibleScopes(electionType) : {};
+
+      if (scope.type === "county") {
+        if (scope.countyId != null && compatibleScopes.locality !== false) {
+          return [
+            { type: "county", countyId: scope.countyId },
+            null,
+            (localityId) => ({ type: "locality", countyId: scope.countyId, localityId }),
+          ];
+        }
+        return [{ type: "national" }, scope.countyId ?? null, (countyId) => ({ type: "county", countyId })];
       }
 
-      if (scope.type === "county" && scope.countyId !== null) {
-        return [{ type: "county", countyId: scope.countyId }, null, (localityId) => ({ ...scope, localityId })];
+      if (scope.type === "national" && compatibleScopes.county !== false) {
+        return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
       }
 
-      return [{ type: "national" }, null, (countyId) => ({ type: "county", countyId })];
-    }, [scope, overlayBaseUrl]);
+      return [{ type: "national" }, null, () => scope];
+    }, [scope, overlayBaseUrl, electionType]);
 
     const [overlayUrl, maskUrl] = useMemo(() => {
       switch (mapScope.type) {
@@ -153,6 +158,13 @@ export const ElectionMap = themable<Props>(
       [onScopeChange, scopeModifier],
     );
 
+    const mandateTooltips =
+      electionType &&
+      electionResultsSeatsIsMainStat(
+        { type: mapScopeFeatureType[mapScope.type] } as ElectionScopeIncomplete,
+        electionType,
+      );
+
     const renderFeatureTooltip = useCallback(
       (id, { name }) => {
         if (!name) return null;
@@ -172,13 +184,20 @@ export const ElectionMap = themable<Props>(
           winnerName.textContent = winner.winner.shortName || winner.winner.name;
 
           winnerEl.appendChild(winnerName);
-          winnerEl.appendChild(new Text(` - ${formatPercentage(fractionOf(winner.winner.votes, winner.validVotes))}`));
+          if (!mandateTooltips && winner.winner.votes != null && winner.validVotes != null) {
+            winnerEl.appendChild(
+              new Text(` - ${formatPercentage(fractionOf(winner.winner.votes, winner.validVotes))}`),
+            );
+          }
+          if (mandateTooltips && winner.winner.seats != null) {
+            winnerEl.appendChild(new Text(` - ${formatGroupedNumber(winner.winner.seats)}`));
+          }
 
           root.appendChild(winnerEl);
         }
         return root;
       },
-      [winnerRegistry],
+      [winnerRegistry, mandateTooltips],
     );
 
     const getFeatureColor = useCallback((id) => winnerColors.get(id) || null, [winnerColors]);
