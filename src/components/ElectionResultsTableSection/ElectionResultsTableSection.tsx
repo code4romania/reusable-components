@@ -151,10 +151,12 @@ export const ElectionResultsTableSection = themable<Props>(
           meta={meta}
         />
 
-        <p>
-          * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului de
-          distribuire şi redistribuire a mandatelor de către birourile electorale.
-        </p>
+        {meta && meta.live && (
+          <p>
+            * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului
+            distribuire şi redistribuire a mandatelor de către birourile electorale.
+          </p>
+        )}
       </>
     );
   }
@@ -171,10 +173,12 @@ export const ElectionResultsTableSection = themable<Props>(
         meta={meta}
       />
 
-      <p>
-        * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului de
-        distribuire şi redistribuire a mandatelor de către birourile electorale.
-      </p>
+      {meta && meta.live && (
+        <p>
+          * Numărul final de mandate obţinute de fiecare formaţiune politică va fi afişat după finalizarea procesului
+          distribuire şi redistribuire a mandatelor de către birourile electorale.
+        </p>
+      )}
     </>
   );
 });
