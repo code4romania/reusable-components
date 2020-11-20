@@ -129,7 +129,7 @@ export const ElectionCandidatesComponent = (args: { api: string; apiUrl: string 
   return (
     <>
       <APIRequestPreview data={data} loading={loading} error={error} />
-      {data && <ElectionCandidatesTableSection heading="Candidati" parties={data} />}
+      {data && <ElectionCandidatesTableSection heading="Partid" parties={data} />}
     </>
   );
 };

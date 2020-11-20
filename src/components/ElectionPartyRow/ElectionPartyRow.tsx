@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { ElectionResultsPartyCandidate } from "../../types/Election";
 import { themable, mergeClasses } from "../../hooks/theme";
+import { ResultsTable } from "../ResultsTable/ResultsTable";
 import cssClasses from "./ElectionPartyRow.module.scss";
 
 type Props = {
@@ -29,13 +30,17 @@ export const ElectionPartyRow = themable<Props>(
           <i className={cssClasses.chevron}></i>
         </td>
       </tr>
-      {expanded
-        ? candidates.map((candidate: ElectionResultsPartyCandidate) => (
-            <tr key={candidate.name} className={cssClasses.candidate}>
-              <td className={cssClasses.candidate}>{candidate.name}</td>
-            </tr>
-          ))
-        : null}
+      {expanded ? (
+        <ResultsTable>
+          <tbody>
+            {candidates.map((candidate: ElectionResultsPartyCandidate) => (
+              <tr key={candidate.name} className={cssClasses.candidate}>
+                <td className={cssClasses.candidate}>{candidate.name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </ResultsTable>
+      ) : null}
     </>
   );
 });

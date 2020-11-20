@@ -28,7 +28,7 @@ const CandidateTable: React.FC<{
       <ResultsTable className={classes.table}>
         <thead>
           <tr>
-            <th>{heading}</th>
+            <th className={classes.heading}>{heading}</th>
           </tr>
         </thead>
         <tbody>
@@ -50,7 +50,7 @@ const CandidateTable: React.FC<{
   );
 };
 
-export const ElectionCandidatesTableSection = themable<Props>("ElectionResultsCandidatesTableSection")(
+export const ElectionCandidatesTableSection = themable<Props>("ElectionCandidatesTableSection")(
   ({ parties, heading }) => {
     return (
       <>
