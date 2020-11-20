@@ -14,6 +14,7 @@ import { ElectionResultsSummarySection } from "../components/ElectionResultsSumm
 import { ElectionResultsProcess } from "../components/ElectionResultsProcess/ElectionResultsProcess";
 import { ElectionResultsSeats } from "../components/ElectionResultsSeats/ElectionResultsSeats";
 import { ElectionResultsTableSection } from "../components/ElectionResultsTableSection/ElectionResultsTableSection";
+import { ElectionCandidatesTableSection } from "../components/ElectionCandidatesTableSection/ElectionCandidatesTableSection";
 import { ElectionTimeline } from "../components/ElectionTimeline/ElectionTimeline";
 import { ElectionCompatibleScopes, ElectionScopeIncomplete } from "../types/Election";
 import { ElectionScopePicker, useElectionScopePickerApi } from "../components/ElectionScopePicker/ElectionScopePicker";
@@ -119,4 +120,16 @@ ElectionScopeComponent.args = {
 ElectionScopeComponent.argTypes = {
   ballotId: { control: "number" },
   compatibleScopes: { control: "object" },
+};
+
+export const ElectionCandidatesComponent = (args: { api: string; apiUrl: string }) => {
+  const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
+  const { data, loading, error } = useApiResponse(() => electionApi.getCandidates(1, 1, 1), [electionApi]);
+
+  return (
+    <>
+      <APIRequestPreview data={data} loading={loading} error={error} />
+      {data && <ElectionCandidatesTableSection heading="Candidati" parties={data} />}
+    </>
+  );
 };
