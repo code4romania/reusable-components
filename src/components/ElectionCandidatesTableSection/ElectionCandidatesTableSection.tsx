@@ -7,14 +7,16 @@ import { ElectionPartyRow } from "../ElectionPartyRow/ElectionPartyRow";
 import classes from "./ElectionCandidatesTableSection.module.scss";
 
 type Props = {
-  parties: ElectionResultsPartyCandidates[] | undefined;
   heading: string;
+  parties: ElectionResultsPartyCandidates[] | undefined;
+  ballot: string;
 };
 
 const CandidateTable: React.FC<{
-  parties: ElectionResultsPartyCandidates[] | undefined;
   heading: string;
-}> = ({ parties, heading }) => {
+  parties: ElectionResultsPartyCandidates[] | undefined;
+  ballot: string;
+}> = ({ heading, parties, ballot }) => {
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
   const canCollapse = parties && parties.length >= 12;
@@ -36,7 +38,7 @@ const CandidateTable: React.FC<{
             parties.map(
               (party, index) =>
                 (!(canCollapse && collapsed) || index < 10) && (
-                  <ElectionPartyRow key={index} name={party.name} candidates={party.candidates} />
+                  <ElectionPartyRow key={index} name={party.name} candidates={party.candidates} ballot={ballot} />
                 ),
             )}
         </tbody>
@@ -51,10 +53,10 @@ const CandidateTable: React.FC<{
 };
 
 export const ElectionCandidatesTableSection = themable<Props>("ElectionCandidatesTableSection")(
-  ({ parties, heading }) => {
+  ({ heading, parties, ballot }) => {
     return (
       <>
-        <CandidateTable parties={parties} heading={heading} />
+        <CandidateTable parties={parties} heading={heading} ballot={ballot} />
       </>
     );
   },

@@ -10,5 +10,9 @@ export default {
 };
 
 export const SimpleExample = () => (
-  <ElectionPartyRow name={mockCandidatesList[0].name} candidates={mockCandidatesList[0].candidates} />
+  <ElectionPartyRow
+    name={mockCandidatesList[0].name}
+    candidates={mockCandidatesList[0].candidates}
+    ballot="Camera deputatilor"
+  />
 );

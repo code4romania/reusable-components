@@ -19,8 +19,11 @@
 }
 
 .candidate td {
-  padding-left: 1.5rem;
   text-align: left;
+}
+
+.candidate td:first-child {
+  width: 70%;
 }
 
 .expanded td:after {

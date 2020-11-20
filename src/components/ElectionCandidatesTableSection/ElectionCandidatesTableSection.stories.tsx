@@ -11,5 +11,12 @@ export default {
 };
 
 export const SimpleExample = () => {
-  return <ElectionCandidatesTableSection parties={mockCandidatesList} classes={cssClasses} heading="Partid" />;
+  return (
+    <ElectionCandidatesTableSection
+      classes={cssClasses}
+      heading="Partid"
+      ballot="Camera deputatilor"
+      parties={mockCandidatesList}
+    />
+  );
 };
