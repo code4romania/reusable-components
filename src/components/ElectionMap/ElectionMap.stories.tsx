@@ -9,7 +9,7 @@ import { mockElectionAPI } from "../../util/mocks";
 import { ElectionMap } from "./ElectionMap";
 
 export default {
-  title: "Election map",
+  title: "Election / Map",
   component: ElectionMap,
   argTypes: {
     ...scopeArgTypes,

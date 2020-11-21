@@ -20,7 +20,7 @@ import {
 import { ElectionResultsSummarySection } from "./ElectionResultsSummarySection";
 
 export default {
-  title: "Election results summary section",
+  title: "Election results / Summary section",
   component: ElectionResultsSummarySection,
 };
 

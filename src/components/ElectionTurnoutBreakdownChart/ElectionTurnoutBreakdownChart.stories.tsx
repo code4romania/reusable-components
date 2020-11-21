@@ -5,7 +5,7 @@ import { mockPresidentialElectionTurnout } from "../../util/mocks";
 import { ElectionTurnoutBreakdownChart } from "./ElectionTurnoutBreakdownChart";
 
 export default {
-  title: "Election turnout breakdown chart",
+  title: "Election / Turnout breakdown chart",
   component: ElectionTurnoutBreakdownChart,
 };
 

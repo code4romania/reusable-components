@@ -12,7 +12,7 @@ import {
 import { ElectionResultsTableSection } from "./ElectionResultsTableSection";
 
 export default {
-  title: "Election results tables section",
+  title: "Election results / Tables section",
   component: ElectionResultsTableSection,
 };
 

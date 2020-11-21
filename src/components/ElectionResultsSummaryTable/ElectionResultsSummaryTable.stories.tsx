@@ -13,7 +13,7 @@ import {
 import { ElectionResultsSummaryTable } from "./ElectionResultsSummaryTable";
 
 export default {
-  title: "Election results summary table",
+  title: "Election results / Summary table",
   component: ElectionResultsSummaryTable,
 };
 

@@ -5,7 +5,7 @@ import { mockObservation } from "../../util/mocks";
 import { ElectionObservationSection } from "./ElectionObservationSection";
 
 export default {
-  title: "Election observation section",
+  title: "Election / Observation section",
   component: ElectionObservationSection,
 };
 

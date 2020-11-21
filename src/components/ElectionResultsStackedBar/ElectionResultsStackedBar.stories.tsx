@@ -6,7 +6,7 @@ import { mockResults, mockMayorResults, mockMayorElectionMeta, mockNationalElect
 import { ElectionResultsStackedBar } from "./ElectionResultsStackedBar";
 
 export default {
-  title: "Election results stacked bar",
+  title: "Election results / Stacked bar",
   component: ElectionResultsStackedBar,
 };
 

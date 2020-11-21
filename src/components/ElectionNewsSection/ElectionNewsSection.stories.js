@@ -3,7 +3,7 @@ import { ElectionNewsSection } from "./ElectionNewsSection.tsx";
 import { mockElectionNews } from "../../util/mocks";
 
 export default {
-  title: "Election news section",
+  title: "Election / News section",
   component: ElectionNewsSection,
 };
 

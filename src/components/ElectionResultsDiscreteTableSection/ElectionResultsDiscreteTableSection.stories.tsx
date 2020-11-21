@@ -6,7 +6,7 @@ import { ElectionResultsDiscreteTableSection } from "./ElectionResultsDiscreteTa
 import cssClasses from "./ElectionResultsDiscreteTableSection.module.scss";
 
 export default {
-  title: "Election results discrete tables section",
+  title: "Election results / Discrete tables section",
   component: ElectionResultsDiscreteTableSection,
 };
 

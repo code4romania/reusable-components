@@ -5,7 +5,7 @@ import { mockResults } from "../../util/mocks";
 import { ElectionResultsProcess } from "./ElectionResultsProcess";
 
 export default {
-  title: "Election results electoral process",
+  title: "Election results / Electoral process",
   component: ElectionResultsProcess,
 };
 
