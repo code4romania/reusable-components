@@ -28,6 +28,7 @@ export * from "./components/ElectionResultsSummarySection/ElectionResultsSummary
 export * from "./components/ElectionResultsSummaryTable/ElectionResultsSummaryTable";
 export * from "./components/ElectionResultsSeats/ElectionResultsSeats";
 export * from "./components/ElectionResultsTableSection/ElectionResultsTableSection";
+export * from "./components/ElectionCandidatesTableSection/ElectionCandidatesTableSection";
 export * from "./components/ElectionResultsProcess/ElectionResultsProcess";
 export * from "./components/ElectionResultsStackedBar/ElectionResultsStackedBar";
 export * from "./components/ElectionTimeline/ElectionTimeline";
