@@ -6,7 +6,7 @@ import { mockElectionAPI } from "../../util/mocks";
 import { ElectionScopePicker, useElectionScopePickerApi } from "./ElectionScopePicker";
 
 export default {
-  title: "Election scope picker",
+  title: "Election / Scope picker",
   component: ElectionScopePicker,
 };
 

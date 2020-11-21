@@ -5,7 +5,7 @@ import { mockElectionList } from "../../util/mocks";
 import { ElectionTimeline } from "./ElectionTimeline";
 
 export default {
-  title: "Election timeline",
+  title: "Election / Timeline",
   component: ElectionTimeline,
 };
 

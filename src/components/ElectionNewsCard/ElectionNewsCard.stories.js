@@ -3,7 +3,7 @@ import { ElectionNewsCard } from "./ElectionNewsCard.tsx";
 import { mockElectionNews } from "../../util/mocks";
 
 export default {
-  title: "Election news card",
+  title: "Election / News card",
   component: ElectionNewsCard,
 };
 
