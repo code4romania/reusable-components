@@ -1,0 +1,21 @@
+.tableContainer {
+  overflow-x:scroll;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.table .nameCell {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+th.heading {
+  text-align: left;
+}
+
+.collapseButton {
+  margin-top: 0.5rem;
+  align-self: flex-end;
+}

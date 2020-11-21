@@ -8,6 +8,7 @@ import {
   ElectionResults,
   ElectionScopeResolved,
   ElectionTurnout,
+  ElectionResultsPartyCandidates,
 } from "../types/Election";
 import { APIMockHandler, mockFetch } from "./api";
 import { makeElectionApi } from "./electionApi";
@@ -2116,6 +2117,247 @@ export const mockMayorElectionWinners = [
   },
 ];
 
+export const mockCandidatesList: ElectionResultsPartyCandidates[] = [
+  {
+    name: "PARTIDUL PUTERII UMANISTE (SOCIAL-LIBERAL)",
+    candidates: [
+      { name: "AURELIA-ANA ARIEŞAN" },
+      { name: "MIHAI FLUERAŞ" },
+      { name: "LEONTIN ŢIBACOV" },
+      { name: "SPIRIDON GORONEA" },
+      { name: "MĂDĂLIN CIOARA" },
+      { name: "IOAN CRISTEA" },
+      { name: "IOAN MACARIE-ANCĂU" },
+    ],
+  },
+  {
+    name: "ALIANȚA PENTRU UNIREA ROMÂNILOR",
+    candidates: [
+      { name: "DANIEL-GHEORGHE RUSU" },
+      { name: "IULIAN-REMUS BLAJ" },
+      { name: "LUMINIŢA-ANA OPRUŢA" },
+      { name: "MIRELA-ELENA FECHETE" },
+      { name: "DANIELA-MIHAELA PINTEA" },
+      { name: "MARIN JURCA" },
+      { name: "RUXANDRA-MIHAELA MIHAI" },
+    ],
+  },
+  {
+    name: "UNIUNEA DEMOCRATĂ MAGHIARĂ DIN ROMÂNIA",
+    candidates: [
+      { name: "ÁRPÁD-CSABA LADÁNYI" },
+      { name: "ZSOLT-AŔPÁD BONA" },
+      { name: "ATTILA-ISTVÁN HARI" },
+      { name: "SZILÁRD-LEVENTE DEÁK-SZÉKELY" },
+      { name: "EDIT-SUSANA CSEGEZI" },
+      { name: "ATTILA-GIULA FARKAŞ" },
+      { name: "ARTÚR-EDVIN CSONGVAI" },
+    ],
+  },
+  {
+    name: "PARTIDUL VERDE",
+    candidates: [
+      { name: "NICOLAIE MATEI" },
+      { name: "CLAUDIU-IOAN DĂRĂMUŞ" },
+      { name: "BOGDAN-GABRIEL SANDU" },
+      { name: "DUMITRU DICU" },
+      { name: "NATALIA RONCEA" },
+      { name: "ELENA-GABRIELA RAHOVEAN" },
+      { name: "PETRUŢA OPRIŢA" },
+    ],
+  },
+  {
+    name: "PARTIDUL ROMÂNIA MARE",
+    candidates: [
+      { name: "GHEORGHE ŞTEFAN JORJ" },
+      { name: "MARINELA-SANDA ANDREŞEL" },
+      { name: "AMALIA-ADELA BĂL" },
+      { name: "MARIAN-MIREL SÎRB" },
+      { name: "IONEL-OVIDIU BUCUR" },
+      { name: "DANIEL-MIHĂILĂ CURŞEU" },
+      { name: "MELINDA DACZO" },
+    ],
+  },
+  { name: "ALIANȚA RENAȘTEREA NAȚIONALĂ", candidates: [{ name: "GHEORGHE COLCER" }] },
+  {
+    name: "PARTIDUL ECOLOGIST ROMÂN",
+    candidates: [
+      { name: "CRISTIAN BOBEŞI" },
+      { name: "GERHARTH-IONIŢĂ ILIEŞIU" },
+      { name: "CONSTANTIN MARICA" },
+      { name: "VALENTIN RĂDAC" },
+      { name: "IULIAN-OVIDIU OLTEAN" },
+      { name: "OVIDIU FELEA" },
+      { name: "ROXANA-MARIA NELEGA" },
+    ],
+  },
+  {
+    name: "PARTIDUL MIȘCAREA POPULARĂ",
+    candidates: [
+      { name: "CLEMENT NEGRUŢ" },
+      { name: "GHEORGHE-ALEXANDRU NICOARĂ" },
+      { name: "FILOFTEIA BARSTAN" },
+      { name: "VASILE GÎNŢA" },
+      { name: "LIVIU RAREŞ DAMIAN" },
+      { name: "LUCIA-COSMINA SCURTU" },
+      { name: "LAURENŢIU-MARIAN BESOI" },
+    ],
+  },
+  {
+    name: "ALIANȚA USR PLUS",
+    candidates: [
+      { name: "BENIAMIN TODOSIU" },
+      { name: "MIHAIL DAVID" },
+      { name: "GHEORGHE-CLAUDIU NEMEŞ" },
+      { name: "IOANA PĂCURAR" },
+      { name: "PAVEL-CĂTĂLIN COMAN" },
+      { name: "DOINA RADU" },
+      { name: "PAUL-SIMION POPA" },
+    ],
+  },
+  {
+    name: "PARTIDUL NAȚIONAL LIBERAL",
+    candidates: [
+      { name: "FLORIN-CLAUDIU ROMAN" },
+      { name: "CORNELIU OLAR" },
+      { name: "ION-ALIN-DAN IGNAT" },
+      { name: "ADRIAN BOGDAN" },
+      { name: "FLORIN ARION" },
+      { name: "TEODORA-CODRUŢA MUREŞAN" },
+      { name: "IOAN-DAN BRĂTEAN" },
+    ],
+  },
+  {
+    name: "PARTIDUL PRO ROMÂNIA",
+    candidates: [
+      { name: "IOAN LAZĂR" },
+      { name: "GABRIEL-TOMA-OCTAVIAN AL.TOMI" },
+      { name: "NICOLAE-SIMION BESOIU" },
+      { name: "IONEL-DANIEL TARCĂU" },
+      { name: "ELENA-DANIELA CSORTÁN " },
+      { name: "EMILIA PETRUŢ" },
+      { name: "ILIE-AURELIAN FOLEA" },
+    ],
+  },
+  {
+    name: "PARTIDUL SOCIAL DEMOCRAT",
+    candidates: [
+      { name: "RADU-MARCEL TUHUŢ" },
+      { name: "IOAN DÎRZU" },
+      { name: "EUGENIA-MARCELA DĂRĂMUŞ" },
+      { name: "BOGDAN MEDREA" },
+      { name: "NICOLAE LUCA" },
+      { name: "MARCEL OŢOIU" },
+      { name: "CĂLIN RADU" },
+    ],
+  },
+  {
+    name: "UNIUNEA DEMOCRATICĂ A SLOVACILOR ȘI CEHILOR DIN ROMÂNIA",
+    candidates: [
+      { name: "ADRIAN-MIROSLAV MERKA" },
+      { name: "DUŞAN SOMRAK" },
+      { name: "RUJENCA BOVDIŞ" },
+      { name: "ŞTEFAN BOUDA" },
+    ],
+  },
+  {
+    name: "COMUNITATEA RUȘILOR LIPOVENI DIN ROMÂNIA",
+    candidates: [
+      { name: "SILVIU FEODOR" },
+      { name: "ANDRIAN AMPLEEV" },
+      { name: "NECULAI FEODOT" },
+      { name: "SVETLANA-FLORENTINA CRĂCIUN" },
+    ],
+  },
+  {
+    name: "UNIUNEA CULTURALĂ A RUTENILOR DIN ROMÂNIA",
+    candidates: [
+      { name: "IULIUS MARIAN FIRCZAK" },
+      { name: "FRANCISC OSCAR GAL" },
+      { name: "MARIANA-SVETLANA MUREŞAN" },
+      { name: "VIORICA BOJCSUK" },
+      { name: "GABRIELA-CRISTINA BODNARIUC" },
+      { name: "MARIA BOCICOR" },
+    ],
+  },
+  { name: "ASOCIAȚIA ITALIENILOR DIN ROMÂNIA – RO.AS.IT.", candidates: [{ name: "ANDI-GABRIEL GROSARU" }] },
+  { name: "FEDERAȚIA COMUNITĂȚILOR EVREIEȘTI DIN ROMÂNIA", candidates: [{ name: "SILVIU VEXLER" }] },
+  { name: "UNIUNEA DEMOCRATĂ TURCĂ DIN ROMÂNIA", candidates: [{ name: "IUSEIN IBRAM" }] },
+  {
+    name: "UNIUNEA SÂRBILOR DIN ROMÂNIA",
+    candidates: [
+      { name: "OGNEAN CRÎSTICI" },
+      { name: "ZLATIBORCA MARCOV" },
+      { name: "BORISLAV VELIMIROVICI" },
+      { name: "RADMILA-GEORGIANA DRAGOTOIU" },
+      { name: "BORCO-SREDA IORGOVAN" },
+    ],
+  },
+  {
+    name: "UNIUNEA UCRAINENILOR DIN ROMÂNIA",
+    candidates: [
+      { name: "NICOLAE-MIROSLAV PETREŢCHI" },
+      { name: "IRINA-LIUBA HORVAT" },
+      { name: "ILIE SAUCIUC" },
+      { name: "BOGDAN MOISEI" },
+      { name: "ANNA SAMBOR" },
+      { name: "IVAN LIBER" },
+    ],
+  },
+  {
+    name: "UNIUNEA ARMENILOR DIN ROMÂNIA",
+    candidates: [
+      { name: "VARUJAN PAMBUCCIAN" },
+      { name: "SIRUN TERZIAN" },
+      { name: "EMANUEL NAZARETIAN" },
+      { name: "CRISTIAN-LAURENŢIU LAZAROVICI" },
+      { name: "CARLOTA-SIMONA TURCULEŢ-CALUSTIAN" },
+      { name: "PAUL-MARIAN ANCA" },
+    ],
+  },
+  {
+    name: "FORUMUL DEMOCRAT AL GERMANILOR DIN ROMÂNIA",
+    candidates: [{ name: "OVIDIU-VICTOR GANŢ" }, { name: "THOMAS ŞINDILARIU" }, { name: "CHRISTINE MANTA-KLEMENS" }],
+  },
+  {
+    name: "ASOCIAȚIA MACEDONENILOR DIN ROMÂNIA",
+    candidates: [{ name: "IONEL STANCU" }, { name: "CRISTINA CODREANU" }],
+  },
+  { name: "ASOCIAȚIA LIGA ALBANEZILOR DIN ROMÂNIA", candidates: [{ name: "BOGDAN-ALIN STOICA" }] },
+  {
+    name: "UNIUNEA BULGARĂ DIN BANAT-ROMÂNIA",
+    candidates: [
+      { name: "GHEORGHE NACOV" },
+      { name: "PETRU TOPCIOV" },
+      { name: "ADRIAN-SORIN COSILCOV" },
+      { name: "ANA-SILVIA DEMIAN" },
+      { name: "DANIEL-MARIUS PIŢ" },
+    ],
+  },
+  {
+    name: "UNIUNEA POLONEZILOR DIN ROMÂNIA",
+    candidates: [
+      { name: "GHERVAZEN LONGHER" },
+      { name: "VICTORIA LONGHER" },
+      { name: "IOSEF IRIŞEC" },
+      { name: "ANA ZIELONKA" },
+    ],
+  },
+  { name: "UNIUNEA ELENĂ DIN ROMÂNIA", candidates: [{ name: "DRAGOŞ-GABRIEL ZISOPOL" }] },
+  {
+    name: "ASOCIAȚIA PARTIDA ROMILOR “PRO-EUROPA”",
+    candidates: [
+      { name: "CĂTĂLIN-ZAMFIR MANEA" },
+      { name: "IONUŢ-CONSTANTIN PĂUN" },
+      { name: "BOGDAN-IONUŢ ANDRONE" },
+      { name: "AURELIAN-DRAGOŞ ROŞIANU" },
+      { name: "ADRIAN-COSTIN BERBEC" },
+      { name: "MIRELA CURT" },
+    ],
+  },
+  { name: "UNIUNEA CROAȚILOR DIN ROMÂNIA", candidates: [{ name: "GIURECI-SLOBODAN GHERA" }] },
+];
+
 // To fake loading times
 const delay = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
 
@@ -2153,6 +2395,15 @@ export const mockElectionAPI = makeElectionApi({
         await delay(1000);
         return mockElectionList;
       }) as APIMockHandler<ElectionBallotMeta[]>,
+    ],
+
+    [
+      "GET",
+      "/ballots/1/candidates",
+      (async () => {
+        await delay(1000);
+        return mockCandidatesList;
+      }) as APIMockHandler<ElectionResultsPartyCandidates[]>,
     ],
 
     [

@@ -214,6 +214,15 @@ export type ElectionResultsCandidate = {
   candidateCount?: number;
 };
 
+export type ElectionResultsPartyCandidate = {
+  name: string;
+};
+
+export type ElectionResultsPartyCandidates = {
+  name: string;
+  candidates: ElectionResultsPartyCandidate[];
+};
+
 export type ElectionResults = {
   eligibleVoters?: number | null; // Duplicate this from ElectionTurnout
   totalVotes: number; // Duplicate this from ElectionTurnout

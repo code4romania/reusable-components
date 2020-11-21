@@ -6,6 +6,7 @@ import {
   ElectionNewsFeed,
   ElectionMapScope,
   ElectionMapWinners,
+  ElectionResultsPartyCandidates,
 } from "../types/Election";
 import { APIInvocation, JSONFetch, makeJsonFetch } from "./api";
 
@@ -25,6 +26,11 @@ export interface ElectionAPI extends ElectionScopeAPI, ElectionMapAPI {
   getBallot: (id: number, scope: ElectionScope) => APIInvocation<ElectionBallot>;
   getBallots: () => APIInvocation<ElectionBallotMeta[]>;
   getNewsFeed: (id: number) => APIInvocation<ElectionNewsFeed>;
+  getCandidates: (
+    ballotId: number,
+    division: number,
+    countyId: number,
+  ) => APIInvocation<ElectionResultsPartyCandidates[]>;
 }
 
 const scopeToQuery = (scope: ElectionScope) => {
@@ -71,5 +77,7 @@ export const makeElectionApi = (options?: {
           return fetch("GET", "/winners/countries", { query: { BallotId: ballotId } });
       }
     },
+    getCandidates: (ballotId: number, division: number, countyId: number) =>
+      fetch("GET", `/ballots/${ballotId}/candidates`, { query: { division: division, countyId: countyId } }),
   };
 };
