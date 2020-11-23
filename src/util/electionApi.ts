@@ -28,8 +28,8 @@ export interface ElectionAPI extends ElectionScopeAPI, ElectionMapAPI {
   getNewsFeed: (id: number) => APIInvocation<ElectionNewsFeed>;
   getCandidates: (
     ballotId: number,
-    division: number,
-    countyId: number,
+    division: string,
+    countyId: number | null,
   ) => APIInvocation<ElectionResultsPartyCandidates[]>;
 }
 
@@ -77,7 +77,7 @@ export const makeElectionApi = (options?: {
           return fetch("GET", "/winners/countries", { query: { BallotId: ballotId } });
       }
     },
-    getCandidates: (ballotId: number, division: number, countyId: number) =>
-      fetch("GET", `/ballots/${ballotId}/candidates`, { query: { division: division, countyId: countyId } }),
+    getCandidates: (ballotId: number, division: string, countyId: number | null) =>
+      fetch("GET", `/ballots/${ballotId}/candidates`, { query: { Division: division, CountyId: countyId } }),
   };
 };
