@@ -2399,7 +2399,7 @@ export const mockElectionAPI = makeElectionApi({
 
     [
       "GET",
-      "/ballots/*/candidates",
+      "/ballots/1/candidates",
       (async () => {
         await delay(1000);
         return mockCandidatesList;
