@@ -8,13 +8,12 @@ import cssClasses from "./ElectionCandidatesTableSection.module.scss";
 type Props = {
   heading: string;
   parties: ElectionResultsPartyCandidates[] | undefined;
-  ballot: string;
 };
 
 export const ElectionCandidatesTableSection = themable<Props>(
   "ElectionCandidatesTableSection",
   cssClasses,
-)(({ heading, parties, ballot }) => (
+)(({ heading, parties }) => (
   <div className={cssClasses.tableContainer}>
     <ResultsTable className={cssClasses.table}>
       <thead>
@@ -25,7 +24,7 @@ export const ElectionCandidatesTableSection = themable<Props>(
       <tbody>
         {parties &&
           parties.map((party, index) => (
-            <ElectionPartyRow key={index} name={party.name} candidates={party.candidates} ballot={ballot} />
+            <ElectionPartyRow key={index} name={party.name} candidates={party.candidates} />
           ))}
       </tbody>
     </ResultsTable>

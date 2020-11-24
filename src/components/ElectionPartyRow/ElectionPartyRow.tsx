@@ -6,14 +6,13 @@ import cssClasses from "./ElectionPartyRow.module.scss";
 
 type Props = {
   name: string;
-  ballot: string;
   candidates: ElectionResultsPartyCandidate[];
 };
 
 export const ElectionPartyRow = themable<Props>(
   "ElectionPartyRow",
   cssClasses,
-)(({ name, ballot, candidates }) => {
+)(({ name, candidates }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const onExpandClick = useCallback(() => {
@@ -37,7 +36,6 @@ export const ElectionPartyRow = themable<Props>(
             {candidates.map((candidate: ElectionResultsPartyCandidate) => (
               <tr key={candidate.name} className={cssClasses.candidate}>
                 <td>{candidate.name}</td>
-                <td>{ballot}</td>
               </tr>
             ))}
           </tbody>
