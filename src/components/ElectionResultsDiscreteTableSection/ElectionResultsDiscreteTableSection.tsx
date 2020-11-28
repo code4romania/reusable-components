@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { ResultsTable } from "../ResultsTable/ResultsTable";
 import { ElectionResultsCandidate } from "../../types/Election";
 import { formatGroupedNumber } from "../../util/format";
 import { themable } from "../../hooks/theme";
+import { usePagination } from "../../hooks/usePagination";
 import { Button } from "../Button/Button";
 import classes from "./ElectionResultsDiscreteTableSection.module.scss";
 
@@ -15,12 +16,9 @@ const CandidateTable: React.FC<{
   candidates: ElectionResultsCandidate[] | undefined;
   heading: string;
 }> = ({ candidates, heading }) => {
-  const [collapsed, setCollapsed] = useState<boolean>(true);
-  const canCollapse = candidates && candidates.length >= 12;
+  const candidatesCount = candidates?.length || 0;
+  const { limit, buttonText, canCollapse, onToggleCollapsed } = usePagination({ total: candidatesCount, size: 10 });
 
-  const onToggleCollapsed = useCallback(() => {
-    setCollapsed((x) => !x);
-  }, []);
   return (
     <div className={classes.tableContainer}>
       <ResultsTable className={classes.table}>
@@ -34,7 +32,7 @@ const CandidateTable: React.FC<{
           {candidates &&
             candidates.map(
               (candidate, index) =>
-                (!(canCollapse && collapsed) || index < 10) && (
+                (!(canCollapse && limit) || index < limit) && (
                   <tr key={index}>
                     <td className={classes.nameCell}>{candidate.name}</td>
                     <td>{formatGroupedNumber(candidate.votes)}</td>
@@ -45,7 +43,7 @@ const CandidateTable: React.FC<{
       </ResultsTable>
       {canCollapse && (
         <Button className={classes.collapseButton} onClick={onToggleCollapsed}>
-          {collapsed ? "Afișează toate rezultatele" : "Ascunde rezultatele"}
+          {buttonText}
         </Button>
       )}
     </div>
