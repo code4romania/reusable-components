@@ -36,6 +36,8 @@ export const mockPresidentialElectionMeta: ElectionBallotMeta = {
   ballot: "Turul 2",
   ballotId: 1,
   electionId: 1,
+  live: true,
+  stage: "final",
 };
 
 export const mockLocalCouncilElectionMeta: ElectionBallotMeta = {
@@ -45,6 +47,8 @@ export const mockLocalCouncilElectionMeta: ElectionBallotMeta = {
   ballot: "Consiliul Local",
   ballotId: 2,
   electionId: 2,
+  live: true,
+  stage: "part",
 };
 
 export const mockMayorElectionMeta: ElectionBallotMeta = {
@@ -113,6 +117,7 @@ export const mockObservation: ElectionObservation = {
 
 export const mockResults: ElectionResults = {
   totalVotes: 8893672,
+  countedVotes: 3893672,
   validVotes: 8893572,
   nullVotes: 100,
   eligibleVoters: 15119242,
@@ -201,6 +206,7 @@ export const mockResults: ElectionResults = {
 };
 
 export const mockLocalCouncilResults = {
+  countedVotes: 105683,
   eligibleVoters: 313454,
   totalVotes: 155683,
   validVotes: 150100,
@@ -265,6 +271,7 @@ export const mockLocalCouncilResults = {
 };
 
 export const mockMayorResults = {
+  countedVotes: 105683,
   eligibleVoters: 393847,
   totalVotes: 175789,
   validVotes: 170594,
