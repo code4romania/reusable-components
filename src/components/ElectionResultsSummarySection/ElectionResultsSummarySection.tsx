@@ -90,7 +90,7 @@ export const ElectionResultsSummarySection = themable<Props>(
       {mobileMap && showHeading && separator}
       {showHeading && (
         <>
-          {countedPercentage && (
+          {meta?.live && countedPercentage && (
             <div>
               <Label>
                 Numaratoare partiale: rezultatele in urma numararii a {countedPercentage.toFixed(1)}% din voturile
