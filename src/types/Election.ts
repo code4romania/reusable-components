@@ -226,6 +226,7 @@ export type ElectionResultsPartyCandidates = {
 export type ElectionResults = {
   eligibleVoters?: number | null; // Duplicate this from ElectionTurnout
   totalVotes: number; // Duplicate this from ElectionTurnout
+  countedVotes?: number | null;
   votesByMail?: number | null; // For diaspora
   validVotes: number;
   nullVotes: number;

@@ -113,6 +113,7 @@ export const mockObservation: ElectionObservation = {
 
 export const mockResults: ElectionResults = {
   totalVotes: 8893672,
+  countedVotes: 3893672,
   validVotes: 8893572,
   nullVotes: 100,
   eligibleVoters: 15119242,

@@ -46,6 +46,10 @@ export const ElectionResultsSummarySection = themable<Props>(
   const completeness = electionScopeIsComplete(scope);
 
   const topCandidate = results?.candidates && results.candidates[0];
+  const totalVotes = results?.totalVotes;
+  const countedVotes = results?.countedVotes;
+  const countedPercentage = totalVotes && countedVotes && (countedVotes / totalVotes) * 100;
+
   const percentage = formatPercentage(
     fractionOf(
       topCandidate?.votes ?? 0,
@@ -86,6 +90,14 @@ export const ElectionResultsSummarySection = themable<Props>(
       {mobileMap && showHeading && separator}
       {showHeading && (
         <>
+          {countedPercentage && (
+            <div>
+              <Label>
+                Numaratoare partiale: rezultatele in urma numararii a {countedPercentage.toFixed(1)}% din voturile
+                totale sunt urmatoarele
+              </Label>
+            </div>
+          )}
           <Heading2>Rezultate vot</Heading2>
           <div>
             <Label>{getScopeName(scope)}</Label>
