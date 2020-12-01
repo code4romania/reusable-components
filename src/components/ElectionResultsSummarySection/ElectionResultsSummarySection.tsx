@@ -46,9 +46,13 @@ export const ElectionResultsSummarySection = themable<Props>(
   const completeness = electionScopeIsComplete(scope);
 
   const topCandidate = results?.candidates && results.candidates[0];
-  const totalVotes = results?.totalVotes;
-  const countedVotes = results?.countedVotes;
-  const countedPercentage = totalVotes && countedVotes && (countedVotes / totalVotes) * 100;
+
+  const livePercentage = formatPercentage(fractionOf(results?.countedVotes ?? 0, results?.totalVotes ?? 0));
+  const liveText =
+    meta?.stage === "final"
+      ? "Rezultatele finale in urma numararii tuturor voturilor sunt"
+      : `Numaratoare partiale: rezultatele in urma numararii a ${livePercentage} din voturile
+  totale sunt urmatoarele`;
 
   const percentage = formatPercentage(
     fractionOf(
@@ -90,12 +94,9 @@ export const ElectionResultsSummarySection = themable<Props>(
       {mobileMap && showHeading && separator}
       {showHeading && (
         <>
-          {meta?.live && countedPercentage && (
+          {meta?.live && (
             <div>
-              <Label>
-                Numaratoare partiale: rezultatele in urma numararii a {countedPercentage.toFixed(1)}% din voturile
-                totale sunt urmatoarele
-              </Label>
+              <Label>{liveText}</Label>
             </div>
           )}
           <Heading2>Rezultate vot</Heading2>

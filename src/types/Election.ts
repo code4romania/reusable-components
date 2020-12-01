@@ -72,6 +72,8 @@ export type ElectionType =
   | "european_parliament"
   | string;
 
+export type ElectionStage = "prov" | "part" | "final" | string;
+
 export const electionTypeInvolvesDiaspora = (electionType: ElectionType): boolean =>
   electionTypeCompatibleScopes(electionType).diaspora !== false;
 
@@ -151,6 +153,7 @@ export type ElectionBallotMeta = {
   ballot?: string | null; // eg. "Primar", maybe find a better name for this?
   subtitle?: string | null; // eg. "Pentru trecerea la parlament unicameral și reducerea numărului de parlamentari"
   live?: boolean | null; // Send true when the election is ongoing
+  stage?: ElectionStage;
 
   ballotId: number; // The ID of this Election (Ballot in the backend, a rename might be in order)
   electionId: number; // Used for grouping
