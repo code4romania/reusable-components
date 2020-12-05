@@ -37,7 +37,7 @@ export const DiasporaElection = () => {
       scope={mockDiasporaElectionScope}
       turnout={{
         ...mockPresidentialElectionTurnout,
-        eligibleVoters: null,
+        eligibleVoters: mockPresidentialElectionTurnout.totalVotes,
         breakdown: [(mockPresidentialElectionTurnout.breakdown || [])[1]],
       }}
     />

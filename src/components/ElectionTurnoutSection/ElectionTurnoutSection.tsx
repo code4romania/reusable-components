@@ -85,13 +85,22 @@ export const ElectionTurnoutSection = themable<Props>(
             Nu există date disponibile pentru această unitate administrativ teritorială.
           </DivBodyHuge>
         ))}
-      {turnout && turnout.eligibleVoters != null && (
-        <ElectionTurnoutBars
-          className={classes.percentageBars}
-          eligibleVoters={turnout.eligibleVoters}
-          totalVotes={turnout.totalVotes}
-        />
-      )}
+      {turnout &&
+        turnout.eligibleVoters &&
+        (turnout.eligibleVoters === turnout.totalVotes ? (
+          <div className={mergeClasses(classes.percentageBars, classes.totalVotesContainer)}>
+            <BallotCheckmark />
+            <div className={classes.totalVotesLabels}>
+              <div className={classes.totalVotesCount}>{formatGroupedNumber(turnout.totalVotes)}</div>
+            </div>
+          </div>
+        ) : (
+          <ElectionTurnoutBars
+            className={classes.percentageBars}
+            eligibleVoters={turnout.eligibleVoters}
+            totalVotes={turnout.totalVotes}
+          />
+        ))}
       <div style={{ width: "100%" }} ref={measureRef} />
       <div
         className={mergeClasses(
