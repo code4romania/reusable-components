@@ -110,6 +110,9 @@ a.title {
     margin-bottom: 0.5rem;
   }
 
+  img {
+    max-width: 100%;
+  }
 }
 
 .pictures {
@@ -131,6 +134,10 @@ a.title {
 .embed {
   margin-top: 1rem;
   width: 100%;
+}
+
+.embed iframe {
+  max-width: 100%;
 }
 
 .hLine {
