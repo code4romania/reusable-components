@@ -50,7 +50,7 @@ export const ElectionTurnoutSection = themable<Props>(
           <div className={classes.mapOverlayPercentage}>
             {formatPercentage(turnout.totalVotes / turnout.eligibleVoters)}
           </div>
-          <div className={classes.mapOverlayLabel}>Rezultate naționale complete</div>
+          <div className={classes.mapOverlayLabel}>Prezența la vot</div>
         </div>
       )}
     </ElectionMap>
