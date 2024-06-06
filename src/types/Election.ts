@@ -20,7 +20,7 @@ export const electionScopeIsComplete = (scope: ElectionScopeIncomplete): Electio
   const missingLocality = scope.type === "locality" && scope.localityId == null;
   const missingCountry = scope.type === "diaspora_country" && scope.countryId == null;
   return {
-    complete: !missingCounty && !missingLocality && !missingCountry ? ((scope as unknown) as ElectionScope) : null,
+    complete: !missingCounty && !missingLocality && !missingCountry ? (scope as unknown as ElectionScope) : null,
     missingCounty,
     missingLocality,
     missingCountry,

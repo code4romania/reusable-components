@@ -59,11 +59,10 @@ export const useElectionScopePickerApi = (
   ballotId?: number,
 ): ElectionScopePickerAPIData => {
   const shouldQueryCounty = scope.type === "county" || scope.type === "locality";
-  const countyData = useApiResponse(() => (shouldQueryCounty ? api.getCounties(ballotId) : null), [
-    api,
-    shouldQueryCounty,
-    ballotId,
-  ]);
+  const countyData = useApiResponse(
+    () => (shouldQueryCounty ? api.getCounties(ballotId) : null),
+    [api, shouldQueryCounty, ballotId],
+  );
 
   const queryCountyId: number | null = (scope.type === "locality" ? scope.countyId : null) ?? null;
   const localityData = useApiResponse(
@@ -78,11 +77,10 @@ export const useElectionScopePickerApi = (
   );
 
   const shouldQueryCountry = scope.type === "diaspora" || scope.type === "diaspora_country";
-  const countryData = useApiResponse(() => (shouldQueryCountry ? api.getCountries(ballotId) : null), [
-    api,
-    shouldQueryCountry,
-    ballotId,
-  ]);
+  const countryData = useApiResponse(
+    () => (shouldQueryCountry ? api.getCountries(ballotId) : null),
+    [api, shouldQueryCountry, ballotId],
+  );
 
   return { countyData, localityData, countryData };
 };
@@ -110,7 +108,7 @@ function resolveValue<K extends string | number>(
   x: K | OptionWithID<K> | ReadonlyArray<OptionWithID<K>> | null | undefined,
 ): K | null {
   if (Array.isArray(x)) return x[0]?.id;
-  return (typeof x === "object" ? ((x as unknown) as OptionWithID<K> | null)?.id : x) ?? null;
+  return (typeof x === "object" ? (x as unknown as OptionWithID<K> | null)?.id : x) ?? null;
 }
 
 const resolveInMap = <K,>(id: K | null | undefined, map: Map<K, OptionWithID<K>>): OptionWithID<K> | null =>

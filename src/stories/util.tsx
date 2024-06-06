@@ -62,11 +62,9 @@ export const scopeFromArgs = (args: ScopeArgs & Record<string, any>): [ElectionS
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useScopeFromArgs = (args: ScopeArgs & Record<string, any>): [ElectionScope, Record<string, any>] => {
   const { scopeType, countyId, localityId, countryId, ...otherArgs } = args;
-  const scope = useMemo(() => buildScope(scopeType, countyId, localityId, countryId), [
-    scopeType,
-    countyId,
-    localityId,
-    countryId,
-  ]);
+  const scope = useMemo(
+    () => buildScope(scopeType, countyId, localityId, countryId),
+    [scopeType, countyId, localityId, countryId],
+  );
   return [scope, otherArgs];
 };

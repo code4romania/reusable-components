@@ -33,7 +33,7 @@ const Avatar = ({ classes, image, name }: { classes: ClassNames; image?: string 
 };
 
 function nodeScriptReplace(node: Node) {
-  if (((node as unknown) as Element).tagName === "SCRIPT") {
+  if ((node as unknown as Element).tagName === "SCRIPT") {
     node.parentNode?.replaceChild(nodeScriptClone(node as HTMLScriptElement), node);
   } else {
     const children = node.childNodes;

@@ -132,17 +132,17 @@ export const themable = <P extends PropsObject>(
   componentValues?: ThemeConstants,
 ): ThemableHOC<P> => {
   return (Component: ThemedComponent<P>) => {
-    return (forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
+    return forwardRef(function WrappedComponent(props: ThemableComponentProps<P>, ref) {
       const theme = useTheme();
       const classes = useMemo(
         () => mergeThemeClasses(theme, componentName, componentClasses, props.classes, props.className),
         [theme, props.classes, props.className],
       );
-      const constants = useMemo(() => mergeThemeConstants(theme, componentName, componentValues, props.constants), [
-        theme,
-        props.constants,
-      ]);
+      const constants = useMemo(
+        () => mergeThemeConstants(theme, componentName, componentValues, props.constants),
+        [theme, props.constants],
+      );
       return <Component {...props} classes={classes} constants={constants} ref={ref} />;
-    }) as unknown) as ThemableComponent<P>;
+    }) as unknown as ThemableComponent<P>;
   };
 };
