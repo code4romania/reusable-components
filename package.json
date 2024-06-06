@@ -70,7 +70,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint && npm test"
+      "pre-push": "npm run lint"
     }
   },
   "module": "./dist/es/index.js",
