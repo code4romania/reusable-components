@@ -253,7 +253,13 @@ export const ElectionMap = themable<Props>(
             )
           )}
         </div>
-        <p>Sursa date: <a href="https://www.roaep.ro/" target="_blank" rel="noreferrer">Autoritatea Electorală Permanentă</a>.</p>
+        <p>
+          Sursa date:{" "}
+          <a href="https://www.roaep.ro/" target="_blank" rel="noreferrer">
+            Autoritatea Electorală Permanentă
+          </a>
+          .
+        </p>
       </div>
     );
   },
