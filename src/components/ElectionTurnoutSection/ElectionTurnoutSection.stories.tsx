@@ -59,7 +59,7 @@ export const IncompleteCountyAndLocality = () => {
 export const IncompleteLocality = () => {
   return (
     <ElectionTurnoutSection
-      scope={{ ...mockLocalityElectionScope, localityId: null } as unknown as ElectionScopeIncompleteResolved}
+      scope={({ ...mockLocalityElectionScope, localityId: null } as unknown) as ElectionScopeIncompleteResolved}
     />
   );
 };

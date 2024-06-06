@@ -7,10 +7,10 @@ export const ResultsTable = themable<ComponentProps<"table">>(
   cssClasses,
 )(
   // eslint-disable-next-line react/display-name
-  forwardRef<HTMLTableElement, ThemedComponentProps<ComponentProps<"table">>>(
+  (forwardRef<HTMLTableElement, ThemedComponentProps<ComponentProps<"table">>>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ({ classes, className, constants, ...otherProps }, ref) => (
       <table className={classes.root} {...otherProps} ref={ref} />
     ),
-  ) as unknown as ThemedComponent<ComponentProps<"table">>,
+  ) as unknown) as ThemedComponent<ComponentProps<"table">>,
 );

@@ -402,7 +402,8 @@ export const mockCountyCouncilResults = {
       totalSeats: 0,
     },
     {
-      name: "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
+      name:
+        "ALIANȚA PARTIDUL NAȚIONAL LIBERAL - UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
       shortName: "A.  UNIUNEA SALVAȚI ROMÂNIA - PARTIDUL LIBERTATE, UNITATE ȘI SOLIDARITATE (PNL-USR-PLUS)",
       partyColor: "#808080",
       votes: 1,
@@ -1043,7 +1044,8 @@ export const mockElectionNews: ElectionNews = {
   },
   title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est imperdiet magnis sit urna curabitur enim.",
   pictures: ["https://picsum.photos/400/600", "https://picsum.photos/400/600"],
-  body: "At malesuada ut aliquet tellus dignissim leo ut urna. Nascetur felis luctus parturient varius ipsum risus facilisis lacus neque. Dui sed nulla gravida tempus duis massa neque.\n\nNulla porttitor a nec vestibulum rutrum. Volutpat ultrices tellus, diam sollicitudin morbi pretium neque turpis.",
+  body:
+    "At malesuada ut aliquet tellus dignissim leo ut urna. Nascetur felis luctus parturient varius ipsum risus facilisis lacus neque. Dui sed nulla gravida tempus duis massa neque.\n\nNulla porttitor a nec vestibulum rutrum. Volutpat ultrices tellus, diam sollicitudin morbi pretium neque turpis.",
   embed:
     // eslint-disable-next-line quotes
     `<blockquote class="twitter-tweet" data-dnt="true"><p lang="ro" dir="ltr">📣 Acum e foarte simplu să afli la ce secție poți vota la alegerile locale din 27 septembrie. Tot ceea ce trebuie să faci este să intri pe 👉 <a href="https://t.co/J6X5d8vOaf">https://t.co/J6X5d8vOaf</a> și să introduci numele străzii unde locuiești, urmat de numele orașului. <a href="https://twitter.com/hashtag/votromania?src=hash&amp;ref_src=twsrc%5Etfw">#votromania</a> <a href="https://twitter.com/hashtag/code4romania?src=hash&amp;ref_src=twsrc%5Etfw">#code4romania</a> <a href="https://twitter.com/hashtag/civictech?src=hash&amp;ref_src=twsrc%5Etfw">#civictech</a> <a href="https://t.co/wVfm4qPQ7k">pic.twitter.com/wVfm4qPQ7k</a></p>&mdash; Code for Romania (@Code4Romania) <a href="https://twitter.com/Code4Romania/status/1306535717766672384?ref_src=twsrc%5Etfw">September 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`,

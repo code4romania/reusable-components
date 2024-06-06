@@ -99,7 +99,7 @@ export const IncompleteCountyAndLocality = () => {
 export const IncompleteLocality = () => {
   return (
     <ElectionResultsSummarySection
-      scope={{ ...mockLocalityElectionScope, localityId: null } as unknown as ElectionScopeIncompleteResolved}
+      scope={({ ...mockLocalityElectionScope, localityId: null } as unknown) as ElectionScopeIncompleteResolved}
       meta={mockLocalCouncilElectionMeta}
     />
   );

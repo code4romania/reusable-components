@@ -124,10 +124,9 @@ ElectionScopeComponent.argTypes = {
 
 export const ElectionCandidatesComponent = (args: { api: string; apiUrl: string }) => {
   const electionApi: ElectionAPI = useApi(args.api, args.apiUrl);
-  const { data, loading, error } = useApiResponse(
-    () => electionApi.getCandidates(1, { type: "county", countyId: 1 }),
-    [electionApi],
-  );
+  const { data, loading, error } = useApiResponse(() => electionApi.getCandidates(1, { type: "county", countyId: 1 }), [
+    electionApi,
+  ]);
 
   return (
     <>

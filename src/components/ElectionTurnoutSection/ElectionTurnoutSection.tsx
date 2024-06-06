@@ -108,29 +108,27 @@ export const ElectionTurnoutSection = themable<Props>(
           mobileMap && classes.mapBreakdownContainerMobile,
         )}
       >
-        {turnout &&
-          completeness.complete &&
-          ((turnout.breakdown?.length ?? 0) > 0 || turnout.eligibleVoters == null) && (
-            <div className={classes.breakdownContainer}>
-              {turnout.eligibleVoters == null && (
-                <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>
-                  <BallotCheckmark />
-                  <div className={classes.totalVotesLabels}>
-                    <div className={classes.totalVotesCount}>{formatGroupedNumber(turnout.totalVotes)}</div>
-                    <div className={classes.totalVotesLabel}>Votanți {getScopeName(scope)}</div>
-                  </div>
+        {turnout && completeness.complete && ((turnout.breakdown?.length ?? 0) > 0 || turnout.eligibleVoters == null) && (
+          <div className={classes.breakdownContainer}>
+            {turnout.eligibleVoters == null && (
+              <div className={mergeClasses(classes.breakdown, classes.totalVotesContainer)}>
+                <BallotCheckmark />
+                <div className={classes.totalVotesLabels}>
+                  <div className={classes.totalVotesCount}>{formatGroupedNumber(turnout.totalVotes)}</div>
+                  <div className={classes.totalVotesLabel}>Votanți {getScopeName(scope)}</div>
                 </div>
-              )}
-              {turnout.breakdown?.map((breakdown, index) => (
-                <ElectionTurnoutBreakdownChart
-                  key={index}
-                  className={classes.breakdown}
-                  value={breakdown}
-                  scope={completeness.complete}
-                />
-              ))}
-            </div>
-          )}
+              </div>
+            )}
+            {turnout.breakdown?.map((breakdown, index) => (
+              <ElectionTurnoutBreakdownChart
+                key={index}
+                className={classes.breakdown}
+                value={breakdown}
+                scope={completeness.complete}
+              />
+            ))}
+          </div>
+        )}
         {!mobileMap && map}
       </div>
     </>

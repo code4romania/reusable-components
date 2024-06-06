@@ -460,11 +460,11 @@ export const HereMap = themable<Props>(
       reader.addEventListener("statechange", () => {
         if (reader.getState() !== H.data.AbstractReader.State.READY) return;
 
-        group = reader.getParsedObjects().find((object) => {
+        group = (reader.getParsedObjects().find((object) => {
           if (object instanceof H.map.Group) {
             return true;
           }
-        }) as unknown as H.map.Group;
+        }) as unknown) as H.map.Group;
 
         if (!group) return;
 

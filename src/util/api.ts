@@ -35,7 +35,7 @@ export function makeJsonFetch(
   return function jsonFetch<
     ResponseType = unknown,
     BodyType extends Record<string, any> = any,
-    QueryParamsType = unknown,
+    QueryParamsType = unknown
   >(method: string, endpoint: string, options: JSONFetchOptions<BodyType, QueryParamsType> = {}) {
     const { body, query, headers, fetchOptions } = options;
 
@@ -83,7 +83,7 @@ export const jsonFetch = makeJsonFetch();
 export type APIMockHandler<
   ResponseType = unknown,
   BodyType = unknown,
-  QueryParamsType extends Record<string, any> = any,
+  QueryParamsType extends Record<string, any> = any
 > = (request: {
   endpoint: string;
   match: RegExpMatchArray | null;
@@ -94,7 +94,7 @@ export type APIMockHandler<
 export type APIMockEntry<
   ResponseType = unknown,
   BodyType = unknown,
-  QueryParamsType extends Record<string, any> = any,
+  QueryParamsType extends Record<string, any> = any
 > = [string, RegExp | string, APIMockHandler<ResponseType, BodyType, QueryParamsType>];
 
 export function mockFetch(entries: APIMockEntry<any, any, any>[]): JSONFetch {
