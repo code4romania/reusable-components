@@ -204,63 +204,66 @@ export const ElectionMap = themable<Props>(
     const simpleMapColor = (showsSimpleMap && (selectedColor || defaultColor)) || undefined;
 
     return (
-      <div className={classes.root} ref={ref} style={{ height }}>
-        <div className={classes.container} style={{ width, height }}>
-          {showsSimpleMap ? (
-            <div className={classes.staticMap} style={{ maxWidth: height * ar, fontSize: height * ar * 0.05 }}>
-              <div
-                className={mergeClasses(
-                  classes.staticMapRomaniaContainer,
-                  simpleMapColor && new Color(simpleMapColor).isDark() ? classes.staticDark : classes.staticLight,
-                )}
-              >
-                <RomaniaMap className={classes.staticMapRomania} style={{ color: simpleMapColor }} />
-                {children}
+      <>
+        <div className={classes.root} ref={ref} style={{ height }}>
+          <div className={classes.container} style={{ width, height }}>
+            {showsSimpleMap ? (
+              <div className={classes.staticMap} style={{ maxWidth: height * ar, fontSize: height * ar * 0.05 }}>
+                <div
+                  className={mergeClasses(
+                    classes.staticMapRomaniaContainer,
+                    simpleMapColor && new Color(simpleMapColor).isDark() ? classes.staticDark : classes.staticLight,
+                  )}
+                >
+                  <RomaniaMap className={classes.staticMapRomania} style={{ color: simpleMapColor }} />
+                  {children}
+                </div>
               </div>
-            </div>
-          ) : (
-            width > 0 &&
-            height > 0 && (
-              <HereMap
-                className={classes.hereMap}
-                width={width}
-                height={height}
-                initialTransform={
-                  scope.type === "diaspora" || scope.type === "diaspora_country"
-                    ? bucharestCenteredWorldZoom
-                    : romaniaMapBounds
-                }
-                overlayLoadTransform={
-                  scope.type === "diaspora" || scope.type === "diaspora_country" ? bucharestCenteredWorldZoom : "bounds"
-                }
-                allowZoomAndPan={scope.type === "diaspora" || scope.type === "diaspora_country"}
-                overlayUrl={overlayUrl}
-                maskOverlayUrl={maskUrl}
-                selectedFeature={selectedFeature}
-                centerOnSelectedFeatureBounds={scope.type === "diaspora_country"}
-                onFeatureSelect={onFeatureSelect}
-                getFeatureColor={getFeatureColor}
-                renderFeatureTooltip={renderFeatureTooltip}
-                constants={
-                  selectedColor || defaultColor
-                    ? {
-                        selectedFeatureColor: selectedColor,
-                        featureDefaultColor: defaultColor,
-                      }
-                    : undefined
-                }
-              />
-            )
-          )}
+            ) : (
+              width > 0 &&
+              height > 0 && (
+                <HereMap
+                  className={classes.hereMap}
+                  width={width}
+                  height={height}
+                  initialTransform={
+                    scope.type === "diaspora" || scope.type === "diaspora_country"
+                      ? bucharestCenteredWorldZoom
+                      : romaniaMapBounds
+                  }
+                  overlayLoadTransform={
+                    scope.type === "diaspora" || scope.type === "diaspora_country"
+                      ? bucharestCenteredWorldZoom
+                      : "bounds"
+                  }
+                  allowZoomAndPan={scope.type === "diaspora" || scope.type === "diaspora_country"}
+                  overlayUrl={overlayUrl}
+                  maskOverlayUrl={maskUrl}
+                  selectedFeature={selectedFeature}
+                  centerOnSelectedFeatureBounds={scope.type === "diaspora_country"}
+                  onFeatureSelect={onFeatureSelect}
+                  getFeatureColor={getFeatureColor}
+                  renderFeatureTooltip={renderFeatureTooltip}
+                  constants={
+                    selectedColor || defaultColor
+                      ? {
+                          selectedFeatureColor: selectedColor,
+                          featureDefaultColor: defaultColor,
+                        }
+                      : undefined
+                  }
+                />
+              )
+            )}
+          </div>
         </div>
         <div className={cssClasses.dataSource}>
-          Sursa date:{" "}
-          <a href="https://www.roaep.ro/" target="_blank" rel="noreferrer">
+          <span>Sursa date:</span>
+          <a href="https://www.roaep.ro/" target="_blank" rel="noopener noreferrer">
             Autoritatea Electorală Permanentă
           </a>
-          .
         </div>
-      </div>
+      </>
     );
   },
 );

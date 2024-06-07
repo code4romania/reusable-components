@@ -23,9 +23,9 @@ type Props = {
 const defaultConstants = {
   neutralColor: "#B5B5B5",
   maxStackedBarItems: 4,
-  breakpoint1: 850,
+  breakpoint1: 840,
   breakpoint2: 700,
-  breakpoint3: 330,
+  breakpoint3: 400,
 };
 
 export const ElectionResultsStackedBar = themable<Props>(

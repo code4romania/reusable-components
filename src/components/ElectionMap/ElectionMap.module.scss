@@ -60,6 +60,10 @@
 }
 
 .dataSource {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
   display: flex;
-  align-items: flex-end;
+  align-items: end;
+  justify-content: end;
+  column-gap: 0.25rem;
 }
