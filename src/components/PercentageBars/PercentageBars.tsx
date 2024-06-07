@@ -7,6 +7,7 @@ type Item = {
   value: number;
   valueLabel?: ReactNode;
   color?: string;
+  labelColor?: string;
   className?: string;
   labelClassName?: string;
   labelFlippedClassName?: string;
@@ -35,7 +36,9 @@ const PercentageBar = ({ item, multiplier, classes }: { item: Item; multiplier: 
         )}
         ref={labelRef}
       >
-        <div className={classes.labelInner}>{item.valueLabel}</div>
+        <div className={classes.labelInner} style={{ color: item?.labelColor }}>
+          {item.valueLabel}
+        </div>
       </div>
     </div>
   );

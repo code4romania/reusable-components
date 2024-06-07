@@ -15,6 +15,7 @@ export const ElectionTurnoutBars = themable<Props>("ElectionTurnoutBars")(({ cla
   const items = [
     {
       color: theme.colors.primary,
+      labelColor: "#000000",
       legendName: "Cetățeni cu drept de vot",
       value: 1,
       valueLabel: formatPercentage(1),

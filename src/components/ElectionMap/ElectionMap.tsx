@@ -204,7 +204,7 @@ export const ElectionMap = themable<Props>(
     const simpleMapColor = (showsSimpleMap && (selectedColor || defaultColor)) || undefined;
 
     return (
-      <>
+      <div style={{ width: "100%", height: height + 60 }}>
         <div className={classes.root} ref={ref} style={{ height }}>
           <div className={classes.container} style={{ width, height }}>
             {showsSimpleMap ? (
@@ -263,7 +263,7 @@ export const ElectionMap = themable<Props>(
             Autoritatea Electorală Permanentă
           </a>
         </div>
-      </>
+      </div>
     );
   },
 );

@@ -35,6 +35,7 @@ export const ElectionObservationSection = themable<Props>(
   const items = [
     {
       color: theme.colors.primary,
+      labelColor: "#000000",
       legendName: "Mesaje trimise de către observatori",
       value: observation.messageCount,
       valueLabel: formatGroupedNumber(observation.messageCount),
