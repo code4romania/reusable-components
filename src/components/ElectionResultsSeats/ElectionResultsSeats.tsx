@@ -185,7 +185,7 @@ export const ElectionResultsSeats = themable<Props>(
                   index === selectedCandidate && classes.legendLabelSelected,
                 )}
               >
-                {candidate.shortName ?? candidate.name}
+                {candidate.shortName || candidate.name}
               </div>
               <DivLabel className={classes.legendValue}>&nbsp;({formatGroupedNumber(candidate.seats)})</DivLabel>
             </DivBody>

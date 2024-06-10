@@ -59,7 +59,7 @@ export const ElectionResultsStackedBar = themable<Props>(
       if (candidate) {
         const color = electionCandidateColor(candidate);
         items.push({
-          name: candidate.shortName ?? candidate.name,
+          name: candidate.shortName || candidate.name,
           color,
           value: (valueFromSeats && candidate.seats != null ? candidate.seats : undefined) ?? candidate.votes,
           percent: showPercentages ? fractionOf(candidate.votes, percentageBasis) : 0,
