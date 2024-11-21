@@ -79,6 +79,11 @@ export const ElectionTimeline = themable<Props>(
   const onElectionClick = (election: TimelineElection) => () => {
     const { electionId } = election;
 
+    if (electionId === 52)
+    {
+      window.location.href = 'https://rezultatevot.ro/';
+    }
+
     if (election.ballots.length === 1 || (!expandedElections.has(electionId) && selectedElectionId !== electionId)) {
       if (onSelectBallot) {
         onSelectBallot(election.ballots[0]);
