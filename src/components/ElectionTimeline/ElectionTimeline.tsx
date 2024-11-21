@@ -79,7 +79,7 @@ export const ElectionTimeline = themable<Props>(
   const onElectionClick = (election: TimelineElection) => () => {
     const { electionId } = election;
 
-    if (electionId === 52){
+    if (electionId === 52) {
       window.location.href = "https://rezultatevot.ro/";
     }
 
